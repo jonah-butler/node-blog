@@ -25,9 +25,6 @@ try{
   console.log(error);
 }
 
-// const ID = 'AKIAJCW6NV7DHVKZJGKA';
-// const SECRET = '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';
-
 // The name of the bucket that you have created
 // const BUCKET_NAME = 'dev-blog-resources';
 //
