@@ -130,28 +130,53 @@ router.post('/blog/edit', async (req, res) => {
 })
 
 router.put('/blog/edit', uploadImg, async (req, res) => {
-  const blog = await Blog.findOne({_id: req.body.id});
-  if(res.req.file){
-    // const blog = await Blog.findOne({_id: req.body.id});
-    s3.deleteObject({
-      Bucket: 'dev-blog-resources',
-      Key: blog.featuredImageKey,
-    }, (err, data) => {
-      if(err){
-        console.log(err);
-      } else {
-        console.log(data);
-      }
-    })
-    blog.featuredImageKey = res.req.file.key;
-    blog.featuredImageTag = res.req.file.etag;
-    blog.featuredImageLocation = res.req.file.location;
-  } else {
+  try{
+    const blog = await Blog.findOne({_id: req.body.id});
+    if(res.req.file){
+      // const blog = await Blog.findOne({_id: req.body.id});
+      s3.deleteObject({
+        Bucket: 'dev-blog-resources',
+        Key: blog.featuredImageKey,
+      }, (err, data) => {
+        if(err){
+          console.log(err);
+        } else {
+          console.log(data);
+        }
+      })
+      blog.featuredImageKey = res.req.file.key;
+      blog.featuredImageTag = res.req.file.etag;
+      blog.featuredImageLocation = res.req.file.location;
+    }
     for(const prop in req.body){
       blog[prop] = req.body[prop];
     }
+    await blog.save();
+    res.send({updatedBlog: blog});
+  } catch(err) {
+    res.send({error: err});
   }
-  await blog.save();
+  // if(res.req.file){
+  //   // const blog = await Blog.findOne({_id: req.body.id});
+  //   s3.deleteObject({
+  //     Bucket: 'dev-blog-resources',
+  //     Key: blog.featuredImageKey,
+  //   }, (err, data) => {
+  //     if(err){
+  //       console.log(err);
+  //     } else {
+  //       console.log(data);
+  //     }
+  //   })
+  //   blog.featuredImageKey = res.req.file.key;
+  //   blog.featuredImageTag = res.req.file.etag;
+  //   blog.featuredImageLocation = res.req.file.location;
+  // } else {
+    // for(const prop in req.body){
+    //   blog[prop] = req.body[prop];
+    // }
+  // }
+  // await blog.save();
   // for(const prop in req.body){
   //   blog[prop] = req.body[prop];
   // }
@@ -183,7 +208,7 @@ router.put('/blog/edit', uploadImg, async (req, res) => {
     // })
   // }
   // await blog.save();
-  res.send({result: 'success'});
+  // res.send({updatedBlog: 'success'});
   // console.log('body', req.body);
   // console.log('files', res.req.file);
   // upload2Async(req, res, (err) => {

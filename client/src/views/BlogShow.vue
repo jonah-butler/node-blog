@@ -31,7 +31,10 @@
         </div>
         <button class="primary-btn-link" @click="promptUserDelete()">Delete Post?</button>
         <router-link class="primary-btn-link"
-        :to="{ name: 'BlogEdit', params: {id:blog._id} }">
+        :to="{ name: 'BlogEdit', params: {
+        id:blog._id,
+        slug:blog.slug
+        } }">
           Edit Post?
         </router-link>
       </div>

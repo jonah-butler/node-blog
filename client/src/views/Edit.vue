@@ -59,7 +59,6 @@ export default {
     };
   },
   created() {
-    console.log(this.id);
     this.retrieveBlog({ _id: this.id });
   },
   mounted() {
@@ -136,13 +135,21 @@ export default {
         },
       });
       this.submitting = !this.submitting;
-      this.udpated = false;
+      this.updated = false;
       const data = await response.json();
-      console.log(data);
+      if (data.updatedBlog) {
+        this.submitting = !this.submitting;
+        console.log(data.updatedBlog);
+        this.$router.push({ path: `/blog/${data.updatedBlog.slug}` });
+      }
     },
   },
   props: {
     id: {
+      type: String,
+      required: false,
+    },
+    slug: {
       type: String,
       required: false,
     },

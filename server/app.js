@@ -12,7 +12,7 @@ const express        = require('express'),
       // Seed           = require("./seeds.js");
 // require('dotenv').config()
 
-//Localhost setup for Mongo db
+
 try{
   mongoose.connect('mongodb://localhost:27017/dev-blog',
   	{
@@ -24,7 +24,6 @@ try{
 } catch (error) {
   console.log(error);
 }
-
 // The name of the bucket that you have created
 // const BUCKET_NAME = 'dev-blog-resources';
 //
