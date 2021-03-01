@@ -18,7 +18,7 @@ export default {
 
 <style>
 .site-content{
-    padding: 3rem 8rem;
+    /* padding: 3rem 8rem; */
     min-height: 84vh;
     background-color: #f4f5f7;
     border-radius: 0px 0px 5px 5px;

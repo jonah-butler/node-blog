@@ -1,16 +1,18 @@
-const express        = require('express'),
-      cors           = require('cors'),
-      app            = express(),
-      bodyParser     = require('body-parser'),
-      mongoose       = require('mongoose'),
-      methodOverride = require('method-override'),
-      blogRoutes     = require("./routes/blog.js"),
-      // dotenv         = require('dotenv'),
-      // fs             = require('file-system'),
-      // AWS            = require('aws-sdk'),
-      BlogModel      = require("./models/blog.js")
-      // Seed           = require("./seeds.js");
-// require('dotenv').config()
+const express               = require('express'),
+      app                   = express(),
+      session               = require('express-session'),
+      expressSanitizer      = require('express-sanitizer'),
+      cors                  = require('cors'),
+      bodyParser            = require('body-parser'),
+      mongoose              = require('mongoose'),
+      methodOverride        = require('method-override'),
+      passport              = require('passport'),
+      passportLocalMongoose = require('passport-local-mongoose'),
+      LocalStrategy         = require('passport-local').Strategy,
+      blogRoutes            = require("./routes/blog.js"),
+      BlogModel             = require("./models/blog.js"),
+      UserModel             = require('./models/user.js')
+
 
 
 try{
@@ -95,7 +97,16 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({
   type: ['application/json', 'text/plain'],
 }));
+app.use(expressSanitizer());
 app.use(methodOverride("_method"));
+
+// PASSPORT CONFIG
+app.use(passport.initialize()); 
+app.use(passport.session()); 
+passport.serializeUser(UserModel.serializeUser()); 
+passport.deserializeUser(UserModel.deserializeUser()); 
+passport.use(new LocalStrategy(UserModel.authenticate())); 
+
 
 app.use("/", blogRoutes);
 

@@ -144,7 +144,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
   .upload-form{
     padding: 3rem;
     display: flex;

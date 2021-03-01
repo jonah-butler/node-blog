@@ -1,45 +1,47 @@
 <template>
-  <div class="site-content">
+  <div class="container-full site-content">
     <div class="post">
-
       <div v-if="states.loading">
         <Loader/>
       </div>
-
       <div v-if="error">
         {{ error }}
       </div>
-    <transition name="fade">
-      <div v-if="blog">
-        <h1 class="post-title">{{ blog.title }}</h1>
-        <div class="date">{{ dateFormat(blog.createDate) }}
-          <span>{{calculateReadTime(blog.text)}} minute read</span>
+      <transition name="fade">
+        <div v-if="blog">
+          <div class="featured-image-container"
+          v-bind:style="{
+            backgroundImage: `url(${blog.featuredImageLocation})`,
+            backgroundPosition: 'center',
+            backgroundSize: 'cover',
+          }">
+          <div class="blog-details">
+            <h1 class="post-title">{{ blog.title }}</h1>
+            <div class="date-container">
+              <span class="date">{{ dateFormat(blog.createDate) }}</span>
+              <span class="read-time">{{calculateReadTime(blog.text)}} minute read</span>
+            </div>
+            <div class="like">
+              <Heart :slug="slug"/>
+              <div class="rating">{{ rating }}</div>
+            </div>
+          </div>
+          </div>
+          <div class="container">
+            <div v-html="blog.sanitizedHTML" class="flex-container-sm direction-col">
+            </div>
+          </div>
+          <button class="primary-btn-link" @click="promptUserDelete()">Delete Post?</button>
+          <router-link class="primary-btn-link"
+          :to="{ name: 'BlogEdit', params: {
+          id:blog._id,
+          slug:blog.slug
+          } }">
+            Edit Post?
+          </router-link>
         </div>
-        <div class="like">
-          <Heart :slug="slug"/>
-          <div class="rating">{{ rating }}</div>
-        </div>
-        <div class="featured-image-container"
-        v-bind:style="{
-          backgroundImage: `url(${blog.featuredImageLocation})`,
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-         }">
-          <!-- <img class="featured-image" :src="blog.featuredImageLocation" alt=""> -->
-        </div>
-        <div v-html="blog.sanitizedHTML" class="flex-container-sm direction-col">
-        </div>
-        <button class="primary-btn-link" @click="promptUserDelete()">Delete Post?</button>
-        <router-link class="primary-btn-link"
-        :to="{ name: 'BlogEdit', params: {
-        id:blog._id,
-        slug:blog.slug
-        } }">
-          Edit Post?
-        </router-link>
-      </div>
-    </transition>
-      </div>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -175,11 +177,11 @@ export default {
 
 <style lang="css" scoped>
 .featured-image-container{
-  min-height: 400px;
-  max-height: 400px;
+  position: relative;
+  min-height: 600px;
+  max-height: 600px;
   background-color: #f5f2eb;
   overflow: hidden;
-  margin: 10px 0;
 }
 
 .featured-image{
@@ -191,6 +193,13 @@ export default {
   font-size: 75px;
   color: #3d4656;
   margin: 0;
+  text-shadow: 1px 1px 1px rgb(0 0 0 / 50%);
+}
+
+@media (max-width: 600px) {
+  .post-title{
+    font-size: 40px;
+  }
 }
 
 .date{
@@ -199,10 +208,10 @@ export default {
   width: fit-content;
 }
 
-.date > span{
+.date-container > .read-time{
   font-weight: 300;
   font-size: 13px;
-  color: #3d4656;
+  color: black;
 }
 
 .fade-enter-active, .fade-leave-active {
@@ -223,5 +232,22 @@ export default {
   top: 5px;
   left: 35px;
   font-size: 12px;
+}
+
+.featured-image-container:after{
+  content: '';
+  background-image: linear-gradient(to bottom, rgba(0,71,101, 0) 40%, #f4f5f7 100%);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.blog-details{
+  position: absolute;
+  bottom: 10px;
+  left: 3rem;
+  z-index: 1;
 }
 </style>

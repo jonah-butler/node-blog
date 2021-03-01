@@ -3,7 +3,7 @@
       <div class="flex-container-full flex-center">
         <h1 class="">Articles</h1>
       </div>
-      <div class="flex-container-full">
+      <div class="flex-container-full flex-center">
       <div class="flex-container-sm">
 
         <!-- <a v-for="item in blogs" :key="item.title" class="entry"> -->
@@ -93,7 +93,7 @@ p {
   bottom: 0px;
   border-radius: 5px;
   border: 2px solid transparent;
-  min-width: 330px;
+  min-width: 300px;
   max-width: 550px;
 }
 

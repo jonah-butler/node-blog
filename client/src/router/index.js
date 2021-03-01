@@ -2,6 +2,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Blog from '../views/Home.vue';
 import ImageUpload from '../views/upload.vue';
+import Login from '../views/Login.vue';
+import Register from '../views/Register.vue';
 
 // Vue.component('test-component', TestComponent);
 
@@ -52,6 +54,18 @@ const routes = [
     path: '/blog/edit/:id',
     name: 'BlogEdit',
     component: () => import(/* webpackChunkName: "Random" */ '../views/Edit.vue'),
+    props: true,
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+    props: true,
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
     props: true,
   },
 ];
