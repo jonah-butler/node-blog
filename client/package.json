@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.757.0",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "froala-editor": "^3.2.3",
     "highlight.js": "^10.4.1",
