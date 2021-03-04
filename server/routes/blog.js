@@ -6,7 +6,9 @@ const express         = require('express'),
       multer          = require('multer'),
       multerS3        = require('multer-s3'),
       AWS             = require('aws-sdk'),
-      Blog            = require('../models/blog.js')
+      Blog            = require('../models/blog.js'),
+      // passport        = require('passport'),
+      User            = require('../models/user.js')
 
 // process.on('unhandledRejection', (reason, promise) => {
 //   console.log('Unhandled Rejection at:', reason.stack || reason)
@@ -128,6 +130,18 @@ router.post('/blog/edit', async (req, res) => {
   // console.log(post);
   res.send(post);
 })
+
+// router.post('/register', async(req, res) => {
+//   console.log(req.body.auth);
+//   const newUser = new User(req.body.auth);
+//   User.register(newUser, req.body.auth.password, (err, user) => {
+//     if(err){
+//       console.log(err);
+//     } else {
+//       res.send({});
+//     }
+//   })
+// })
 
 router.put('/blog/edit', uploadImg, async (req, res) => {
   try{

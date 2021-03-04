@@ -6,9 +6,9 @@ const express               = require('express'),
       bodyParser            = require('body-parser'),
       mongoose              = require('mongoose'),
       methodOverride        = require('method-override'),
-      passport              = require('passport'),
-      passportLocalMongoose = require('passport-local-mongoose'),
-      LocalStrategy         = require('passport-local').Strategy,
+      // passport              = require('passport'),
+      // passportLocalMongoose = require('passport-local-mongoose'),
+      // LocalStrategy         = require('passport-local'),
       blogRoutes            = require("./routes/blog.js"),
       BlogModel             = require("./models/blog.js"),
       UserModel             = require('./models/user.js')
@@ -91,6 +91,11 @@ app.use(function(req, res, next) {
 
 app.set("view engine", "ejs");
 app.use(cors());
+// app.use(cors({
+//   origin:['http://localhost:8080'],
+//   methods:['GET','POST'],
+//   credentials: true // enable set cookie
+// }));
 app.options('*', cors());
 app.use(express.static(__dirname + "/scripts"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -101,11 +106,18 @@ app.use(expressSanitizer());
 app.use(methodOverride("_method"));
 
 // PASSPORT CONFIG
-app.use(passport.initialize()); 
-app.use(passport.session()); 
-passport.serializeUser(UserModel.serializeUser()); 
-passport.deserializeUser(UserModel.deserializeUser()); 
-passport.use(new LocalStrategy(UserModel.authenticate())); 
+// app.use(session({
+//   secret: 'much secret yet',
+//   resave: true,
+//   saveUninitialized: true,
+//   cookie: { secure: true }
+// }));
+// app.use(passport.initialize());
+// app.use(passport.session());
+// passport.use(new LocalStrategy(UserModel.authenticate()));
+// passport.use(UserModel.createStrategy());
+// passport.serializeUser(UserModel.serializeUser());
+// passport.deserializeUser(UserModel.deserializeUser());
 
 
 app.use("/", blogRoutes);

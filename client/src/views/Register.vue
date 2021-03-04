@@ -2,7 +2,7 @@
   <div class="container-full site-content">
     <div class="container">
       <form
-      @submit.prevent="printUser"
+      @submit.prevent="register"
       enctype="multipart/form-data"
       >
           <h1>Register</h1>
@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import AuthenticationService from '@/services/AuthenticationServices';
+
 export default {
   name: 'Register',
   data() {
@@ -59,8 +61,19 @@ export default {
     };
   },
   methods: {
-    printUser() {
-      console.log(this.user);
+    async register() {
+      try {
+        const resp = await AuthenticationService.register({
+          auth: {
+            username: this.user.username,
+            email: this.user.email,
+            password: this.user.password,
+          },
+        });
+        console.log(resp);
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 };
