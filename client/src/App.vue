@@ -207,4 +207,8 @@ export default {
 router-link{
   text-decoration: none !important;
 }
+
+li > .active-nav {
+  color: #FA709A !important;
+}
 </style>

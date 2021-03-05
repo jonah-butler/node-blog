@@ -63,14 +63,13 @@ export default {
   methods: {
     async register() {
       try {
-        const resp = await AuthenticationService.register({
-          auth: {
-            username: this.user.username,
-            email: this.user.email,
-            password: this.user.password,
-          },
-        });
-        console.log(resp);
+        const resp = await AuthenticationService.register(this.user);
+        if (resp.status === 201) {
+          console.log(resp);
+          this.$store.dispatch('setToken', resp.data.token);
+          this.$store.dispatch('setUser', resp.data.data);
+          this.$router.push({ path: '/' });
+        }
       } catch (err) {
         console.log(err);
       }

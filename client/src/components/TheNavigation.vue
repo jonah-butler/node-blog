@@ -1,12 +1,18 @@
 <template>
   <div id="nav-container">
     <div class="nav">
-      <section>
+      <section class="header">
         <router-link to="/">
           <img class="navImg" src="@/assets/code-nav.svg" alt="">
         </router-link>
+        <img
+        class="hamburger"
+        src="@/components/svgs/icons8-hamburger-96.png"
+        alt=""
+        @click="expandNav"
+        >
       </section>
-      <ul class="nav-links">
+      <ul ref="nav" class="nav-links">
         <li class="links">
           <router-link to="/">Blog</router-link>
         </li>
@@ -15,6 +21,11 @@
           <router-link :to="navLink.slug">{{navLink.name}}</router-link>
         </li>
       </ul>
+        <div class="user-initial"
+        v-if="this.$store.state.isUserLoggedIn"
+        >
+          <router-link to="/user">{{ printUser() }}</router-link>
+        </div>
     </div>
   </div>
 </template>
@@ -24,10 +35,21 @@ import navigation from '@/nav';
 
 export default {
   name: 'TheNavigation',
+  components: {
+
+  },
   data() {
     return {
       navLinks: navigation.mainNavigation,
     };
+  },
+  methods: {
+    printUser() {
+      return this.$store.state.user.username.toUpperCase().slice(0, 1);
+    },
+    expandNav() {
+      console.log(this.$refs.nav.classList.toggle('expand'));
+    },
   },
 };
 </script>
@@ -41,6 +63,7 @@ export default {
 
 .nav{
   display: flex;
+  flex-wrap: wrap;
   margin-left: 20px;
 }
 
@@ -52,11 +75,22 @@ export default {
   border-radius: 3px;
 }
 
+@media (max-width: 600px){
+  .nav-links{
+    display: none !important;
+  }
+}
+
 .nav-links{
   display: flex;
   flex-direction: row;
   align-items: center;
   flex-wrap: wrap;
+  position: relative;
+}
+
+.nav-links.expand{
+  display: flex !important;
 }
 
 .navImg{
@@ -66,6 +100,10 @@ export default {
 .links:hover:before{
   width: 100%;
   /* height: 100%; */
+}
+
+.links:hover{
+  color:
 }
 
 .links:hover{
@@ -91,5 +129,57 @@ export default {
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
+  transition: color .3s ease;
 }
+
+.links:hover a {
+  color: #FA709A;
+}
+
+.user-initial{
+  padding: 20px !important;
+  border-radius: 50% !important;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  position:absolute !important;
+  right: 25px;
+  top: 25px;
+}
+
+.user-initial > a{
+  font-size: 35px;
+  text-decoration: none;
+  position: relative;
+  bottom: 12px;
+  left: -2px;
+  color: black;
+}
+
+@media (min-width: 600px) {
+  .header{
+    float: left;
+    width: fit-content !important;
+  }
+  .hamburger{
+    display: none;
+  }
+}
+
+.header{
+  width: 100%;
+}
+
+.hamburger{
+  width: 40px;
+  height: 40px;
+  position: relative;
+  margin-left: 20px;
+  top: -5px;
+}
+
+.hamburger:hover{
+  cursor: pointer;
+}
+
 </style>

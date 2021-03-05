@@ -6,17 +6,20 @@ const express               = require('express'),
       bodyParser            = require('body-parser'),
       mongoose              = require('mongoose'),
       methodOverride        = require('method-override'),
+      morgan                = require('morgan'),
       // passport              = require('passport'),
       // passportLocalMongoose = require('passport-local-mongoose'),
       // LocalStrategy         = require('passport-local'),
       blogRoutes            = require("./routes/blog.js"),
+      userRoutes            = require('./routes/user.js'),
       BlogModel             = require("./models/blog.js"),
-      UserModel             = require('./models/user.js')
+      UserModel             = require('./models/user.js'),
+      config                = require('./config/db.js')
 
 
 
 try{
-  mongoose.connect('mongodb://localhost:27017/dev-blog',
+  mongoose.connect(config.database,
   	{
   		useNewUrlParser: true,
   		useUnifiedTopology: true,
@@ -91,6 +94,7 @@ app.use(function(req, res, next) {
 
 app.set("view engine", "ejs");
 app.use(cors());
+app.use(morgan("dev"));
 // app.use(cors({
 //   origin:['http://localhost:8080'],
 //   methods:['GET','POST'],
@@ -121,6 +125,7 @@ app.use(methodOverride("_method"));
 
 
 app.use("/", blogRoutes);
+app.use('/', userRoutes);
 
 // Seed();
 
