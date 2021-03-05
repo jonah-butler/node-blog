@@ -48,7 +48,7 @@ export default {
       return this.$store.state.user.username.toUpperCase().slice(0, 1);
     },
     expandNav() {
-      console.log(this.$refs.nav.classList.toggle('expand'));
+      this.$refs.nav.classList.toggle('expand');
     },
   },
 };
@@ -77,7 +77,10 @@ export default {
 
 @media (max-width: 600px){
   .nav-links{
-    display: none !important;
+    /* display: none !important; */
+    overflow: hidden;
+    max-height: 0px;
+    margin: 0px;
   }
 }
 
@@ -87,10 +90,13 @@ export default {
   align-items: center;
   flex-wrap: wrap;
   position: relative;
+  transition: all .3s ease;
+  padding: 0px;
 }
 
 .nav-links.expand{
   display: flex !important;
+  max-height: 60px;
 }
 
 .navImg{
