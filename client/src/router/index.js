@@ -1,9 +1,11 @@
 import Vue from 'vue';
+import store from '@/store/store';
 import VueRouter from 'vue-router';
 import Blog from '../views/Home.vue';
 import ImageUpload from '../views/upload.vue';
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
+import Logout from '../views/Logout.vue';
 
 // Vue.component('test-component', TestComponent);
 
@@ -55,6 +57,25 @@ const routes = [
     name: 'BlogEdit',
     component: () => import(/* webpackChunkName: "Random" */ '../views/Edit.vue'),
     props: true,
+    beforeEnter: (to, from, next) => {
+      try {
+        const hasPermission = store.state.isUserLoggedIn;
+        console.log(hasPermission);
+        if (hasPermission) {
+          next();
+        } else {
+          next({
+            name: 'About', // back to safety route //
+            query: { redirectFrom: to.fullPath },
+          });
+        }
+      } catch (e) {
+        next({
+          name: 'About', // back to safety route //
+          query: { redirectFrom: to.fullPath },
+        });
+      }
+    },
   },
   {
     path: '/login',
@@ -67,6 +88,11 @@ const routes = [
     name: 'Register',
     component: Register,
     props: true,
+  },
+  {
+    path: '/logout',
+    name: 'Logout',
+    component: Logout,
   },
 ];
 

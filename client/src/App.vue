@@ -211,4 +211,8 @@ router-link{
 li > .active-nav {
   color: #FA709A !important;
 }
+
+a{
+  text-decoration: none;
+}
 </style>

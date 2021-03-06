@@ -25,6 +25,10 @@ const UserSchema = new mongoose.Schema({
       },
     },
   ],
+  // token: {
+  //   type: String,
+  //   required: true,
+  // },
 }, {timestamps: true}
 )
 
@@ -32,6 +36,7 @@ UserSchema.pre("save", async function(next) {
   const user = this;
   if (user.isModified("password")) {
     user.password = await bcrypt.hash(user.password, 8);
+  // console.log('pword', user.password);
   }
   next();
 });
@@ -44,13 +49,24 @@ UserSchema.methods.generateAuthToken = async function() {
   "secret",{
     expiresIn: ONE_WEEK
   });
-  user.tokens = user.tokens.concat({ token });
+  if(user.tokens.length == 0){
+    user.tokens = user.tokens.concat({ token });
+  } else {
+    console.log('user', user);
+    console.log('tokens', user.tokens);
+    await user.tokens.pop();
+    user.tokens = user.tokens.concat({ token });
+  }
+  // user.tokens = user.tokens.concat({ token });
+  // user.token = jwttoken;
   await user.save();
   return token;
 };
 
-UserSchema.statics.findByCredentials = async (email, password) => {
-  const user = await User.findOne({ email });
+UserSchema.statics.findByCredentials = async (username, password) => {
+  console.log('yooooo', username, password);
+  const user = await User.findOne({ username: username });
+  console.log(user);
   if (!user) {
     throw new Error({ error: "Invalid login details" });
   }
@@ -61,4 +77,5 @@ UserSchema.statics.findByCredentials = async (email, password) => {
   return user;
 };
 
-module.exports = mongoose.model("User", UserSchema);
+const User = mongoose.model("User", UserSchema);
+module.exports = User;

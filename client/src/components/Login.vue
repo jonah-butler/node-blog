@@ -1,25 +1,68 @@
 <template>
   <div class="container-full site-content">
     <div class="container">
-      <form enctype="multipart/form-data">
+      <form
+      @submit.prevent="login"
+      >
           <slot name="header"/>
         <div class="label-input-container">
           <label>Username</label>
-          <input type="text" ref="username" name="user[username]">
+          <input
+          type="text"
+          ref="username"
+          name="user[username]"
+          v-model="user.username"
+          >
         </div>
         <div class="label-input-container">
           <label>Password</label>
-          <input type="password" ref="password" name="user[password]">
+          <input
+          type="password"
+          ref="password"
+          name="user[password]"
+          v-model="user.password"
+          >
         </div>
-        <button class="primary-btn-link" type="submit" name="button">Login</button>
+        <button
+        class="primary-btn-link"
+        type="submit"
+        name="button"
+        >
+        Login
+        </button>
       </form>
     </div>
   </div>
 </template>
 
 <script>
+import AuthenticationServices from '@/services/AuthenticationServices';
+
 export default {
   name: 'Login',
+  data() {
+    return {
+      user: {
+        username: '',
+        password: '',
+      },
+    };
+  },
+  methods: {
+    async login() {
+      try {
+        const resp = await AuthenticationServices.login(this.user);
+        if (resp.status === 201) {
+          console.log(resp);
+          this.$store.dispatch('setToken', resp.data.token);
+          this.$store.dispatch('setUser', resp.data.user);
+          this.$router.push({ path: '/' });
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
 };
 </script>
 

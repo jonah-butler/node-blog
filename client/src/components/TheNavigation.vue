@@ -5,12 +5,15 @@
         <router-link to="/">
           <img class="navImg" src="@/assets/code-nav.svg" alt="">
         </router-link>
+        <div class="hamburger-box">
         <img
         class="hamburger"
         src="@/components/svgs/icons8-hamburger-96.png"
         alt=""
+        ref="hamburger"
         @click="expandNav"
         >
+        </div>
       </section>
       <ul ref="nav" class="nav-links">
         <li class="links">
@@ -19,6 +22,29 @@
         <li class="links" v-for="navLink in navLinks"
         :key="navLink.name">
           <router-link :to="navLink.slug">{{navLink.name}}</router-link>
+        </li>
+        <li
+        class="links"
+        v-if="this.$store.state.isUserLoggedIn"
+        @click="logout"
+        >
+        Logout
+        </li>
+        <li
+        class="links"
+        v-if="!this.$store.state.isUserLoggedIn"
+        >
+          <router-link to="/register">
+          Register
+          </router-link>
+        </li>
+        <li
+        class="links"
+        v-if="!this.$store.state.isUserLoggedIn"
+        >
+          <router-link to="/login">
+          Login
+          </router-link>
         </li>
       </ul>
         <div class="user-initial"
@@ -50,6 +76,11 @@ export default {
     expandNav() {
       this.$refs.nav.classList.toggle('expand');
     },
+    logout() {
+      this.$store.dispatch('setToken', null);
+      this.$store.dispatch('setUser', null);
+      this.$router.push({ path: '/logout' });
+    },
   },
 };
 </script>
@@ -59,7 +90,21 @@ export default {
   width: 100%;
   background-color: #f4f5f7;
   border-radius: 5px 5px 0px 0px;
+  position: relative;
+  z-index: 1;
 }
+
+/* #nav-container:before{
+  content: '';
+  position: absolute;
+  top: -35px;
+  left: 35px;
+  width: 295px;
+  height: 295px;
+  background-image: url('./svgs/hamburger-blob.svg');
+  transform: rotate(125deg);
+  z-index: -1;
+} */
 
 .nav{
   display: flex;
@@ -106,10 +151,6 @@ export default {
 .links:hover:before{
   width: 100%;
   /* height: 100%; */
-}
-
-.links:hover{
-  color:
 }
 
 .links:hover{
@@ -174,6 +215,11 @@ export default {
 
 .header{
   width: 100%;
+}
+
+.hamburger-box{
+  display: inline;
+  position: relative;
 }
 
 .hamburger{

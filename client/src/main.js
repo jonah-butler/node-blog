@@ -11,7 +11,7 @@ import router from './router';
 import 'froala-editor/js/third_party/embedly.min';
 import 'froala-editor/js/third_party/font_awesome.min';
 import 'froala-editor/js/plugins/code_view.min';
-import 'highlight.js/styles/qtcreator_dark.css';
+import 'highlight.js/styles/shades-of-purple.css';
 
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 

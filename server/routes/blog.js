@@ -8,7 +8,8 @@ const express         = require('express'),
       AWS             = require('aws-sdk'),
       Blog            = require('../models/blog.js'),
       // passport        = require('passport'),
-      User            = require('../models/user.js')
+      User            = require('../models/user.js'),
+      auth            = require('../config/auth.js')
 
 // process.on('unhandledRejection', (reason, promise) => {
 //   console.log('Unhandled Rejection at:', reason.stack || reason)
@@ -124,8 +125,7 @@ router.post('/blog/like', async (req, res) => {
   res.send(post);
 })
 
-router.post('/blog/edit', async (req, res) => {
-  // console.log(req.body);
+router.post('/blog/edit', auth.isLoggedIn, async (req, res) => {
   const post = await Blog.findOne({_id: req.body._id});
   // console.log(post);
   res.send(post);

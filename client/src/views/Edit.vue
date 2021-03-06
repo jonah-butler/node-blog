@@ -59,18 +59,18 @@ export default {
     };
   },
   created() {
-    this.retrieveBlog({ _id: this.id });
+    this.retrieveBlog({ _id: this.id, user: this.$store.state.user });
   },
   mounted() {
 
   },
   methods: {
-    async retrieveBlog(id = {}) {
+    async retrieveBlog(creds) {
       try {
         this.loading = true;
         const res = await fetch('http://localhost:4000/blog/edit', {
           method: 'POST',
-          body: JSON.stringify(id),
+          body: JSON.stringify(creds),
           header: {
             'Content-type': 'application/json',
           },
