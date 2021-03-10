@@ -28,18 +28,30 @@
           </div>
           </div>
           <div class="container">
-            <div v-html="blog.sanitizedHTML" class="flex-container-sm direction-col">
+            <div class="row">
+              <div class="col-small-2 dir-col align-base">
+                <span
+                class="category-tag"
+                v-for="category in blog.categories"
+                :key="category"
+                >{{ category }}</span>
+              </div>
+              <div
+              class="col-small-10 dir-col"
+              v-html="blog.sanitizedHTML"
+              >
+              </div>
             </div>
+            </div>
+            <button class="primary-btn-link" @click="promptUserDelete()">Delete Post?</button>
+            <router-link class="primary-btn-link"
+            :to="{ name: 'BlogEdit', params: {
+            id:blog._id,
+            slug:blog.slug
+            } }">
+              Edit Post?
+            </router-link>
           </div>
-          <button class="primary-btn-link" @click="promptUserDelete()">Delete Post?</button>
-          <router-link class="primary-btn-link"
-          :to="{ name: 'BlogEdit', params: {
-          id:blog._id,
-          slug:blog.slug
-          } }">
-            Edit Post?
-          </router-link>
-        </div>
       </transition>
     </div>
   </div>
@@ -109,6 +121,7 @@ export default {
           },
         });
         this.blog = await res.json();
+        console.log(this.blog);
         this.rating = this.blog.rating;
         this.states.loading = false;
       } catch (err) {
@@ -250,4 +263,24 @@ export default {
   left: 3rem;
   z-index: 1;
 }
+
+.category-tag{
+  font-size: 13px;
+  font-family: 'Source Code Pro';
+  padding: 5px 12px 5px 14px;
+  margin: 0 7px 7px 0;
+  color: white;
+  font-weight: 600;
+  border-radius: 15px;
+  background-color: #2d2b57;
+  transition: all .3s ease;
+  top: 0px;
+  position: relative;
+}
+
+.category-tag:hover{
+  cursor: pointer;
+  top: -5px;
+}
+
 </style>
