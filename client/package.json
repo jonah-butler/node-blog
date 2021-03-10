@@ -34,6 +34,7 @@
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
+    "ignorePatterns": ["categorical.js"],
     "root": true,
     "env": {
       "node": true

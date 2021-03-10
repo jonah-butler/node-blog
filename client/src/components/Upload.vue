@@ -64,9 +64,16 @@
             <label>Featured Image</label>
             <input @change="selectFile" type="file" ref="upload" name="post[featuredImage]">
           </div>
-          <div class="label-input-container">
+          <!-- <div class="label-input-container">
             <label>Categories</label>
             <input @change="selectCategories" type="text" name="post[categories]" ref="categories">
+          </div> -->
+          <div class="tag-input-container">
+            <div class="headline">Add Category</div>
+            <div id="spanContainer"></div>
+            <input class="tag-input-component"
+            type="text"
+            >
           </div>
           <button type="submit" name="button">Submit</button>
         </form>
@@ -77,11 +84,15 @@
 <script>
 import Modal from '@/components/Modal.vue';
 import Loader from '@/components/TheLoader.vue';
+import categorical from '@/assets/scripts/categorical';
 
 export default {
   name: 'ImageUploadTest',
   components: {
     Modal, Loader,
+  },
+  mounted() {
+    this.initializeCategorical();
   },
   data() {
     return {
@@ -90,7 +101,7 @@ export default {
       froala: 'edit here',
       body: '',
       upload: '',
-      categories: '',
+      categories: [],
       sample: {
         text: '',
         file: '',
@@ -100,6 +111,10 @@ export default {
     };
   },
   methods: {
+    initializeCategorical() {
+      const c = new categorical.Categorical(document.querySelector('.tag-input-component'), document.querySelector('#spanContainer'), 'post[category]');
+      c.init();
+    },
     test() {
       console.log(this.froala);
     },
@@ -108,8 +123,12 @@ export default {
       console.log(this.froala);
     },
     selectCategories() {
-      this.categories = this.$refs.categories.value;
-      this.sample.categories = this.categories;
+      // this.categories = this.$refs.categories.value;
+      // this.sample.categories = this.categories;
+      Array.from(document.querySelectorAll('.data-added > input')).forEach((input) => this.categories.push(input.value));
+      // for (const input of document.querySelectorAll('.data-added > input')) {
+      //   this.categories.push(input.value);
+      // }
     },
     selectTitle() {
       this.title = this.$refs.title.value;
@@ -124,12 +143,13 @@ export default {
       this.sample.text = this.body;
     },
     async sendFile() {
+      this.selectCategories();
       const formData = new FormData();
       formData.append('image', this.upload);
       formData.append('title', this.title);
       formData.append('froala', this.froala);
       formData.append('post', this.body);
-      formData.append('categories', this.categories);
+      formData.append('categories', JSON.stringify(this.categories));
       const response = await fetch('http://localhost:4000', {
         method: 'POST',
         body: formData,
@@ -159,4 +179,136 @@ export default {
   .label-upload-container{
     margin: 15px 0;
   }
+
+  #spanContainer{
+  max-width: 100%;
+  text-align: left;
+  margin-top: 10px;
+  border: none;
+  transition: all 1s ease;
+}
+
+.headline{
+  opacity: 0.6;
+  font-size: 12px;
+  text-align: left;
+}
+
+.sub-headline {
+  font-size: 10px;
+  opacity: 0.6;
+}
+
+#spanContainer > span{
+  display: inline-block;
+  flex-direction: row;
+}
+
+.data-added{
+  background-color: #e4e2df;
+  color: #454545;
+  padding: 5px 7px;
+  border-radius: 25px;
+  font-size: 13px;
+  margin: 3px 7px 5px 0;
+  box-shadow: 4px 4px 0px 0px rgba(0,0,0,0.15);
+  transition: all .3s ease;
+  position: relative;
+  bottom: 0;
+  right: 0;
+}
+
+.data-added:hover{
+  box-shadow: 0px 0px 0px rgba(0,0,0,0);
+  bottom: -1px;
+  right: -1px;
+}
+
+.data-added > .category-close{
+  padding: 3px;
+  position: relative;
+  top: -6px;
+  right: -6px;
+  font-size: 15px;
+  font-weight: 600;
+  width: 100%;
+  transition: all .3s ease;
+}
+
+.data-added > .category-close:hover{
+  cursor: pointer;
+}
+
+.tag-input-container, .tag-input-container-large{
+  display: inline-block;
+  width: 50%;
+  border: 2px solid rgba(0,0,0,0.4);
+  border-radius: 5px;
+  padding: 15px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.tag-input-container-large{
+  max-width: 800px;
+}
+
+.tag-input-container > input{
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,0.3);
+  outline: none;
+  width: 100%;
+}
+
+.tag-input{
+  margin: 15px 15px 0 0;
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,0.3);
+  background: none;
+}
+
+.tag-input:focus{
+  outline: none;
+}
+
+.tag-input:focus .tag-input-container{
+  border: 2px solid #006599;
+  box-shadow: 0 0 0 4px rgba(0,101,153,0.5);
+  outline: none;
+}
+
+label{
+  display: block;
+}
+
+.category{
+  border-radius: 15px;
+  background-color: #d5d5d5;
+  padding: 5px;
+  opacity: 1;
+  color: darkblue;
+  transition: .3s ease;
+  font-size: 13px;
+}
+
+.category:hover{
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.category-container{
+  margin-bottom: 20px;
+  margin-top: 7px;
+}
+
+.category-container > a {
+  text-decoration: none;
+  margin: 3px 3px 3px 0px;
+}
+
+.tag-input-container > textarea, .tag-input-container-large > textarea{
+  box-shadow: 0 0 0 !important;
+  border-radius: 0px !important;
+}
 </style>

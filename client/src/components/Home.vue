@@ -4,25 +4,17 @@
         <h1 class="">Articles</h1>
       </div>
       <div class="flex-container-full flex-center">
-      <div class="flex-container-sm">
-
-        <!-- <a v-for="item in blogs" :key="item.title" class="entry"> -->
+        <div class="flex-container-sm">
           <router-link v-for="item in blogs" :key="item.title" class="entry"
           :to="{ name: 'BlogShow', params: {id: item._id,
           title: addHyphens(item.title),
           slug: item.slug} }">
-          <!-- <div v-for="item in blogs" :key="item.title" class="entry"> -->
             <h3 class="blog-title">
               {{ item.title }}
             </h3>
             <p>{{  dateFormat(item.createDate) }}</p>
-            <!-- <froalaView v-model="item.text"></froalaView> -->
-            <!-- <router-link :to="{ name: 'BlogShow', params: {id: item._id,
-            title: addHyphens(item.title)} }">
-              Read More -->
             </router-link>
-          <!-- </div> -->
-      </div>
+        </div>
       </div>
     </div>
 </template>

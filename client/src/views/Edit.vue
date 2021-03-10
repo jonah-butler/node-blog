@@ -19,9 +19,33 @@
             </div>
             <input @change="selectFile" type="file" ref="upload" name="post[featuredImage]">
           </div>
-          <div class="label-input-container">
+          <!-- <div class="label-input-container">
             <label>Categories</label>
             <input :value="blog.categories" type="text" @input="selectCategories" ref="categories">
+          </div> -->
+          <div class="tag-input-container">
+            <div class="headline">Add Category</div>
+            <div id="spanContainer">
+              <span
+              class="data-added"
+              v-for="category in blog.categories"
+              :key="category"
+              >
+              {{category}}
+              <span
+              class="category-close"
+              @click="closeListener"
+              >
+              &times;
+              </span>
+              <input type="hidden"
+              :value="category"
+              >
+              </span>
+            </div>
+            <input class="tag-input-component"
+            type="text"
+            >
           </div>
           <div v-if="submitting">
             <Loader/>
@@ -36,6 +60,7 @@
 
 <script>
 import Loader from '@/components/TheLoader.vue';
+import categorical from '@/assets/scripts/categorical';
 
 export default {
   name: 'BlogEdit',
@@ -60,11 +85,26 @@ export default {
   },
   created() {
     this.retrieveBlog({ _id: this.id, user: this.$store.state.user });
+    // if (document.querySelector('.category-close')) {
+    //   Array.from(document.querySelectorAll('.category-close')).forEach((close) => {
+    //     console.log(close);
+    //     close.addEventListener('click', (e) => {
+    //       e.target.parentElement.remove();
+    //     });
+    //   });
+    // }
   },
   mounted() {
-
+    this.initializeCategorical();
   },
   methods: {
+    closeListener(event) {
+      event.target.parentElement.remove();
+    },
+    initializeCategorical() {
+      const c = new categorical.Categorical(document.querySelector('.tag-input-component'), document.querySelector('#spanContainer'), 'post[category]');
+      c.init();
+    },
     async retrieveBlog(creds) {
       try {
         this.loading = true;

@@ -250,16 +250,15 @@ router.post("/", async (req, res) => {
       if(err){
         console.log(err);
       } else {
-        // console.log(req.body);
-        // console.log(res.req.file);
         let newBlog = {
           title: req.body.title,
           featuredImageLocation: res.req.file.location,
           featuredImageTag: res.req.file.etag,
           featuredImageKey: res.req.file.key,
           text: req.body.froala,
-          categories: helpers.splitStr(req.body.categories),
+          categories: [],
         }
+        JSON.parse(req.body.categories).forEach(category => newBlog.categories.push(category));
         Blog.create(newBlog, (err, blog) => {
           if(err){
             console.log(err);
@@ -274,9 +273,6 @@ router.post("/", async (req, res) => {
   catch (error){
     console.log(error);
   }
-  // res.json({message: req.file});
-  // req.body.post.categories = helpers.splitStr(req.body.post.categories);
-  // res.json({image: req.image})
 })
 
 module.exports = router;
