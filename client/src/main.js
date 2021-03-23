@@ -11,12 +11,15 @@ import router from './router';
 import 'froala-editor/js/third_party/embedly.min';
 import 'froala-editor/js/third_party/font_awesome.min';
 import 'froala-editor/js/plugins/code_view.min';
+import 'froala-editor/js/plugins/image.min';
+import 'froala-editor/js/plugins/image_manager.min';
 import 'highlight.js/styles/shades-of-purple.css';
 
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 
-require('froala-editor/js/froala_editor.pkgd.min.js');
+// require('froala-editor/js/froala_editor.pkgd.min.js');
 // require('froala-editor/js/third_party/image_tui.min');
+import 'froala-editor/js/plugins.pkgd.min';
 
 Vue.use(VueFroala);
 

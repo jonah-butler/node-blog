@@ -63,6 +63,7 @@ import Loader from '@/components/TheLoader.vue';
 import Heart from '@/components/svgs/HeartLike.vue';
 import hljs from 'highlight.js';
 import EventBus from '@/bus.js';
+import BlogServices from '../services/BlogServices';
 
 export default {
   name: 'BlogShow',
@@ -86,10 +87,13 @@ export default {
   },
   mounted() {
     EventBus.$on('update-rating', (data) => {
-      console.log('mounted');
       this.liked = data.liked;
       this.updatingLike = data.updating;
-      this.likePost();
+      this.likePost({
+        slug: this.slug,
+        liked: this.liked,
+        rating: this.rating,
+      });
     });
   },
   updated() {
@@ -109,65 +113,45 @@ export default {
         hljs.highlightBlock(block);
       });
     },
-    async retrieveBlog(info = {}) {
+    async retrieveBlog(slug = {}) {
       // const tester = JSON.stringify({ yo: 'yo' });
       try {
         this.states.loading = true;
-        const res = await fetch('http://localhost:4000/blog', {
-          method: 'POST',
-          body: JSON.stringify(info),
-          header: {
-            'Content-type': 'application/json',
-          },
-        });
-        this.blog = await res.json();
-        console.log(this.blog);
+        const response = (await BlogServices.show(slug)).data;
+        this.blog = response;
         this.rating = this.blog.rating;
         this.states.loading = false;
       } catch (err) {
+        console.log(err);
         this.error = err;
       }
-      // await this.highlightPost();
     },
-    async likePost() {
+    async likePost(data = {}) {
       try {
-        const res = await fetch('http://localhost:4000/blog/like', {
-          method: 'POST',
-          body: JSON.stringify({
-            slug: this.slug,
-            liked: this.liked,
-            rating: this.rating,
-          }),
-          header: {
-            'Content-type': 'application/json',
-          },
-        });
-        const post = await res.json();
+        const post = (await BlogServices.like(data)).data;
         this.rating = post.rating;
         EventBus.$emit('rating-return', {
           updating: false,
         });
       } catch (err) {
         console.log(err);
+        this.error = err;
       }
     },
     dateFormat(date) {
       return helpers.dateFormat(date);
     },
     async promptUserDelete() {
-      const confirmation = prompt('Do you really wanna delete your post? Type "YES" to confirm.');
-      if (confirmation === 'YES') { // eslint-disable-line no-alert
-        // console.log(JSON.stringify(this.slug));
-        const res = await fetch(`http://localhost:4000/blog/delete/${this.slug}`, {
-          method: 'DELETE',
-          body: JSON.stringify({ slug: this.slug }),
-          header: {
-            'Content-type': 'application/json',
-          },
-        });
-        const result = await res.json();
-        if (result.deletedCount === 1) {
-          this.$router.push({ name: 'Blog' });
+      const confirmation = prompt(`Do you really wanna delete your post? Type ${this.slug} to confirm.`);
+      if (confirmation === this.slug) { // eslint-disable-line no-alert
+        try {
+          const result = (await BlogServices.delete({ slug: this.slug })).data;
+          if (result.deletedCount === 1) {
+            this.$router.push({ name: 'Blog' });
+          }
+        } catch (err) {
+          console.log(err);
+          this.error = err;
         }
       }
     },

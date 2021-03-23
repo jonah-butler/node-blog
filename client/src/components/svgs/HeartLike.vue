@@ -37,7 +37,6 @@ export default {
   methods: {
     sendIt() {
       if (!this.updating) {
-        console.log('updating rating');
         EventBus.$emit('update-rating', {
           liked: !this.liked,
           updating: !this.updating,
@@ -46,7 +45,6 @@ export default {
         this.updating = !this.updating;
         this.animate();
         EventBus.$once('rating-return', (data) => {
-          console.log(data);
           this.updating = data.updating;
         });
       }

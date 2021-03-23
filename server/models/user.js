@@ -64,14 +64,13 @@ UserSchema.methods.generateAuthToken = async function() {
 };
 
 UserSchema.statics.findByCredentials = async (username, password) => {
-  console.log('yooooo', username, password);
   const user = await User.findOne({ username: username });
-  console.log(user);
   if (!user) {
     throw new Error({ error: "Invalid login details" });
   }
   const isPasswordMatch = await bcrypt.compare(password, user.password);
   if (!isPasswordMatch) {
+    console.log('wrong password');
     throw new Error({ error: "Invalid login details" });
   }
   return user;

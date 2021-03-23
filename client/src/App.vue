@@ -215,4 +215,8 @@ li > .active-nav {
 a{
   text-decoration: none;
 }
+
+.fr-view{
+  min-height: 160px !important;
+}
 </style>

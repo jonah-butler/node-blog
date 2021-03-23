@@ -12,6 +12,7 @@ const express               = require('express'),
       // LocalStrategy         = require('passport-local'),
       blogRoutes            = require("./routes/blog.js"),
       userRoutes            = require('./routes/user.js'),
+      sdkRoutes             = require('./routes/sdks3.js'),
       BlogModel             = require("./models/blog.js"),
       UserModel             = require('./models/user.js'),
       config                = require('./config/db.js')
@@ -125,7 +126,8 @@ app.use(methodOverride("_method"));
 
 
 app.use("/", blogRoutes);
-app.use('/', userRoutes);
+app.use("/", userRoutes);
+app.use("/", sdkRoutes);
 
 // Seed();
 

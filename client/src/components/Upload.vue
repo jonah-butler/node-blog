@@ -54,11 +54,21 @@
             <input @change="selectTitle" type="text" ref="title" name="post[title]">
           </div>
           <div class="label-upload-container">
-            <!-- <froala :tag="'textarea'" @change="selectFroala"
-            ref="froalaText" v-model="froala"></froala> -->
-            <textarea @change="selectFroala" ref="froalaText"
+            <froala
+            v-if="config.imageUploadToS3"
+            :tag="'textarea'"
+            @change="selectFroala"
+            ref="froalaText"
+            v-model="froala"
+            :config="config"
+            >
+            </froala>
+            <div
+            class="froala-editor"
+            ></div>
+            <!-- <textarea @change="selectFroala" ref="froalaText"
             name="post[text]" v-model="froala" rows="8" cols="80">
-            </textarea>
+            </textarea> -->
           </div>
           <div class="label-input-container">
             <label>Featured Image</label>
@@ -85,14 +95,23 @@
 import Modal from '@/components/Modal.vue';
 import Loader from '@/components/TheLoader.vue';
 import categorical from '@/assets/scripts/categorical';
+// import VueFroala from 'vue-froala-wysiwyg';
 
 export default {
   name: 'ImageUploadTest',
   components: {
     Modal, Loader,
   },
-  mounted() {
-    this.initializeCategorical();
+  created() {
+    this.getHash();
+  },
+  async mounted() {
+    // this.initializeCategorical();
+    // const hash = await this.getHash();
+    // console.log(hash);
+    // this.config.imageUploadToS3 = hash;
+    // const editor = new VueFroala('div.froala-editor');
+    // console.log(editor);
   },
   data() {
     return {
@@ -107,6 +126,25 @@ export default {
         file: '',
         title: '',
         categories: '',
+      },
+      config: {
+        theme: 'dark',
+        imageAllowedTypes: ['jpeg', 'jpg', 'png'],
+        imageUploadToS3: null,
+        toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'insertImage', '|',
+          'fontFamily', 'fontSize', 'color', 'inlineStyle', 'paragraphStyle', 'textColor', 'backgroundColor', '|', 'paragraphFormat', 'align',
+          'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertTable', '|',
+          'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|'],
+        events: {
+          uploadedToS3: (link, key, response) => {
+            console.log(link, key, response);
+          },
+          initialized: async () => {
+            // const response = await fetch('http://localhost:4000/get-signature');
+            // this.config.imageUploadToS3 = await response.json();
+            console.log('init');
+          },
+        },
       },
     };
   },
@@ -142,7 +180,12 @@ export default {
       this.body = this.$refs.text.value;
       this.sample.text = this.body;
     },
+    async getHash() {
+      const response = await fetch('http://localhost:4000/get-signature');
+      this.config.imageUploadToS3 = await response.json();
+    },
     async sendFile() {
+      console.log(this.froala);
       this.selectCategories();
       const formData = new FormData();
       formData.append('image', this.upload);
@@ -169,7 +212,7 @@ export default {
     padding: 3rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
   }
   form{
     max-width: 600px;
