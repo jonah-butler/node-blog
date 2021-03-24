@@ -16,10 +16,11 @@ class Categorical {
 
   keyDownListener() {
       this.textInput.addEventListener('keydown', event => {
-      if(event.keyCode > 47 && event.keyCode < 58 || 
-         event.keyCode > 64 && event.keyCode < 91 || 
-         event.keyCode == 32 || 
-         event.keyCode > 185 && event.keyCode < 193 
+        console.log(event);
+      if(event.keyCode > 47 && event.keyCode < 58 ||
+         event.keyCode > 64 && event.keyCode < 91 ||
+         event.keyCode == 32 ||
+         event.keyCode > 185 && event.keyCode < 193
          || event.keyCode > 218 && event.keyCode < 223) {
           this.strArr.push(event.key);
       } else if(event.key === "Enter") {
@@ -27,7 +28,7 @@ class Categorical {
           event.preventDefault();
           const newSpan = this.addSpan(this.spanContainer, this.strArr.join(""));
           this.addHiddenInput(newSpan, this.strArr.join(""));
-          this.strArr = [];              
+          this.strArr = [];
           this.textInput.value = '';
         }
       } else if(event.key === 'Backspace') {

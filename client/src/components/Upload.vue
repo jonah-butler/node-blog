@@ -128,6 +128,9 @@ export default {
   created() {
     this.getHash();
   },
+  mounted() {
+    this.initializeCategorical();
+  },
   data() {
     return {
       notification: '',
