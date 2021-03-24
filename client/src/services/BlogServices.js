@@ -10,4 +10,7 @@ export default {
   delete(slug) {
     return Api().delete(`blog/delete/${slug.slug}`, slug);
   },
+  new(blog) {
+    return Api().post('/', blog);
+  },
 };

@@ -29,4 +29,24 @@ module.exports = {
     res.send(s3Hash);
 
   },
+  async delete(req, res) {
+    const uri = req.body.s3src;
+
+    try{
+      const {region, bucket, key} = AmazonS3URI(uri);
+
+      s3.deleteObject({
+        Bucket: bucket,
+        Key: key,
+      }, (err, data) => {
+        if(err) {
+          console.log(err);
+        } else {
+          res.status(200).send({statusCode: 200});
+        }
+      })
+    } catch(err) {
+      console.warn(err);
+    }
+  }
 }

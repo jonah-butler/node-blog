@@ -39,19 +39,28 @@
 
       </template>
     </modal>
-    <button class="btn" @click="$refs.modalYeah.toggle()">Markdown Ref</button>
-    <!-- <a href=""> -->
-    <!-- </a> -->
+    <button
+    class="primary-btn-link"
+    @click="$refs.modalYeah.toggle()">
+    Markdown Guide
+    </button>
+
     <div class="" v-if="submitting">
         <Loader/>
     </div>
 
     <div class="upload-form">
-        <form @submit.prevent="sendFile" action="http://localhost:4000" enctype="multipart/form-data">
-          <h1>upload view</h1>
+        <form
+        @submit.prevent="newBlog"
+        enctype="multipart/form-data">
+          <h1>New Blog</h1>
           <div class="label-input-container">
             <label>Title</label>
-            <input @change="selectTitle" type="text" ref="title" name="post[title]">
+            <input
+            @change="selectTitle"
+            type="text"
+            ref="title"
+            name="post[title]">
           </div>
           <div class="label-upload-container">
             <froala
@@ -60,32 +69,43 @@
             @change="selectFroala"
             ref="froalaText"
             v-model="froala"
-            :config="config"
-            >
+            :config="config">
             </froala>
-            <div
-            class="froala-editor"
-            ></div>
-            <!-- <textarea @change="selectFroala" ref="froalaText"
-            name="post[text]" v-model="froala" rows="8" cols="80">
+            <!-- <textarea
+            @change="selectFroala"
+            ref="froalaText"
+            v-model="froala"
+            rows="8"
+            cols="80">
             </textarea> -->
+            <section
+            class="notification">
+            {{ notification }}
+          </section>
           </div>
           <div class="label-input-container">
             <label>Featured Image</label>
-            <input @change="selectFile" type="file" ref="upload" name="post[featuredImage]">
+            <input
+            @change="selectFile"
+            type="file"
+            ref="upload"
+            name="post[featuredImage]">
           </div>
-          <!-- <div class="label-input-container">
-            <label>Categories</label>
-            <input @change="selectCategories" type="text" name="post[categories]" ref="categories">
-          </div> -->
           <div class="tag-input-container">
             <div class="headline">Add Category</div>
             <div id="spanContainer"></div>
-            <input class="tag-input-component"
-            type="text"
-            >
+            <input
+            class="tag-input-component"
+            type="text">
           </div>
-          <button type="submit" name="button">Submit</button>
+          <div class="">
+            <button
+            class="primary-btn-link"
+            type="submit"
+            name="button">
+            Submit
+          </button>
+          </div>
         </form>
     </div>
   </div>
@@ -95,6 +115,9 @@
 import Modal from '@/components/Modal.vue';
 import Loader from '@/components/TheLoader.vue';
 import categorical from '@/assets/scripts/categorical';
+import S3Services from '../services/S3Services';
+import BlogServices from '../services/BlogServices';
+
 // import VueFroala from 'vue-froala-wysiwyg';
 
 export default {
@@ -105,16 +128,9 @@ export default {
   created() {
     this.getHash();
   },
-  async mounted() {
-    // this.initializeCategorical();
-    // const hash = await this.getHash();
-    // console.log(hash);
-    // this.config.imageUploadToS3 = hash;
-    // const editor = new VueFroala('div.froala-editor');
-    // console.log(editor);
-  },
   data() {
     return {
+      notification: '',
       submitting: false,
       title: '',
       froala: 'edit here',
@@ -134,10 +150,13 @@ export default {
         toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'insertImage', '|',
           'fontFamily', 'fontSize', 'color', 'inlineStyle', 'paragraphStyle', 'textColor', 'backgroundColor', '|', 'paragraphFormat', 'align',
           'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertTable', '|',
-          'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|'],
+          'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', 'html', '|'],
         events: {
           uploadedToS3: (link, key, response) => {
             console.log(link, key, response);
+          },
+          'image.removed': (img) => {
+            this.deleteImg(img[0].getAttribute('src'));
           },
           initialized: async () => {
             // const response = await fetch('http://localhost:4000/get-signature');
@@ -157,16 +176,10 @@ export default {
       console.log(this.froala);
     },
     selectFroala() {
-      // this.froala = this.$refs.froalaText.value;
       console.log(this.froala);
     },
     selectCategories() {
-      // this.categories = this.$refs.categories.value;
-      // this.sample.categories = this.categories;
       Array.from(document.querySelectorAll('.data-added > input')).forEach((input) => this.categories.push(input.value));
-      // for (const input of document.querySelectorAll('.data-added > input')) {
-      //   this.categories.push(input.value);
-      // }
     },
     selectTitle() {
       this.title = this.$refs.title.value;
@@ -184,7 +197,21 @@ export default {
       const response = await fetch('http://localhost:4000/get-signature');
       this.config.imageUploadToS3 = await response.json();
     },
-    async sendFile() {
+    async deleteImg(imgS3Src) {
+      try {
+        const response = (await S3Services.deleteImg({ s3src: imgS3Src })).data;
+        console.log(response);
+        if (response.statusCode === 200) {
+          this.updateNotification('image deleted from s3 server');
+        } else {
+          this.updateNotification('uh oh - looks like there was an error! :(');
+        }
+      } catch (err) {
+        console.log(err);
+        this.error = err;
+      }
+    },
+    async newBlog() {
       console.log(this.froala);
       this.selectCategories();
       const formData = new FormData();
@@ -193,15 +220,22 @@ export default {
       formData.append('froala', this.froala);
       formData.append('post', this.body);
       formData.append('categories', JSON.stringify(this.categories));
-      const response = await fetch('http://localhost:4000', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          // 'Content-type': 'multipart/form-data',
-        },
-      });
+      const response = (await BlogServices.new(formData)).data;
+      // const response = await fetch('http://localhost:4000', {
+      //   method: 'POST',
+      //   body: formData,
+      //   headers: {
+      //     // 'Content-type': 'multipart/form-data',
+      //   },
+      // });
       const data = await response.json();
       console.log(data);
+    },
+    updateNotification(str) {
+      this.notification = str;
+      setTimeout(() => {
+        this.notification = '';
+      }, 5000);
     },
   },
 };

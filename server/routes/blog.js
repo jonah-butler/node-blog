@@ -104,7 +104,7 @@ router.post('/blog/', async (req, res) => {
   let post = await Blog.findOne({slug: req.body.slug});
   post = await Blog.findOneAndUpdate(
     {slug: req.body.slug},
-    {views: post.views + 1} 
+    {views: post.views + 1}
     )
   res.send(post);
 })
@@ -239,7 +239,8 @@ router.put('/blog/edit', uploadImg, async (req, res) => {
 })
 
 router.delete('/blog/delete/:slug', async (req, res) => {
-  const result = await Blog.deleteOne(req.parms);
+  console.log(req.params.slug);
+  const result = await Blog.deleteOne({slug: req.params.slug});
   res.send(result);
   // res.send({'test': 'test'});
 })
