@@ -163,6 +163,7 @@ router.put('/blog/edit', uploadImg, async (req, res) => {
       blog.featuredImageLocation = res.req.file.location;
     }
     for(const prop in req.body){
+      console.log(req.body);
       blog[prop] = req.body[prop];
     }
     await blog.save();

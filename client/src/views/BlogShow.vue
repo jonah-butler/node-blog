@@ -38,13 +38,19 @@
               </div>
               <div
               class="col-small-10 dir-col"
-              v-html="blog.sanitizedHTML"
-              >
+              v-html="blog.sanitizedHTML">
               </div>
             </div>
             </div>
-            <button class="primary-btn-link" @click="promptUserDelete()">Delete Post?</button>
-            <router-link class="primary-btn-link"
+            <button
+            class="primary-btn-link"
+            @click="promptUserDelete()"
+            v-if="this.$store.state.isUserLoggedIn">
+            Delete Post?
+            </button>
+            <router-link
+            v-if="this.$store.state.isUserLoggedIn"
+            class="primary-btn-link"
             :to="{ name: 'BlogEdit', params: {
             id:blog._id,
             slug:blog.slug

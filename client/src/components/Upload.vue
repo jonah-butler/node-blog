@@ -215,7 +215,6 @@ export default {
       }
     },
     async newBlog() {
-      console.log(this.froala);
       this.selectCategories();
       const formData = new FormData();
       formData.append('image', this.upload);
@@ -264,6 +263,7 @@ export default {
   max-width: 100%;
   text-align: left;
   margin-top: 10px;
+  margin-bottom: 10px;
   border: none;
   transition: all 1s ease;
 }
@@ -285,8 +285,8 @@ export default {
 }
 
 .data-added{
-  background-color: #e4e2df;
-  color: #454545;
+  background-color: #f7b3c9;
+  color: black;
   padding: 5px 7px;
   border-radius: 25px;
   font-size: 13px;
@@ -322,7 +322,6 @@ export default {
 .tag-input-container, .tag-input-container-large{
   display: inline-block;
   width: 50%;
-  border: 2px solid rgba(0,0,0,0.4);
   border-radius: 5px;
   padding: 15px;
   margin: 0 auto;
@@ -335,10 +334,9 @@ export default {
 }
 
 .tag-input-container > input{
-  border: none;
   border-bottom: 1px solid rgba(0,0,0,0.3);
   outline: none;
-  width: 100%;
+  width: 90%;
 }
 
 .tag-input{

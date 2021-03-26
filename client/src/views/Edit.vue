@@ -50,7 +50,8 @@
           <div v-if="submitting">
             <Loader/>
           </div>
-          <div v-if="updated">
+          <div
+          v-if="updated && this.$store.state.isUserLoggedIn">
             <button class="primary-btn-link" type="submit" name="button">Submit</button>
           </div>
         </form>

@@ -60,7 +60,11 @@ button{
   margin-bottom: 15px;
 }
 
-.label-input-container > input, .label-upload-container > textarea{
+.label-input-container > input,
+.label-upload-container > textarea,
+.tag-input-container-large,
+.tag-input-container,
+.tag-input-component{
   border-radius: 5px;
   padding: 15px;
   border: 1px solid #fe9f75;
