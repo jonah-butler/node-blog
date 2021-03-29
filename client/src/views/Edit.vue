@@ -80,7 +80,7 @@ export default {
         text: '',
         file: '',
         title: '',
-        categories: '',
+        categories: [],
       },
     };
   },
@@ -141,13 +141,11 @@ export default {
       console.log(this.updatedBlog.file);
     },
     selectCategories() {
-      // this.categories = this.$refs.categories.value;
-      this.updated = true;
-      this.updatedBlog.categories = this.$refs.categories.value;
-      console.log(this.updatedBlog.categories);
+      Array.from(document.querySelectorAll('.data-added > input')).forEach((input) => this.categories.push(input.value));
     },
     async updateBlog() {
       // const blogKeys = {};
+      this.selectCategories();
       const formData = new FormData();
       // formData.append('id', this.id);
       // blogKeys.id = this.id;
