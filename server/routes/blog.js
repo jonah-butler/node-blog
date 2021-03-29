@@ -143,6 +143,7 @@ router.post('/blog/edit', auth.isLoggedIn, async (req, res) => {
 //   })
 // })
 
+
 router.put('/blog/edit', uploadImg, async (req, res) => {
   try{
     const blog = await Blog.findOne({_id: req.body.id});
@@ -162,81 +163,21 @@ router.put('/blog/edit', uploadImg, async (req, res) => {
       blog.featuredImageTag = res.req.file.etag;
       blog.featuredImageLocation = res.req.file.location;
     }
+    console.log(req.body);
     for(const prop in req.body){
-      console.log(req.body);
-      blog[prop] = req.body[prop];
+      if(prop === 'categories'){
+        blog.categories = [];
+        JSON.parse(req.body.categories).forEach(category => blog.categories.push(category));
+      } else {
+        blog[prop] = req.body[prop];
+      }
     }
     await blog.save();
     res.send({updatedBlog: blog});
   } catch(err) {
     res.send({error: err});
   }
-  // if(res.req.file){
-  //   // const blog = await Blog.findOne({_id: req.body.id});
-  //   s3.deleteObject({
-  //     Bucket: 'dev-blog-resources',
-  //     Key: blog.featuredImageKey,
-  //   }, (err, data) => {
-  //     if(err){
-  //       console.log(err);
-  //     } else {
-  //       console.log(data);
-  //     }
-  //   })
-  //   blog.featuredImageKey = res.req.file.key;
-  //   blog.featuredImageTag = res.req.file.etag;
-  //   blog.featuredImageLocation = res.req.file.location;
-  // } else {
-    // for(const prop in req.body){
-    //   blog[prop] = req.body[prop];
-    // }
-  // }
-  // await blog.save();
-  // for(const prop in req.body){
-  //   blog[prop] = req.body[prop];
-  // }
-  // if(res.req.file){
 
-  // check for existence of res.req.file inside img Upload method
-  // if undefined, move to check req.body formData text fields and update accordingly
-  // if res.req.file update blog details along with text fields and save
-  // after update, delete original image from s3 server
-    // uploadImg(req, res, (err) => {
-    //   if(err){
-    //     console.log('s3 error', err);
-    //   } else {
-    //     // console.log(res.req.file);
-    //     if(res.req.file){
-          // s3.deleteObject({
-          //   bucket: 'dev-blog-resources',
-          //   key: blog.featuredImageKey,
-          // }, (err, data) => {
-          //   if(err){
-          //     console.log(err);
-          //   } else {
-          //     console.log(data);
-          //   }
-          // })
-    //     }
-    //     console.log('req.body', req.body);
-    //   }
-    // })
-  // }
-  // await blog.save();
-  // res.send({updatedBlog: 'success'});
-  // console.log('body', req.body);
-  // console.log('files', res.req.file);
-  // upload2Async(req, res, (err) => {
-  //   if(err){
-  //     console.log(err);
-  //   } else {
-  //     const blog = await Blog.findOne({_id: req.body.id});
-  //     console.log(blog);
-  //     console.log('form body', req.body);
-  //     console.log('form files', res.req.file);
-  //     res.send({result: 'received'});
-  //   }
-  // })
 })
 
 router.delete('/blog/delete/:slug', async (req, res) => {

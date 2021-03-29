@@ -141,9 +141,10 @@ export default {
       console.log(this.updatedBlog.file);
     },
     selectCategories() {
-      Array.from(document.querySelectorAll('.data-added > input')).forEach((input) => this.categories.push(input.value));
+      Array.from(document.querySelectorAll('.data-added > input')).forEach((input) => this.updatedBlog.categories.push(input.value));
     },
     async updateBlog() {
+      this.selectCategories();
       // const blogKeys = {};
       this.selectCategories();
       const formData = new FormData();
@@ -162,8 +163,8 @@ export default {
         formData.append('title', this.updatedBlog.title);
         // blogKeys.title = this.updatedBlog.title;
       }
-      if (this.updatedBlog.categories !== '') {
-        formData.append('categories', this.updatedBlog.categories);
+      if (this.updatedBlog.categories.length) {
+        formData.append('categories', JSON.stringify(this.updatedBlog.categories));
         // blogKeys.categories = this.updatedBlog.categories;
       }
       const response = await fetch('http://localhost:4000/blog/edit', {
