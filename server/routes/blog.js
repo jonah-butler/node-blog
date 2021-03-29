@@ -143,6 +143,7 @@ router.post('/blog/edit', auth.isLoggedIn, async (req, res) => {
 //   })
 // })
 
+
 router.put('/blog/edit', uploadImg, async (req, res) => {
   try{
     const blog = await Blog.findOne({_id: req.body.id});
@@ -162,9 +163,14 @@ router.put('/blog/edit', uploadImg, async (req, res) => {
       blog.featuredImageTag = res.req.file.etag;
       blog.featuredImageLocation = res.req.file.location;
     }
+    console.log(req.body);
     for(const prop in req.body){
-      console.log(req.body);
-      blog[prop] = req.body[prop];
+      if(prop === 'categories'){
+        blog.categories = [];
+        JSON.parse(req.body.categories).forEach(category => blog.categories.push(category));
+      } else {
+        blog[prop] = req.body[prop];
+      }
     }
     await blog.save();
     res.send({updatedBlog: blog});

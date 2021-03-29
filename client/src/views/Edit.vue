@@ -80,7 +80,7 @@ export default {
         text: '',
         file: '',
         title: '',
-        categories: '',
+        categories: [],
       },
     };
   },
@@ -141,12 +141,10 @@ export default {
       console.log(this.updatedBlog.file);
     },
     selectCategories() {
-      // this.categories = this.$refs.categories.value;
-      this.updated = true;
-      this.updatedBlog.categories = this.$refs.categories.value;
-      console.log(this.updatedBlog.categories);
+      Array.from(document.querySelectorAll('.data-added > input')).forEach((input) => this.updatedBlog.categories.push(input.value));
     },
     async updateBlog() {
+      this.selectCategories();
       // const blogKeys = {};
       const formData = new FormData();
       // formData.append('id', this.id);
@@ -164,8 +162,8 @@ export default {
         formData.append('title', this.updatedBlog.title);
         // blogKeys.title = this.updatedBlog.title;
       }
-      if (this.updatedBlog.categories !== '') {
-        formData.append('categories', this.updatedBlog.categories);
+      if (this.updatedBlog.categories.length) {
+        formData.append('categories', JSON.stringify(this.updatedBlog.categories));
         // blogKeys.categories = this.updatedBlog.categories;
       }
       const response = await fetch('http://localhost:4000/blog/edit', {
