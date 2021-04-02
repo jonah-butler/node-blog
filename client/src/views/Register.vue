@@ -35,13 +35,14 @@
           v-model="user.password"
           >
         </div>
-        <img
-        src=""
-        ref="image"
-        alt="user profile image to upload"
-        v-bind:class="{ active: user.imageActive }"
-        id="imageBlob"
-        >
+          <img
+          src=""
+          ref="image"
+          alt="user profile image to upload"
+          @load="test"
+          v-bind:class="{ active: user.imageActive }"
+          id="imageBlob"
+          >
         <div class="label-input-container">
           <label>User Profile Image</label>
           <div class="sub-headline"> 70 x 70 max</div>
@@ -86,6 +87,10 @@ export default {
       console.log(this.upload);
       this.checkFileSize(this.upload);
     },
+    test() {
+      console.log(this.$refs.image.naturalHeight);
+      console.log(this.$refs.image.naturalWidth);
+    },
     async checkFileSize(file) {
       const blob = new Blob([file]);
       console.log('blob', blob);
@@ -94,10 +99,7 @@ export default {
       console.log(this.user.imageBlob);
       this.$refs.image.src = link;
       this.toggleImageClass();
-      if (this.$refs.image.h) {
-        console.log('image size too large. upload again.');
-      }
-      URL.revokeObjectURL(link);
+      // URL.revokeObjectURL(link);
     },
     toggleImageClass() {
       this.user.imageActive = true;
