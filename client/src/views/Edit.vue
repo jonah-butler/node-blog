@@ -8,9 +8,14 @@
             <input v-model="blog.title" type="text" ref="title" @input="selectTitle">
           </div>
           <div class="label-upload-container">
-            <textarea ref="text" :value="blog.sanitizedHTML"
+            <!-- <textarea ref="text" :value="blog.sanitizedHTML"
             @input="selectText" rows="8" cols="80">
-            </textarea>
+            </textarea> -->
+            <froala
+            ref="text"
+            :value="blog.sanitizedHTML"
+            v-model="blog.sanitizedHTML">
+            </froala>
           </div>
           <div class="label-input-container">
             <label>Featured Image</label>
@@ -19,10 +24,6 @@
             </div>
             <input @change="selectFile" type="file" ref="upload" name="post[featuredImage]">
           </div>
-          <!-- <div class="label-input-container">
-            <label>Categories</label>
-            <input :value="blog.categories" type="text" @input="selectCategories" ref="categories">
-          </div> -->
           <div class="tag-input-container">
             <div class="headline">Add Category</div>
             <div id="spanContainer">
@@ -51,8 +52,14 @@
             <Loader/>
           </div>
           <div
-          v-if="updated && this.$store.state.isUserLoggedIn">
-            <button class="primary-btn-link" type="submit" name="button">Submit</button>
+          v-if="this.$store.state.isUserLoggedIn && !submitting">
+            <button
+            class="primary-btn-link"
+            type="submit"
+            :disabled="submitting"
+            name="button">
+            Submit
+            </button>
           </div>
         </form>
     </div>
@@ -86,14 +93,6 @@ export default {
   },
   created() {
     this.retrieveBlog({ _id: this.id, user: this.$store.state.user });
-    // if (document.querySelector('.category-close')) {
-    //   Array.from(document.querySelectorAll('.category-close')).forEach((close) => {
-    //     console.log(close);
-    //     close.addEventListener('click', (e) => {
-    //       e.target.parentElement.remove();
-    //     });
-    //   });
-    // }
   },
   mounted() {
     this.initializeCategorical();
@@ -124,9 +123,9 @@ export default {
     },
     selectText() {
       // this.body = this.$refs.text.value;
-      this.updated = true;
-      this.updatedBlog.text = this.$refs.text.value;
-      console.log(this.updatedBlog.text);
+      // this.updated = true;
+      // this.updatedBlog.text = this.$refs.text.value;
+      console.log(this.$refs.text.value);
     },
     selectTitle() {
       // this.title = this.$refs.title.value;
@@ -144,15 +143,14 @@ export default {
       Array.from(document.querySelectorAll('.data-added > input')).forEach((input) => this.updatedBlog.categories.push(input.value));
     },
     async updateBlog() {
-      this.selectCategories();
-      // const blogKeys = {};
+      this.submitting = !this.submitting;
       this.selectCategories();
       const formData = new FormData();
       // formData.append('id', this.id);
       // blogKeys.id = this.id;
       formData.append('id', this.id);
-      if (this.updatedBlog.text !== '') {
-        formData.append('text', this.updatedBlog.text);
+      if (this.blog.sanitizedHTML !== '') {
+        formData.append('text', this.blog.sanitizedHTML);
         // blogKeys.text = this.updatedBlog.text;
       }
       if (this.updatedBlog.file !== '') {
@@ -174,7 +172,6 @@ export default {
           // 'Content-type': 'application/json',
         },
       });
-      this.submitting = !this.submitting;
       this.updated = false;
       const data = await response.json();
       if (data.updatedBlog) {

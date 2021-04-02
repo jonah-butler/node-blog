@@ -3,8 +3,12 @@ body{
   padding: 0;
 }
 
-.container{
+.margin-auto{
   margin: 0 auto;
+}
+
+.container{
+  /* margin: 0 auto; */
   padding-top: 1rem;
   padding-left: 1rem;
   padding-right: 1rem;
@@ -13,7 +17,7 @@ body{
 
 .container-full{
   width: 100%;
-  margin: 0 auto;
+  /* margin: 0 auto; */
 }
 
 .justify-center{

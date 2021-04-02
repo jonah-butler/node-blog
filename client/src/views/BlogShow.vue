@@ -12,7 +12,7 @@
           <div class="featured-image-container"
           v-bind:style="{
             backgroundImage: `url(${blog.featuredImageLocation})`,
-            backgroundPosition: 'center',
+            backgroundPosition: 'inherit',
             backgroundSize: 'cover',
           }">
           <div class="blog-details">
@@ -27,18 +27,22 @@
             </div>
           </div>
           </div>
-          <div class="container">
-            <div class="row">
-              <div class="col-small-2 dir-col align-base">
-                <span
-                class="category-tag"
-                v-for="category in blog.categories"
-                :key="category"
-                >{{ category }}</span>
+          <div class="row">
+          <div class="container-full">
+            <div class="container">
+              <div class="row">
+                <div class="col-small-2 dir-col align-base">
+                  <span
+                  class="category-tag"
+                  v-for="category in blog.categories"
+                  :key="category"
+                  >{{ category }}</span>
+                </div>
+                <div
+                class="col-small-10 dir-col"
+                v-html="blog.sanitizedHTML">
+                </div>
               </div>
-              <div
-              class="col-small-10 dir-col"
-              v-html="blog.sanitizedHTML">
               </div>
             </div>
             </div>
@@ -194,9 +198,21 @@ export default {
 
 .post-title{
   font-size: 75px;
-  color: #3d4656;
+  /* color: #3d4656; */
   margin: 0;
-  text-shadow: 1px 1px 1px rgb(0 0 0 / 50%);
+  /* text-shadow: 1px 1px 1px rgba(0 0 0 1); */
+  text-shadow: 2px 2px 11px rgb(211 94 130),
+  2.2px 2.2px 0px rgb(211 94 130),
+  2.4px 2.4px 0px rgb(211 94 130),
+  2.6px 2.6px 0px rgb(211 94 130),
+  2.8px 2.8px 0px rgb(211 94 130),
+  3px 3px 0px rgb(211 94 130),
+  3.2px 3.2px 0px rgb(211 94 130),
+  3.6px 3.6px 0px rgb(211 94 130),
+  3.8px 3.8px 0px rgb(211 94 130),
+  4px 4px 0px rgb(211 94 130),
+  4.2px 4.2px 0px rgb(211 94 130),
+  4.6px 4.6px 0px rgb(211 94 130);
 }
 
 @media (max-width: 600px) {
@@ -212,6 +228,7 @@ export default {
 }
 
 .date-container > .read-time{
+  padding-left: 20px;
   font-weight: 300;
   font-size: 13px;
   color: black;

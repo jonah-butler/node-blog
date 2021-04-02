@@ -251,8 +251,8 @@ export default {
     /* align-items: center; */
   }
   form{
-    max-width: 600px;
-    min-width: 350px;
+    /* max-width: 600px; */
+    min-width: 95%;
     text-align: left;
   }
   .label-upload-container{
