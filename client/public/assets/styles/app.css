@@ -80,6 +80,18 @@ button{
   font-family: 'Roboto', sans-serif;
 }
 
+.input-error{
+  border: 2px solid red !important;
+}
+
+.input-success{
+  border: 2px solid green !important;
+}
+
+.error{
+  color: #cc262d;
+}
+
 #app{
   display: flex;
   position: relative;

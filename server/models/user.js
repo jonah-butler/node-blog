@@ -17,6 +17,15 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please include your password'],
   },
+  profileImageLocation:{
+    type: String,
+  },
+  profileImageTag:{
+    type: String,
+  },
+  profileImageKey:{
+    type: String,
+  },
   tokens: [
     {
       token: {
@@ -25,10 +34,6 @@ const UserSchema = new mongoose.Schema({
       },
     },
   ],
-  // token: {
-  //   type: String,
-  //   required: true,
-  // },
 }, {timestamps: true}
 )
 

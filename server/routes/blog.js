@@ -11,41 +11,16 @@ const express         = require('express'),
       User            = require('../models/user.js'),
       auth            = require('../config/auth.js')
 
-// process.on('unhandledRejection', (reason, promise) => {
-//   console.log('Unhandled Rejection at:', reason.stack || reason)
-// })
 
-//Make env variables available
 dotenv.config();
-// const upload = multer({
-//   dest: "./uploads/"
-// })
+
 AWS.config.update({
     secretAccessKey: process.env.AWS_S3_SECRET,
     accessKeyId: process.env.AWS_S3_ID,
     region: 'us-east-1'
 });
+
 const s3 = new AWS.S3();
-
-
-// const s3 = new AWS.S3({
-//   accessKeyId: process.env.AWS_S3_ID,
-//   secretAccessKey: process.env.AWS_S3_SECRET
-// })
-
-// const uploadS3 = multer({
-//   storage: multerS3({
-//     s3: s3,
-//     ACL: 'pulic-read',
-//     bucket: 'dev-blog-resources',
-//     metadata: (req, file, cb) => {
-//      cb(null, {fieldName: file.fieldname})
-//     },
-//     key: (req, file, cb) => {
-//      cb(null, Date.now().toString() + '-' + file.originalname)
-//     }
-//   })
-// })
 
 const upload = multer({}).single('image');
 

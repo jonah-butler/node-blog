@@ -223,13 +223,6 @@ export default {
       formData.append('post', this.body);
       formData.append('categories', JSON.stringify(this.categories));
       const response = (await BlogServices.new(formData)).data;
-      // const response = await fetch('http://localhost:4000', {
-      //   method: 'POST',
-      //   body: formData,
-      //   headers: {
-      //     // 'Content-type': 'multipart/form-data',
-      //   },
-      // });
       const data = await response.json();
       console.log(data);
     },
