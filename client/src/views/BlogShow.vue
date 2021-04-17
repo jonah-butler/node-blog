@@ -196,25 +196,6 @@ export default {
     height: 100%;
 }
 
-.post-title{
-  font-size: 75px;
-  /* color: #3d4656; */
-  margin: 0;
-  /* text-shadow: 1px 1px 1px rgba(0 0 0 1); */
-  text-shadow: 2px 2px 11px rgb(211 94 130),
-  2.2px 2.2px 0px rgb(211 94 130),
-  2.4px 2.4px 0px rgb(211 94 130),
-  2.6px 2.6px 0px rgb(211 94 130),
-  2.8px 2.8px 0px rgb(211 94 130),
-  3px 3px 0px rgb(211 94 130),
-  3.2px 3.2px 0px rgb(211 94 130),
-  3.6px 3.6px 0px rgb(211 94 130),
-  3.8px 3.8px 0px rgb(211 94 130),
-  4px 4px 0px rgb(211 94 130),
-  4.2px 4.2px 0px rgb(211 94 130),
-  4.6px 4.6px 0px rgb(211 94 130);
-}
-
 @media (max-width: 600px) {
   .post-title{
     font-size: 40px;
@@ -269,25 +250,6 @@ export default {
   bottom: 10px;
   left: 3rem;
   z-index: 1;
-}
-
-.category-tag{
-  font-size: 13px;
-  font-family: 'Source Code Pro';
-  padding: 5px 12px 5px 14px;
-  margin: 0 7px 7px 0;
-  color: white;
-  font-weight: 600;
-  border-radius: 15px;
-  background-color: #2d2b57;
-  transition: all .3s ease;
-  top: 0px;
-  position: relative;
-}
-
-.category-tag:hover{
-  cursor: pointer;
-  top: -5px;
 }
 
 </style>

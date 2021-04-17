@@ -20,6 +20,7 @@ export default {
 .site-content{
     /* padding: 3rem 8rem; */
     min-height: 84vh;
+    overflow: hidden;
     background-color: #f4f5f7;
     border-radius: 0px 0px 5px 5px;
     box-shadow: 0 3.2px 2.2px rgba(0, 0, 0, 0.02),

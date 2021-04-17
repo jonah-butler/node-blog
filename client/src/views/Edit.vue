@@ -14,7 +14,8 @@
             <froala
             ref="text"
             :value="blog.sanitizedHTML"
-            v-model="blog.sanitizedHTML">
+            v-model="blog.sanitizedHTML"
+            @input="printFroala">
             </froala>
           </div>
           <div class="label-input-container">
@@ -120,6 +121,9 @@ export default {
       } catch (err) {
         this.error = err;
       }
+    },
+    printFroala() {
+      console.log(this.blog.sanitizedHTML);
     },
     selectText() {
       // this.body = this.$refs.text.value;
