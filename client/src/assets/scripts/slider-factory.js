@@ -59,11 +59,13 @@ const sliderFactory = (node, params) => {
     let lastImg = imgNodeList[imgNodeList.length - 1].outerHTML;
     imgContainer.insertAdjacentHTML('afterbegin', lastImg);
     imgContainer.insertAdjacentHTML('beforeend', firstImg);
-    domItems.imgList = (node.querySelectorAll('.carousel-img'));
+    domItems.imgList = (node.querySelectorAll('.carousel-img img'));
     domItems.currentSlide = domItems.imgList[1];
     // populateCaption();
     values.width = imgNodeList[0].clientWidth;
-    values.height = domItems.currentSlide.height;
+    values.height = domItems.currentSlide.clientHeight;
+    console.log('first img', domItems.currentSlide);
+    console.log('height', values.height)
     if(values.firstRender === true){
       imgContainer.style.transition = 'none';
       values.firstRender = false;
@@ -115,7 +117,7 @@ const sliderFactory = (node, params) => {
     let currentSlideHeight = domItems.currentSlide.clientHeight;
     if(imgContainer.clientHeight != currentSlideHeight){
       console.log(imgContainer.clientHeight);
-        imgContainer.style.height = `${currentSlideHeight}px`;
+        imgContainer.style.height = `${values.height}px`;
     }
   }
 
@@ -140,9 +142,9 @@ const sliderFactory = (node, params) => {
     values.currentX = values.translated;
     imgContainer.style.transform = `translateX(${values.translated}px)`;
     domItems.currentSlide = domItems.imgList[values.counter];
-    // imgContainer.parentElement.style.height = domItems.currentSlide.height + 'px';
+    imgContainer.parentElement.style.height = domItems.currentSlide.height + 'px';
     resizeContainerToImages(imgContainer);
-    if(values.captions){
+      if(values.captions){
       populateCaption();
     }
   }
@@ -480,7 +482,7 @@ const sliderFactory = (node, params) => {
     setupImages(domItems.imgList, domItems.imgContainer);
 
     //render proper size container for screen
-    resizeImagesToContainer(domItems.imgList, domItems.imgContainer);
+    // resizeImagesToContainer(domItems.imgList, domItems.imgContainer);
 
     // initialize transition listener for first and last images
     imgContainerTransitionListener(domItems.imgList, domItems.imgContainer);
@@ -524,7 +526,6 @@ const sliderFactory = (node, params) => {
     }
 
     if(params.expand === false){
-      console.log(values.expand);
       domItems.expandIcon.style.display = "none";
     }
 

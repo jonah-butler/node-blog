@@ -12,8 +12,8 @@
     </div>
     <div class="container margin-auto">
       <div class="row project">
-        <div class="col-md-5 dir-col">
-          <div class="slider dot-background-left">
+        <div class="col-md-5 dir-col dot-background-left">
+          <div class="slider">
             <div class="slider-container">
               <div class="expand-icon-container"
               style="transform: scale(0); opacity: 0; display: none;">
@@ -86,7 +86,9 @@
               <div class="picture-row">
                 <div class="carousel-img">
                   <div class="img-container">
-                    <img src="../../public/assets/imgs/deskbook-dashboard.png"
+                    <img
+                    @load="test"
+                    src="../../public/assets/imgs/deskbook-dashboard.png"
                   alt="rvalibrary deskbook landing dashboard">
                   </div>
                 </div>
@@ -175,8 +177,8 @@
           </div>
           </div>
         </div>
-        <div class="col-md-5 dir-col">
-          <div class="slider dot-background-right">
+        <div class="col-md-5 dir-col dot-background-right">
+          <div class="slider">
             <div class="slider-container">
               <div class="expand-icon-container"
               style="transform: scale(0); opacity: 0; display: none;">
@@ -313,11 +315,20 @@ export default {
     };
   },
   mounted() {
-    const sliders = document.querySelectorAll('.slider');
-    Array.from(sliders).forEach((slider) => {
-      const slide = sliderFactory.sliderFactory(slider, this.sliderParams);
-      slide.init();
-    });
+    // const sliders = document.querySelectorAll('.slider');
+    // Array.from(sliders).forEach((slider) => {
+    //   const slide = sliderFactory.sliderFactory(slider, this.sliderParams);
+    //   slide.init();
+    // });
+  },
+  methods: {
+    test() {
+      const sliders = document.querySelectorAll('.slider');
+      Array.from(sliders).forEach((slider) => {
+        const slide = sliderFactory.sliderFactory(slider, this.sliderParams);
+        slide.init();
+      });
+    },
   },
 };
 </script>
@@ -342,8 +353,8 @@ export default {
     left: -100px;
     z-index: -1;
     border-radius: 50%;
-    width: 80%;
-    height: 80%;
+    width: 300px;
+    height: 300px;
     background: linear-gradient(90deg, #f4f5f7 8px, rgba(0, 0, 0, 0) 1%)
     95px 100px, linear-gradient(#f4f5f7 8px, #f36c94 1%), rgba(1,1,1,0.2);
     background-size: 10px 10px;
@@ -356,8 +367,8 @@ export default {
     right: -100px;
     z-index: -1;
     border-radius: 50%;
-    width: 80%;
-    height: 80%;
+    width: 300px;
+    height: 300px;
     background: linear-gradient(90deg, #f4f5f7 8px, rgba(0, 0, 0, 0) 1%)
     95px 100px, linear-gradient(#f4f5f7 8px, #f36c94 1%), rgba(1,1,1,0.2);
     background-size: 10px 10px;
