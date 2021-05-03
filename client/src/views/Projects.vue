@@ -88,19 +88,19 @@
                   <div class="img-container">
                     <img
                     @load="test"
-                    src="../../public/assets/imgs/deskbook-dashboard.png"
+                    src="../../public/assets/imgs/db-category.png"
                   alt="rvalibrary deskbook landing dashboard">
                   </div>
                 </div>
                 <div class="carousel-img">
                   <div class="img-container">
-                    <img src="../../public/assets/imgs/deskbook-dashboard.png"
+                    <img src="../../public/assets/imgs/db-dashboard.png"
                   alt="rvalibrary deskbook landing dashboard">
                   </div>
                 </div>
                 <div class="carousel-img">
                   <div class="img-container">
-                    <img src="../../public/assets/imgs/deskbook-dashboard.png"
+                    <img src="../../public/assets/imgs/db-ref.png"
                   alt="rvalibrary deskbook landing dashboard">
                   </div>
                 </div>
@@ -119,13 +119,19 @@
               node.js
             </span>
             <span class="category-tag">
-              mongodb atlas
+              mongodb
             </span>
             <span class="category-tag">
               heroku
             </span>
             <span class="category-tag">
               aws s3
+            </span>
+            <span class="category-tag">
+              sendgrid
+            </span>
+            <span class="category-tag">
+              passport
             </span>
           </div>
         </div>
@@ -135,25 +141,34 @@
             RVALibrary Deskbook
           </h1>
           <div>
-        <p>Fatback pig t-bone cupim, cow swine bacon beef
-        biltong leberkas capicola ham hock meatloaf chicken
-        pork belly. Bresaola salami kevin, pork belly jowl
-        capicola ham picanha doner andouille. Corned beef
-         ham sausage pork belly, pig filet mignon chicken pork loin prosciutto
-          cupim shank strip steak. Rump sausage ribeye, jowl
-           tenderloin cow buffalo hamburger pork loin swine.</p>
-           <p>Fatback pig t-bone cupim, cow swine bacon beef
-        biltong leberkas capicola ham hock meatloaf chicken
-        pork belly. Bresaola salami kevin, pork belly jowl
-        capicola ham picanha doner andouille. Corned beef
-         ham sausage pork belly, pig filet mignon chicken pork loin prosciutto
-          cupim shank strip steak. Rump sausage ribeye, jowl
-           tenderloin cow buffalo hamburger pork loin swine.</p>
+        <p>
+          The Deskbook is a full-stack application used by Richmond Public Library employees
+          to catalog, share and collaborate on internal knowledge keeping. Accounts are divided
+          into administrator and non-admin types. Administrators are able to add to the public
+          knowledge repositories, build on existing repositories or edit and create
+          entries inside repositories, simulating the idea of documents inside of folders.
+          Folders can be infinitely nested. Users can also create private information repositories,
+          only viewable and editable by them, and not searchable. Users also have the option to
+          share these private repositories with other users. Regular users can only create
+          private categories of their own and view others.
+        </p>
+        <p>
+          In addition to knowledge keeping, the deskbook also tracks reference queries across
+          individual libraries. When a branch library answers a reference question, users
+          submit the reference form to catalog these statistics. And inside the reference
+          search widget, users can run queries to gather and visualize importat statistics.
+          Each user can also modify and delete their submitted reference questions.
+        </p>
+        <p>
+          Another big proponent is the searchability of the Deskbook. Users can easily search
+          and tag entries and repositories to easily locate and browse similar information
+          types.
+        </p>
           </div>
           </div>
         </div>
       </div>
-      <div class="row project">
+      <!-- <div class="row project">
         <div class="col-md-7 side-text-right">
           <div class="row dir-col">
           <h1 class="post-title text-underline text-sm">
@@ -251,19 +266,19 @@
               <div class="picture-row">
                 <div class="carousel-img">
                   <div class="img-container">
-                    <img src="../../public/assets/imgs/deskbook-dashboard.png"
+                    <img src="../../public/assets/imgs/db-category.png"
                   alt="rvalibrary deskbook landing dashboard">
                   </div>
                 </div>
                 <div class="carousel-img">
                   <div class="img-container">
-                    <img src="../../public/assets/imgs/deskbook-dashboard.png"
+                    <img src="../../public/assets/imgs/db-dashboard.png"
                   alt="rvalibrary deskbook landing dashboard">
                   </div>
                 </div>
                 <div class="carousel-img">
                   <div class="img-container">
-                    <img src="../../public/assets/imgs/deskbook-dashboard.png"
+                    <img src="../../public/assets/imgs/db-faq.png"
                   alt="rvalibrary deskbook landing dashboard">
                   </div>
                 </div>
@@ -292,7 +307,7 @@
             </span>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

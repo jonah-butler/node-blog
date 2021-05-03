@@ -4,6 +4,26 @@
         <h1 class="">Articles</h1>
       </div>
       <div class="flex-container-full flex-center">
+        <div class="row">
+          <router-link
+          v-if="firstBlog"
+          class="entry entry-lg"
+          :to="{ name: 'BlogShow',
+           params: {id: firstBlog._id,
+           title: firstBlog.title,
+           slug: firstBlog.slug} }">
+           <div class="entry-header"
+           :style="{ backgroundImage: `url(${firstBlog.featuredImageLocation})` }">
+             <!-- <img
+             :src="firstBlog.featuredImageLocation"
+             alt="featured image for most recent blog post"> -->
+           </div>
+            <h3 class="blog-title">
+              {{ firstBlog.title }}
+            </h3>
+            <p>{{ dateFormat(firstBlog.createDate) }}</p>
+          </router-link>
+        </div>
         <div class="flex-container-sm">
           <router-link v-for="item in blogs" :key="item.title" class="entry"
           :to="{ name: 'BlogShow', params: {id: item._id,
@@ -26,18 +46,19 @@ export default {
   data() {
     return {
       blogs: '',
+      firstBlog: '',
     };
   },
-  // created() {
-  //   this.retrievePosts();
-  // },
   mounted() {
     this.retrievePosts();
   },
   methods: {
     async retrievePosts() {
       const res = await fetch('http://localhost:4000');
-      this.blogs = await res.json();
+      const splicedList = await res.json();
+      this.blogs = splicedList.splice(1);
+      [this.firstBlog] = splicedList;
+      console.log(this.firstBlog);
     },
     addHyphens(str) { return str.split(' ').join('-'); },
     dateFormat(isoDate) {
@@ -87,6 +108,45 @@ p {
   border: 2px solid transparent;
   min-width: 300px;
   max-width: 550px;
+}
+
+.entry-lg{
+  min-width: 990px;
+  min-height: 380px;
+  /* max-height: 380px; */
+}
+
+.entry-header{
+  height: 380px;
+  overflow: hidden;
+  border-radius: 5px;
+  position: relative;
+  top: -20px;
+  width: 95%;
+  margin: 0 auto;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.entry-lg:after{
+  content: 'New';
+  position: absolute;
+  bottom: 9px;
+  right: 5px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #f06c93;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: 500;
+}
+
+.entry > .entry-header img{
+  width: 95%;
+  border-radius: 5px;
 }
 
 .entry:hover{
