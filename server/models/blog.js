@@ -36,11 +36,6 @@ const blogSchema = new mongoose.Schema({
     required: false,
     default: "Jonah"
   },
-  createDate:{
-    type: Date,
-    required: false,
-    default: Date.now
-  },
   categories:{
     type: [String]
   },
@@ -52,6 +47,8 @@ const blogSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
+}, {
+	timestamps: true,
 })
 
 blogSchema.pre('validate', function(next) {
