@@ -9,6 +9,7 @@
   "author": "jonah",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "^7.4.4",
     "@vue/cli": "^4.5.4",
     "amazon-s3-uri": "^0.1.0",
     "aws-sdk": "^2.757.0",
