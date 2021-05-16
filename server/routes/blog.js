@@ -60,12 +60,10 @@ const upload2 = async(req, res) => {
 
 router.get("/", async (req, res) => {
   const blogs = await Blog.find({}).sort({createdAt: -1});
-  console.log(blogs);
   res.send(blogs);
 })
 
 router.get("/random", async (req, res) => {
-  // res.render("blog/landing");
   const blogs = await Blog.find({});
   res.send(helpers.selectRandomBlog(blogs));
 })
@@ -76,10 +74,28 @@ router.get("/new", (req, res) => {
 
 router.post('/blog/', async (req, res) => {
   let post = await Blog.findOne({slug: req.body.slug});
+  const previousPost = await Blog.findOne({_id: {"$lt": post._id}}).sort({_id: -1}).limit(1);
+  const nextPost = await Blog.findOne({_id: {"$gt": post._id}}).sort({_id: 1}).limit(1);
+  res.send({
+    post1: post,
+    previousPost: previousPost,
+    nextPost: nextPost,
+  });
   post = await Blog.findOneAndUpdate(
     {slug: req.body.slug},
     {views: post.views + 1}
     )
+})
+
+router.post('/search', async (req, res) => {
+  const pattern = `\\b${req.body.query}\\b`;
+  const post = await Blog.find(
+  {$or: [
+     { text: { $regex: pattern, $options: 'i' } },
+     { title: { $regex: pattern, $options: 'i' } },
+     { categories: {  $regex: pattern, $options: 'i'} }
+    ]}
+  );
   res.send(post);
 })
 //blogshow route - updating rating
