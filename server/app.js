@@ -12,12 +12,13 @@ const express               = require('express'),
       sdkRoutes             = require('./routes/sdks3.js'),
       BlogModel             = require("./models/blog.js"),
       UserModel             = require('./models/user.js'),
-      config                = require('./config/db.js')
+      config                = require('./config/db.js'),
+      dotenv                = require('dotenv')
 
-
+dotenv.config();
 
 try{
-  mongoose.connect(config.database,
+  mongoose.connect(process.env.DB_URL,
   	{
   		useNewUrlParser: true,
   		useUnifiedTopology: true,
