@@ -44,7 +44,7 @@ const uploadUserImg = multer({
 
 module.exports = {
   async registerNewUser(req, res) {
-    try { 
+    try {
       console.log(req.file);
       console.log(req.body);
       const user = new User({
@@ -66,11 +66,13 @@ module.exports = {
   async login(req, res) {
     try {
       const user = await User.findByCredentials(req.body.username, req.body.password);
-      if (!user) {
-        return res.status(401).json({ error: "Login failed! Check authentication credentials" });
+      if (user.error) {
+        // return res.status(401).json({ error: "Login failed! Check authentication credentials" });
+        res.send({status: 401, error: 'login failed'});
+      } else {
+        const token = await user.generateAuthToken();
+        res.status(201).json({ user, token });
       }
-      const token = await user.generateAuthToken();
-      res.status(201).json({ user, token });
     } catch (err) {
       res.status(400).json({ err: err });
     }
