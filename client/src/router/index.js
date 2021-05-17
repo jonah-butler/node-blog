@@ -6,8 +6,7 @@ import ImageUpload from '../views/upload.vue';
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
 import Logout from '../views/Logout.vue';
-
-// Vue.component('test-component', TestComponent);
+// import Contact from '../views/Contact.vue';
 
 Vue.use(VueRouter);
 
@@ -45,12 +44,37 @@ const routes = [
     path: '/upload',
     name: 'Upload',
     component: ImageUpload,
+    props: true,
+    beforeEnter: (to, from, next) => {
+      try {
+        const hasPermission = store.state.isUserLoggedIn;
+        if (hasPermission) {
+          next();
+        } else {
+          next({
+            name: 'Blog', // back to safety route //
+            query: { redirectFrom: to.fullPath },
+          });
+        }
+      } catch (e) {
+        next({
+          name: 'Blog', // back to safety route //
+          query: { redirectFrom: to.fullPath },
+        });
+      }
+    },
   },
   {
     path: '/blog/:slug',
     name: 'BlogShow',
     component: () => import(/* webpackChunkName: "Random" */ '../views/BlogShow.vue'),
     props: true,
+  },
+  {
+    path: '/contact',
+    name: 'Contact',
+    component: () => import(/* webpackChunkName: "Random" */ '../views/Contact.vue'),
+    props: false,
   },
   {
     path: '/blog/edit/:id',
@@ -60,18 +84,17 @@ const routes = [
     beforeEnter: (to, from, next) => {
       try {
         const hasPermission = store.state.isUserLoggedIn;
-        console.log(hasPermission);
         if (hasPermission) {
           next();
         } else {
           next({
-            name: 'About', // back to safety route //
+            name: 'Blog', // back to safety route //
             query: { redirectFrom: to.fullPath },
           });
         }
       } catch (e) {
         next({
-          name: 'About', // back to safety route //
+          name: 'Blog', // back to safety route //
           query: { redirectFrom: to.fullPath },
         });
       }
@@ -93,6 +116,10 @@ const routes = [
     path: '/logout',
     name: 'Logout',
     component: Logout,
+  },
+  {
+    path: '*',
+    redirect: '/',
   },
 ];
 
