@@ -7,6 +7,7 @@ export default {
     {
       name: 'Search',
       slug: '/search',
+      action: 'expandSearch',
     },
     {
       name: 'Projects',
