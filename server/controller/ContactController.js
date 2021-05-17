@@ -6,24 +6,23 @@ module.exports = {
   async emailSend(req, res) {
     try{
       sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
       const msg = {
         to: 'jonahbutler6@gmail.com',
         from: 'jonahbutler6@gmail.com',
-        subject: `New Email Through Dev Blog from ${req.body.name}`,
-        text: req.body.message + `Email sent from: ${req.body.email}`,
+        subject: `Dev Blog Contact from ${req.body.name}`,
+        text: req.body.message + `\n\n\n\n\n Email sent from: ${req.body.email}`,
       };
 
       sgMail
         .send(msg)
         .then((result) => {
-          console.log(result);
+          res.send({status: 200});
         })
         .catch((err) => {
-          console.log(err);
+          res.send({status: err});
         })
     } catch(error) {
-      console.log(error);
+      res.send({status: error});
     }
   }
 }
