@@ -84,7 +84,6 @@
                 <div class="carousel-img">
                   <div class="img-container">
                     <img
-                    @load="setUpSliders"
                     src="../../public/assets/imgs/db-category.png"
                   alt="rvalibrary deskbook landing dashboard">
                   </div>
@@ -578,6 +577,7 @@
                 <div class="carousel-img">
                   <div class="img-container">
                     <img
+                    @load="setUpSliders"
                     src="../../public/assets/imgs/mg-view2.jpg"
                   alt="rvalibrary deskbook landing dashboard">
                   </div>
