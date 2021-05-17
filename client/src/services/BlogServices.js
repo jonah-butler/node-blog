@@ -13,4 +13,7 @@ export default {
   new(blog) {
     return Api().post('/', blog);
   },
+  search(query) {
+    return Api().post('search', query);
+  },
 };
