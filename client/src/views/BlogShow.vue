@@ -18,7 +18,7 @@
           <div class="blog-details">
             <h1 class="post-title">{{ blog.title }}</h1>
             <div class="date-container">
-              <span class="date">{{ dateFormat(blog.createDate) }}</span>
+              <span class="date">{{ dateFormat(blog.createdAt) }}</span>
               <span class="read-time">{{calculateReadTime(blog.text)}} minute read</span>
             </div>
             <div class="like">
@@ -63,6 +63,32 @@
             </router-link>
           </div>
       </transition>
+      <div class="container-full big-margin-top">
+        <div class="row space-between">
+          <div
+          v-if="nextBlog"
+          @click="changeRoute(nextBlog.slug, nextBlog._id)"
+          class="old-blog">
+            <div class="detail-container">
+              <p class="old-blog-date">newer</p>
+              <h3 class="old-blog-title primary-btn-link">
+                {{ nextBlog.title }}
+              </h3>
+            </div>
+          </div>
+          <div
+          v-if="previousBlog"
+          @click="changeRoute(previousBlog.slug, previousBlog._id)"
+          class="old-blog">
+            <div class="detail-container">
+              <p class="old-blog-date">older</p>
+              <h3 class="old-blog-title primary-btn-link">
+                {{ previousBlog.title }}
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -83,6 +109,8 @@ export default {
   data() {
     return {
       blog: '',
+      previousBlog: '',
+      nextBlog: '',
       error: null,
       liked: undefined,
       rating: undefined,
@@ -114,6 +142,24 @@ export default {
     EventBus.$off('update-rating');
   },
   methods: {
+    changeRoute(slug, id) {
+      this.$router.push({
+        name: 'BlogShow',
+        params: {
+          slug,
+          id,
+        },
+        path: `/blog/${slug}`,
+      }).catch((err) => {
+        if (
+          err.name !== 'NavigationDuplicated'
+          && !err.message.includes('Avoided redundant navigation to current location')
+        ) {
+          // But print any other errors to the console
+          console.log(err);
+        }
+      });
+    },
     calculateReadTime(text = '') {
       return Math.floor(text.split(' ').length / 200);
     },
@@ -128,7 +174,9 @@ export default {
       try {
         this.states.loading = true;
         const response = (await BlogServices.show(slug)).data;
-        this.blog = response;
+        this.blog = response.post1;
+        this.previousBlog = response.previousPost;
+        this.nextBlog = response.nextPost;
         this.rating = this.blog.rating;
         this.states.loading = false;
       } catch (err) {

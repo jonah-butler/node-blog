@@ -8,15 +8,16 @@
             <input v-model="blog.title" type="text" ref="title" @input="selectTitle">
           </div>
           <div class="label-upload-container">
-            <!-- <textarea ref="text" :value="blog.sanitizedHTML"
+            <textarea ref="text"
+            :value="blog.text"
             @input="selectText" rows="8" cols="80">
-            </textarea> -->
-            <froala
+            </textarea>
+            <!-- <froala
             ref="text"
             :value="blog.sanitizedHTML"
             v-model="blog.sanitizedHTML"
             @input="printFroala">
-            </froala>
+            </froala> -->
           </div>
           <div class="label-input-container">
             <label>Featured Image</label>
@@ -117,6 +118,7 @@ export default {
           },
         });
         this.blog = await res.json();
+        console.log(this.blog);
         this.loading = false;
       } catch (err) {
         this.error = err;
@@ -126,10 +128,7 @@ export default {
       console.log(this.blog.sanitizedHTML);
     },
     selectText() {
-      // this.body = this.$refs.text.value;
-      // this.updated = true;
-      // this.updatedBlog.text = this.$refs.text.value;
-      console.log(this.$refs.text.value);
+      this.updatedBlog.text = this.$refs.text.value;
     },
     selectTitle() {
       // this.title = this.$refs.title.value;
@@ -153,8 +152,8 @@ export default {
       // formData.append('id', this.id);
       // blogKeys.id = this.id;
       formData.append('id', this.id);
-      if (this.blog.sanitizedHTML !== '') {
-        formData.append('text', this.blog.sanitizedHTML);
+      if (this.updatedBlog.text !== '') {
+        formData.append('text', this.updatedBlog.text);
         // blogKeys.text = this.updatedBlog.text;
       }
       if (this.updatedBlog.file !== '') {
