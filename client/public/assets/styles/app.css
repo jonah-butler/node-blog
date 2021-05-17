@@ -1,17 +1,33 @@
 body{
-  /* font-family: 'Roboto', 'sans-serif'; */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   margin: 0;
   padding: 0;
-  /* background: #615182; */
   background: white;
   -webkit-font-smooth: antialiased;
 }
 
-h1,h2,h3,h4,h5,h6{
+h1,h2,h3,h4,h5,h6, button, input, select, textarea{
   color: #292929;
-  text-transform: uppercase;
   color: #08090a;
+  margin: 3px 0px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+::-webkit-input-placeholder {
+  text-transform: lowercase;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+:-moz-placeholder {
+  text-transform: lowercase;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+::-moz-placeholder {
+  text-transform: lowercase;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+:-ms-input-placeholder {
+  text-transform: lowercase;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 p{
@@ -37,13 +53,27 @@ section{
   margin: .5rem;
 }
 
+textarea:focus, input:focus{
+    outline: none;
+}
+
 button{
   border: none;
   background: none;
 }
 
+.big-margin-top{
+  margin-top: 4em;
+}
+
 .user-image{
 
+}
+
+.no-results-img{
+  max-width: 300px;
+  position: relative;
+  top: -50px;
 }
 
 .header-gradient{
@@ -82,6 +112,11 @@ button{
   padding: 15px;
   border: 1px solid #fe9f75;
   font-family: 'Roboto', sans-serif;
+}
+
+.label-upload-container > textarea{
+  min-height: 500px;
+  max-width: 700px;
 }
 
 .input-error{
@@ -275,17 +310,23 @@ background: linear-gradient(to right bottom, rgba(255,255,255,0.2), #21D4FD 75%)
   max-width: 100%;
   display: flex;
   flex-wrap: wrap;
+  z-index: 1;
 }
 
 .flex-center{
   justify-content: center;
 }
 
+.flex-left{
+  justify-content: flex-start;
+}
+
 .flex-container-sm{
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  max-width: 1100px;
+  /* max-width: 1100px; */
+  z-index: 1;
 }
 
 .direction-col{
@@ -690,4 +731,8 @@ SLIDER
   10%  { transform: scale(1.3,.7)   translateY(0); }
   60%  { transform: scale(.7,1.3)   translateY(0); }
   100% { transform: scale(1,1)      translateY(0); }
+}
+
+.hide{
+  display: none;
 }

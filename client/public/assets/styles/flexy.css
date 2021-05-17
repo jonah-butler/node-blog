@@ -23,6 +23,10 @@ img{
   max-width: 1100px;
 }
 
+.full-width{
+  width: 100%;
+}
+
 .text-center{
   text-align: center;
 }
@@ -44,12 +48,20 @@ img{
   justify-content: center;
 }
 
+.space-between{
+  justify-content: space-between;
+}
+
 .dir-col{
   flex-direction: column;
 }
 
 .dir-row{
   flex-direction: row;
+}
+
+.no-wrap{
+  flex-wrap: nowrap !important;
 }
 
 .d-flex{
@@ -183,6 +195,7 @@ img{
   margin-left: 91.66666666666667%;
 }
 
+
   .col-xsmall-1{
     max-width: 8.333333333333334%;
     -ms-flex-preferred-size: 8.333333333333334%;
@@ -283,6 +296,10 @@ img{
 
 
 @media (min-width: 576px){
+  .offset-small-3{
+    margin-left: 25%;
+  }
+
   .col-small-1{
     max-width: 8.333333333333334%;
     -ms-flex-preferred-size: 8.333333333333334%;
