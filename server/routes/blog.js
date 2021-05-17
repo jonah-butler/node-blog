@@ -59,8 +59,12 @@ const upload2 = async(req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  const blogs = await Blog.find({}).sort({createdAt: -1});
-  res.send(blogs);
+  try {
+    const blogs = await Blog.find({}).sort({createdAt: -1});
+    res.send(blogs);
+  } catch (err) {
+    console.log(err);
+  }
 })
 
 router.get("/random", async (req, res) => {
