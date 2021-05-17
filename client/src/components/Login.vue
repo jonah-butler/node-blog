@@ -31,6 +31,9 @@
         Login
         </button>
       </form>
+      <div v-if="error">
+        {{error}}
+      </div>
     </div>
   </div>
 </template>
@@ -46,6 +49,7 @@ export default {
         username: '',
         password: '',
       },
+      error: '',
     };
   },
   methods: {
@@ -53,13 +57,15 @@ export default {
       try {
         const resp = await AuthenticationServices.login(this.user);
         if (resp.status === 201) {
-          console.log(resp);
+          this.error = '';
           this.$store.dispatch('setToken', resp.data.token);
           this.$store.dispatch('setUser', resp.data.user);
           this.$router.push({ path: '/' });
+        } else {
+          this.error = resp.data.error;
         }
       } catch (err) {
-        console.log(err);
+        this.error = err;
       }
     },
   },
