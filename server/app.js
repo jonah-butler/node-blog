@@ -10,6 +10,7 @@ const express               = require('express'),
       blogRoutes            = require("./routes/blog.js"),
       userRoutes            = require('./routes/user.js'),
       sdkRoutes             = require('./routes/sdks3.js'),
+      contactRoutes         = require('./routes/contact.js'),
       BlogModel             = require("./models/blog.js"),
       UserModel             = require('./models/user.js'),
       config                = require('./config/db.js'),
@@ -18,7 +19,7 @@ const express               = require('express'),
 dotenv.config();
 
 try{
-  mongoose.connect(process.env.DB_URL,
+  mongoose.connect(config.database,
   	{
   		useNewUrlParser: true,
   		useUnifiedTopology: true,
@@ -53,6 +54,7 @@ app.use(methodOverride("_method"));
 app.use("/", blogRoutes);
 app.use("/", userRoutes);
 app.use("/", sdkRoutes);
+app.use("/", contactRoutes);
 
 // Seed();
 
