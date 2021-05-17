@@ -19,9 +19,17 @@
         <li class="links">
           <router-link to="/">Blog</router-link>
         </li>
-        <li class="links" v-for="navLink in navLinks"
-        :key="navLink.name">
-          <router-link :to="navLink.slug">{{navLink.name}}</router-link>
+        <li class="links">
+          <router-link to="/about">About</router-link>
+        </li>
+        <li class="links">
+          <a @click="expandSearch">Search</a>
+        </li>
+        <li class="links">
+          <router-link to="/projects">Projects</router-link>
+        </li>
+        <li class="links">
+          <router-link to="/random">Random</router-link>
         </li>
         <li
         class="links"
@@ -46,30 +54,122 @@
           Login
           </router-link>
         </li>
+        <li
+        class="links"
+        >
+          <router-link to="/contact">
+          Contact
+          </router-link>
+        </li>
       </ul>
         <div class="user-initial"
-        v-if="this.$store.state.isUserLoggedIn"
+        v-if="this.$store.state.isUserLoggedIn && this.$store.state.user.profileImageLocation"
+        :style="{backgroundImage: `url(${getUserProfileImage()})`}"
         >
+          <!-- <router-link to="/user">{{ printUser() }}</router-link> -->
+          <router-link to="/user">
+            <!-- <img class="user-image" :src="getUserProfileImage()"> -->
+          </router-link>
+        </div>
+        <div
+        class="user-initial"
+        v-else-if="this.$store.state.isUserLoggedIn &&
+        !this.$store.state.user.profileImageLocation">
           <router-link to="/user">{{ printUser() }}</router-link>
         </div>
+    </div>
+    <div
+    class="search-container"
+    ref="searchContainer">
+      <div class="container-full">
+        <div class="row dir-row no-wrap">
+            <i class="fas fa-search"></i>
+            <input
+            @input="testSearch"
+            placeholder="search posts"
+            class="search"
+            type="text"
+            name=""
+            ref="searchBar"
+            value="">
+        </div>
+      </div>
+      <transition name="fade">
+      <div
+      v-if="searching"
+      class="search-results">
+      <Loader />
+      </div>
+      <div
+      v-else-if="searchResults !== null && searchResults !== undefined"
+      class="search-results">
+      <div class="row old-entries dir-col">
+        <router-link
+        v-for="post in searchResults"
+        :key="post._id"
+        :to="{
+          name: 'BlogShow',
+          params: {
+            id: post._id,
+            slug: post.slug
+            }
+          }">
+          <div class="detail-container">
+            <p class="old-blog-date">{{  dateFormat(post.createdAt) }}</p>
+            <h3 class="old-blog-title primary-btn-link">
+              {{ post.title }}
+            </h3>
+          </div>
+        </router-link>
+      </div>
+      </div>
+      <div
+      v-else-if="searchResults === undefined"
+      class="search-results">
+      <p>Wow, Much Empty</p>
+      <img
+      class="no-results-img"
+      src="../../public/assets/imgs/doge-pixel.png"
+      alt="pixel doge image">
+      </div>
+      <div
+      v-else
+      class="search-results">
+      </div>
+      </transition>
     </div>
   </div>
 </template>
 
 <script>
 import navigation from '@/nav';
+import Loader from '@/components/TheLoader.vue';
+import BlogServices from '@/services/BlogServices';
 
 export default {
   name: 'TheNavigation',
   components: {
-
+    Loader,
   },
   data() {
     return {
       navLinks: navigation.mainNavigation,
+      searching: false,
+      searchResults: null,
+      // loadingResults: false,
     };
   },
   methods: {
+    expandSearch() {
+      this.$refs.searchContainer.classList.toggle('expand');
+      this.$refs.searchBar.value = '';
+      if (this.searchResults !== '') {
+        this.searchResults = '';
+      }
+    },
+    getUserProfileImage() {
+      return this.$store.state.user.profileImageLocation;
+    },
     printUser() {
       return this.$store.state.user.username.toUpperCase().slice(0, 1);
     },
@@ -80,6 +180,22 @@ export default {
       this.$store.dispatch('setToken', null);
       this.$store.dispatch('setUser', null);
       this.$router.push({ path: '/logout' });
+    },
+    dateFormat(isoDate) {
+      const date = new Date(isoDate);
+      return `${date.toLocaleString('default', { month: 'long' })} ${date.getDate()}, ${date.getFullYear()}`;
+    },
+    async testSearch(event) {
+      if (event.target.value) {
+        this.searching = true;
+        const blogs = (await BlogServices.search({ query: event.target.value })).data;
+        if (blogs.length) {
+          this.searchResults = blogs;
+        } else {
+          this.searchResults = undefined;
+        }
+        this.searching = false;
+      }
     },
   },
 };
@@ -113,7 +229,7 @@ export default {
 }
 
 #nav-container > .nav > ul > li{
-  padding: 10px 10px 3px 10px;
+  padding: 10px 0px 3px 0px;
   transition: all .2s ease;
   position: relative;
   z-index: 1;
@@ -238,6 +354,49 @@ export default {
 
 .hamburger:hover{
   cursor: pointer;
+}
+
+.search-container{
+  width: 100%;
+  height: 0px;
+  overflow: hidden;
+  background-color: #e0e0e0;
+  transition: height .1s ease;
+}
+
+.search-container.expand{
+  height: fit-content;
+}
+
+.search-container.results{
+  height: 100%;
+}
+
+.search-container .fa-search{
+  font-size: 38px;
+}
+
+.search{
+  border: none;
+  background: transparent;
+  border-bottom: 1px solid #2c3e50;
+  width: 100%;
+  margin-left: 10px;
+}
+
+.search-results{
+  width: 100%;
+  height: fit-content;
+  text-align: center;
+  /* overflow: scroll; */
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: all .3s ease;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  /* transform: translateY(20px); */
 }
 
 </style>
