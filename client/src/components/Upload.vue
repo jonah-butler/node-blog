@@ -63,21 +63,14 @@
             name="post[title]">
           </div>
           <div class="label-upload-container">
-            <froala
+            <textarea
             v-if="config.imageUploadToS3"
             :tag="'textarea'"
             @change="selectFroala"
             ref="froalaText"
             v-model="froala"
             :config="config">
-            </froala>
-            <!-- <textarea
-            @change="selectFroala"
-            ref="froalaText"
-            v-model="froala"
-            rows="8"
-            cols="80">
-            </textarea> -->
+           </textarea>
             <section
             class="notification">
             {{ notification }}
@@ -162,8 +155,6 @@ export default {
             this.deleteImg(img[0].getAttribute('src'));
           },
           initialized: async () => {
-            // const response = await fetch('http://localhost:4000/get-signature');
-            // this.config.imageUploadToS3 = await response.json();
             console.log('init');
           },
         },
@@ -223,8 +214,11 @@ export default {
       formData.append('post', this.body);
       formData.append('categories', JSON.stringify(this.categories));
       const response = (await BlogServices.new(formData)).data;
-      const data = await response.json();
-      console.log(data);
+      if (response._id) { // eslint-disable-line
+        this.$router.push({ path: `/blog/${response.slug}` });
+      } else {
+        this.updateNotification('error submitting new blog');
+      }
     },
     updateNotification(str) {
       this.notification = str;
