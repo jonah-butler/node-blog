@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     async retrievePosts() {
-      const res = await fetch('https://www.jonahbutler.dev/');
+      const res = await fetch('https://jonahbutler-dev.herokuapp.com/get-signature');
       const splicedList = await res.json();
       [this.firstBlog] = splicedList.splice(0, 1);
       this.blogs = splicedList.splice(0, 4);

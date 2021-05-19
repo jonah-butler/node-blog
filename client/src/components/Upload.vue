@@ -149,7 +149,6 @@ export default {
           'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', 'html', '|'],
         events: {
           uploadedToS3: (link, key, response) => {
-            console.log(link, key, response);
           },
           'image.removed': (img) => {
             this.deleteImg(img[0].getAttribute('src'));
@@ -188,7 +187,7 @@ export default {
       this.sample.text = this.body;
     },
     async getHash() {
-      const response = await fetch('https://www.jonahbutler.dev/get-signature');
+      const response = await fetch('https://jonahbutler-dev.herokuapp.com/get-signature');
       this.config.imageUploadToS3 = await response.json();
     },
     async deleteImg(imgS3Src) {

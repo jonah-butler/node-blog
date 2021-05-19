@@ -1,3 +1,3 @@
 import axios from 'axios';
 
-export default () => axios.create({ baseURL: 'https://www.jonahbutler.dev/' });
+export default () => axios.create({ baseURL: 'https://jonahbutler-dev.herokuapp.com/' });

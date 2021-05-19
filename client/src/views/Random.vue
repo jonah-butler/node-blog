@@ -61,7 +61,7 @@ export default {
     },
     async retrieveRandomPost() {
       this.loading = true;
-      const res = await fetch('https://www.jonahbutler.dev/random');
+      const res = await fetch('https://jonahbutler-dev.herokuapp.com/random');
       this.blog = await res.json();
       router.push({ name: 'BlogShow', params: { slug: this.blog.slug } });
       this.loading = false;
