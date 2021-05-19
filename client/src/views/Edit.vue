@@ -168,7 +168,7 @@ export default {
         formData.append('categories', JSON.stringify(this.updatedBlog.categories));
         // blogKeys.categories = this.updatedBlog.categories;
       }
-      const response = await fetch('http://localhost:4000/blog/edit', {
+      const response = await fetch('https://jonahbutler-dev.herokuapp.com/blog/edit', {
         method: 'PUT',
         body: formData,
         headers: {

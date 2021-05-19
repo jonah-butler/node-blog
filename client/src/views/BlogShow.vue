@@ -161,7 +161,7 @@ export default {
       });
     },
     calculateReadTime(text = '') {
-      return Math.floor(text.split(' ').length / 200);
+      return Math.ceil(text.split(' ').length / 200);
     },
     highlightPost() {
       const x = document.querySelectorAll('pre');

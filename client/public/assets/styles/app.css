@@ -43,8 +43,8 @@ p{
   color: #08090a;
 }
 
-ul{
-  list-style-type: none;
+.site-content li {
+  display: list-item;
 }
 
 input{
