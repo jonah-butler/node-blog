@@ -30,10 +30,6 @@ li > .active-nav {
   color: #FA709A !important;
 }
 
-a{
-  text-decoration: none;
-}
-
 .fr-view{
   min-height: 160px !important;
 }

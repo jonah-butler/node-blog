@@ -39,6 +39,7 @@ app.use(function(req, res, next) {
 
 
 app.set("view engine", "ejs");
+// {origin: 'https://goofy-jang-76ea1a.netlify.app'}
 app.use(cors());
 app.use(morgan("dev"));
 app.options('*', cors());

@@ -6,6 +6,12 @@ body{
   -webkit-font-smooth: antialiased;
 }
 
+@media (max-width: 735px) {
+  .hljs {
+    font-size: 14px !important;
+  }
+}
+
 h1,h2,h3,h4,h5,h6, button, input, select, textarea{
   color: #292929;
   color: #08090a;
@@ -64,6 +70,10 @@ button{
 
 .big-margin-top{
   margin-top: 4em;
+}
+
+.md-margin-top{
+  margin-top: 2em;
 }
 
 .user-image{

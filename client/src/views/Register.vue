@@ -15,7 +15,7 @@
           ref="username"
           name="user[username]"
           v-model="user.username"
-          @input="test($event, fields.username)"
+          @input="clientValidation($event, fields.username)"
           v-bind:class="{ 'input-error': fields.username.error,
           'input-success':  fields.username.isValid}"
           >
@@ -25,7 +25,7 @@
           <input
           type="text"
           ref="username"
-          @input="test($event, fields.email)"
+          @input="clientValidation($event, fields.email)"
           name="user[email]"
           v-model="user.email"
           v-bind:class="{ 'input-error': fields.email.error,
@@ -35,7 +35,7 @@
         <div class="label-input-container">
           <label>Password</label>
           <input
-          @input="test($event, fields.password)"
+          @input="clientValidation($event, fields.password)"
           type="password"
           ref="password"
           name="user[password]"
@@ -48,7 +48,7 @@
           src=""
           ref="image"
           alt="user profile image to upload"
-          @input="test($event, fields.file)"
+          @input="clientValidation($event, fields.file)"
           @load="checkImageSize"
           v-bind:class="{ active: user.imageActive }"
           id="imageBlob"
@@ -68,6 +68,18 @@
           ref="upload"
           name="post[userImage]">
         </div>
+        <div class="label-input-container">
+          <label>Secret Id</label>
+          <input
+          type="text"
+          ref="secretId"
+          name="user[id]"
+          @input="clientValidation($event, fields.secretId)"
+          v-model="user.secretId"
+          v-bind:class="{ 'input-error': fields.secretId.error,
+          'input-success':  fields.secretId.isValid}"
+          >
+        </div>
         <button
         class="primary-btn-link"
         type="submit"
@@ -76,6 +88,9 @@
         Register
         </button>
       </form>
+      <div v-if="error">
+        {{error}}
+      </div>
     </div>
   </div>
 </template>
@@ -87,6 +102,7 @@ export default {
   name: 'Register',
   data() {
     return {
+      error: '',
       user: {
         imageBlob: [],
         username: '',
@@ -94,6 +110,7 @@ export default {
         password: '',
         upload: '',
         imageActive: false,
+        secretId: '',
       },
       fields: {
         username: {
@@ -113,11 +130,15 @@ export default {
           isValid: false,
           tooBig: false,
         },
+        secretId: {
+          error: false,
+          isValid: false,
+        },
       },
     };
   },
   methods: {
-    test(event, valueObj) {
+    clientValidation(event, valueObj) {
       if (event.target.value) {
         valueObj.isValid = true; // eslint-disable-line no-param-reassign
         valueObj.error = false; // eslint-disable-line no-param-reassign
@@ -163,16 +184,18 @@ export default {
         formData.append('username', this.user.username);
         formData.append('email', this.user.email);
         formData.append('password', this.user.password);
+        formData.append('secretId', this.user.secretId);
         formData.append('image', this.user.upload);
         const resp = await AuthenticationService.register(formData);
         if (resp.status === 201) {
-          console.log(resp);
           this.$store.dispatch('setToken', resp.data.token);
           this.$store.dispatch('setUser', resp.data.data);
           this.$router.push({ path: '/' });
+        } else {
+          this.error = resp.data.error;
         }
       } catch (err) {
-        console.log(err);
+        this.error = err;
       }
     },
   },

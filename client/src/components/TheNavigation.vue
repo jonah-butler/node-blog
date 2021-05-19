@@ -40,22 +40,6 @@
         </li>
         <li
         class="links"
-        v-if="!this.$store.state.isUserLoggedIn"
-        >
-          <router-link to="/register">
-          Register
-          </router-link>
-        </li>
-        <li
-        class="links"
-        v-if="!this.$store.state.isUserLoggedIn"
-        >
-          <router-link to="/login">
-          Login
-          </router-link>
-        </li>
-        <li
-        class="links"
         >
           <router-link to="/contact">
           Contact
@@ -174,6 +158,7 @@ export default {
       return this.$store.state.user.username.toUpperCase().slice(0, 1);
     },
     expandNav() {
+      this.$refs.hamburger.classList.toggle('rotate');
       this.$refs.nav.classList.toggle('expand');
     },
     logout() {
@@ -257,7 +242,7 @@ export default {
 
 .nav-links.expand{
   display: flex !important;
-  max-height: 60px;
+  max-height: 80px;
 }
 
 .navImg{
@@ -350,6 +335,11 @@ export default {
   position: relative;
   margin-left: 20px;
   top: -5px;
+  transition: transform .3s ease;
+}
+
+.hamburger.rotate{
+  transform: rotate(10deg);
 }
 
 .hamburger:hover{

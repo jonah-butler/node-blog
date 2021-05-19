@@ -31,7 +31,7 @@
           <div class="container-full">
             <div class="container">
               <div class="row">
-                <div class="col-small-2 dir-col align-base">
+                <div class="col-xsmall-12 col-md-2 dir-col align-base">
                   <span
                   class="category-tag"
                   v-for="category in blog.categories"
@@ -39,7 +39,7 @@
                   >{{ category }}</span>
                 </div>
                 <div
-                class="col-small-10 dir-col"
+                class="col-xsmall-12 col-md-10 dir-col"
                 v-html="blog.sanitizedHTML">
                 </div>
               </div>
@@ -231,6 +231,15 @@ export default {
 </script>
 
 <style lang="css" scoped>
+@media (max-width: 820px) {
+  .featured-image-container{
+    max-height: 340px !important;
+    min-height: 340px !important;
+  }
+  .post-title{
+    font-size: 24px !important;
+  }
+}
 .featured-image-container{
   position: relative;
   min-height: 600px;
@@ -261,6 +270,10 @@ export default {
   font-weight: 300;
   font-size: 13px;
   color: black;
+}
+
+.date-container{
+  margin-top: 15px;
 }
 
 .fade-enter-active, .fade-leave-active {

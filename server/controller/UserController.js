@@ -14,22 +14,6 @@ AWS.config.update({
 
 const s3 = new AWS.S3();
 
-const uploaderUserImg2 = async function(req, res) {
-  const upload = multer({
-    storage: multerS3({
-        s3: s3,
-        acl: 'public-read',
-        contentType: multerS3.AUTO_CONTENT_TYPE,
-        bucket: 'dev-blog-resources',
-        key: function (req, file, cb) {
-            cb(null, file.originalname); //use Date.now() for unique file keys
-        }
-      })
-    }).single('image');
-    // return true;
-    return upload;
-}
-
 const uploadUserImg = multer({
   storage: multerS3({
       s3: s3,
@@ -39,26 +23,45 @@ const uploadUserImg = multer({
       key: function (req, file, cb) {
           cb(null, file.originalname); //use Date.now() for unique file keys
       }
-    })
+    }),
+    fileFilter: (req, file, cb) => {
+      if(req.body.secretId === process.env.SECRET_ID){
+        cb(null, true);
+      } else {
+        return cb(new Error('invalid secretId'));
+      }
+    },
   }).single('image');
 
 module.exports = {
   async registerNewUser(req, res) {
     try {
-      console.log(req.file);
-      console.log(req.body);
-      const user = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
-        profileImageLocation: req.file.location,
-        profileImageTag: req.file.etag,
-        profileImageKey: req.file.key,
-      });
-      let data = await user.save();
-      const token = await user.generateAuthToken();
-      console.log(user);
-      res.status(201).json({ data, token });
+      // if(req.body.secretId === process.env.SECRET_ID){
+        // if(req.body.username && req.body.email && req.body.password && req.body.image){
+          uploadUserImg(req, res, async (err) => {
+            if(err){
+              res.send({error: 'image upload error, whoops.'})
+            } else {
+              const user = new User({
+                username: req.body.username,
+                email: req.body.email,
+                password: req.body.password,
+                profileImageLocation: req.file.location,
+                profileImageTag: req.file.etag,
+                profileImageKey: req.file.key,
+              });
+              let data = await user.save();
+              const token = await user.generateAuthToken();
+              console.log(user);
+              res.status(201).json({ data, token });
+            }
+          })
+        // } else {
+        //   res.send({error: 'incomplete fields'});
+        // }
+      // } else {
+      //   res.send({error: 'incorrect secret ID'});
+      // }
      } catch (err) {
        res.status(400).json({ err: err });
      }
