@@ -1,7 +1,7 @@
 <template>
   <div class="site-content">
     <div class="upload-form">
-        <form @submit.prevent="updateBlog" action="http://localhost:4000/blog/edit" enctype="multipart/form-data">
+        <form @submit.prevent="updateBlog" action="https://www.jonahbutler.dev/blog/edit" enctype="multipart/form-data">
           <h1>Edit {{ blog.title }}</h1>
           <div class="label-input-container">
             <label>Title</label>
@@ -110,7 +110,7 @@ export default {
     async retrieveBlog(creds) {
       try {
         this.loading = true;
-        const res = await fetch('http://localhost:4000/blog/edit', {
+        const res = await fetch('https://www.jonahbutler.dev/blog/edit', {
           method: 'POST',
           body: JSON.stringify(creds),
           header: {

@@ -61,7 +61,7 @@ export default {
     },
     async retrieveRandomPost() {
       this.loading = true;
-      const res = await fetch('http://localhost:4000/random');
+      const res = await fetch('https://www.jonahbutler.dev/random');
       this.blog = await res.json();
       router.push({ name: 'BlogShow', params: { slug: this.blog.slug } });
       this.loading = false;

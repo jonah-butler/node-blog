@@ -188,7 +188,7 @@ export default {
       this.sample.text = this.body;
     },
     async getHash() {
-      const response = await fetch('http://localhost:4000/get-signature');
+      const response = await fetch('https://www.jonahbutler.dev/get-signature');
       this.config.imageUploadToS3 = await response.json();
     },
     async deleteImg(imgS3Src) {

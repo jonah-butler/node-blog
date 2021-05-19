@@ -42,7 +42,7 @@ app.set("view engine", "ejs");
 // {origin: 'https://goofy-jang-76ea1a.netlify.app'}
 app.use(cors());
 app.use(morgan("dev"));
-app.options('*', cors({origin: 'https://goofy-jang-76ea1a.netlify.app'}));
+app.options('*', cors({origin: 'https://www.jonahbutler.dev'}));
 app.use(express.static(__dirname + "/scripts"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({
