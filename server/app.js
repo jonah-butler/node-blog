@@ -19,7 +19,7 @@ const express               = require('express'),
 dotenv.config();
 
 try{
-  mongoose.connect(config.database,
+  mongoose.connect(process.env.DB_URL,
   	{
   		useNewUrlParser: true,
   		useUnifiedTopology: true,
@@ -42,7 +42,7 @@ app.set("view engine", "ejs");
 // {origin: 'https://goofy-jang-76ea1a.netlify.app'}
 app.use(cors());
 app.use(morgan("dev"));
-app.options('*', cors());
+app.options('*', cors({origin: 'https://goofy-jang-76ea1a.netlify.app'}));
 app.use(express.static(__dirname + "/scripts"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({
