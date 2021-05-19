@@ -149,6 +149,7 @@ export default {
           'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', 'html', '|'],
         events: {
           uploadedToS3: (link, key, response) => {
+            console.log(link, key, response);
           },
           'image.removed': (img) => {
             this.deleteImg(img[0].getAttribute('src'));
