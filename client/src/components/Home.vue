@@ -1,10 +1,10 @@
 <template>
+    <transition name="fade">
     <div class="blogEntries">
       <div
       v-if="loading"
       class="container margin-auto">
       <div class="flex-container-full dir-col text-center">
-        <h1 class=""> Fetching Articles</h1>
           <TheLoader />
       </div>
       </div>
@@ -74,7 +74,7 @@
       </div>
       </div>
       <div
-      v-if="!firstBlog"
+      v-if="!firstBlog && !loading"
       class="container margin-auto">
       <div class="flex-container-full dir-col text-center">
         <h1 class="">Wow, Much Empty</h1>
@@ -85,6 +85,7 @@
       </div>
     </div>
     </div>
+    </transition>
 </template>
 
 <script>
@@ -328,5 +329,12 @@ p {
   position: relative;
   top: 0;
   left: -3px;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: all .7s ease;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  /* transform: translateY(20px); */
 }
 </style>
