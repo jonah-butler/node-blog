@@ -164,7 +164,10 @@ export default {
       return Math.ceil(text.split(' ').length / 200);
     },
     highlightPost() {
-      const x = document.querySelectorAll('pre');
+      // hljs.configure({
+      //   languages: ['javascript'],
+      // });
+      const x = document.querySelectorAll('pre code');
       x.forEach((block) => {
         hljs.highlightBlock(block);
       });
@@ -200,10 +203,15 @@ export default {
       return helpers.dateFormat(date);
     },
     async promptUserDelete() {
-      const confirmation = prompt(`Do you really wanna delete your post? Type ${this.slug} to confirm.`);
-      if (confirmation === this.slug) { // eslint-disable-line no-alert
+      const confirmation = prompt(`Do you really wanna delete your post? Type ${this.slug} to confirm.`); // eslint-disable-line no-alert
+      if (confirmation === this.slug) {
         try {
-          const result = (await BlogServices.delete({ slug: this.slug })).data;
+          const result = (await BlogServices.delete(
+            {
+              slug: this.slug,
+              user: this.$store.state.user,
+            },
+          )).data;
           if (result.deletedCount === 1) {
             this.$router.push({ name: 'Blog' });
           }
