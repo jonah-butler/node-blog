@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container margin-auto">
   <div class="loader">
     <div class="loader-inner">
       <div></div><div></div><div></div>
