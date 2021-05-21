@@ -1,6 +1,16 @@
 <template>
     <div class="blogEntries">
-      <div class="container margin-auto">
+      <div
+      v-if="loading"
+      class="container margin-auto">
+      <div class="flex-container-full flex-center">
+        <h1 class=""> Fetching Articles</h1>
+        <TheLoader />
+      </div>
+      </div>
+      <div
+      v-if="!loading"
+      class="container margin-auto">
         <div class="flex-container-full flex-center">
           <h1 class="">Latest Articles</h1>
         </div>
@@ -48,9 +58,6 @@
         </div>
       </div>
       <div class="flex-container-full flex-left">
-        <!-- <div class="row full-width">
-          <h2>More Articles</h2>
-        </div> -->
         <div class="row old-entries dir-col">
           <router-link v-for="blog in remainingBlogs" :key="blog.title" class="old-blog"
           :to="{ name: 'BlogShow', params: {id: blog._id,
@@ -71,14 +78,17 @@
 
 <script>
 import Heart from '@/components/svgs/HeartNoLike.vue';
+import TheLoader from '@/components/TheLoader.vue';
 
 export default {
   name: 'BlogLanding',
   components: {
     Heart,
+    TheLoader,
   },
   data() {
     return {
+      loading: false,
       remainingBlogs: '',
       blogs: '',
       firstBlog: '',
@@ -89,11 +99,13 @@ export default {
   },
   methods: {
     async retrievePosts() {
+      this.loading = true;
       const res = await fetch('https://jonahbutler-dev.herokuapp.com/');
       const splicedList = await res.json();
       [this.firstBlog] = splicedList.splice(0, 1);
       this.blogs = splicedList.splice(0, 4);
       this.remainingBlogs = splicedList;
+      this.loading = false;
     },
     addHyphens(str) { return str.split(' ').join('-'); },
     dateFormat(isoDate) {
