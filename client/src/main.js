@@ -13,7 +13,6 @@ import 'froala-editor/js/third_party/font_awesome.min';
 import 'froala-editor/js/plugins/code_view.min';
 import 'froala-editor/js/plugins/image.min';
 import 'froala-editor/js/plugins/image_manager.min';
-import 'highlight.js/styles/shades-of-purple.css';
 
 import 'froala-editor/css/froala_editor.pkgd.min.css';
 
