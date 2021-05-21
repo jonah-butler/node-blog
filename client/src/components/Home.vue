@@ -3,13 +3,13 @@
       <div
       v-if="loading"
       class="container margin-auto">
-      <div class="flex-container-full flex-center">
+      <div class="flex-container-full dir-col text-center">
         <h1 class=""> Fetching Articles</h1>
-        <TheLoader />
+          <TheLoader />
       </div>
       </div>
       <div
-      v-if="!loading"
+      v-if="!loading && firstBlog"
       class="container margin-auto">
         <div class="flex-container-full flex-center">
           <h1 class="">Latest Articles</h1>
@@ -73,6 +73,17 @@
         </div>
       </div>
       </div>
+      <div
+      v-if="!firstBlog"
+      class="container margin-auto">
+      <div class="flex-container-full dir-col text-center">
+        <h1 class="">Wow, Much Empty</h1>
+        <img
+        class="no-results-img margin-auto"
+        src="../../public/assets/imgs/doge-pixel.png"
+        alt="pixel doge image">
+      </div>
+    </div>
     </div>
 </template>
 
@@ -102,9 +113,11 @@ export default {
       this.loading = true;
       const res = await fetch('https://jonahbutler-dev.herokuapp.com/');
       const splicedList = await res.json();
-      [this.firstBlog] = splicedList.splice(0, 1);
-      this.blogs = splicedList.splice(0, 4);
-      this.remainingBlogs = splicedList;
+      if (splicedList.length) {
+        [this.firstBlog] = splicedList.splice(0, 1);
+        this.blogs = splicedList.splice(0, 4);
+        this.remainingBlogs = splicedList;
+      }
       this.loading = false;
     },
     addHyphens(str) { return str.split(' ').join('-'); },
