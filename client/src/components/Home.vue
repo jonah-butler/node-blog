@@ -6,6 +6,7 @@
       class="container margin-auto">
       <div class="flex-container-full dir-col text-center">
           <TheLoader />
+          <MarqueeLoader />
       </div>
       </div>
       <div
@@ -91,12 +92,14 @@
 <script>
 import Heart from '@/components/svgs/HeartNoLike.vue';
 import TheLoader from '@/components/TheLoader.vue';
+import MarqueeLoader from '@/components/MarqueeLoader.vue';
 
 export default {
   name: 'BlogLanding',
   components: {
     Heart,
     TheLoader,
+    MarqueeLoader,
   },
   data() {
     return {
