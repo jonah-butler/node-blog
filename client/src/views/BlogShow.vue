@@ -31,7 +31,7 @@
           <div class="container-full">
             <div class="container">
               <div class="row">
-                <div class="col-xsmall-12 col-md-2 dir-col align-base">
+                <div class="col-xsmall-12 col-md-2 dir-col align-base blog-categories">
                   <span
                   class="category-tag"
                   v-for="category in blog.categories"
@@ -239,6 +239,11 @@ export default {
 </script>
 
 <style lang="css" scoped>
+@media (max-width: 767px) {
+  .blog-categories{
+    flex-direction: row !important;
+  }
+}
 @media (max-width: 820px) {
   .featured-image-container{
     max-height: 340px !important;
