@@ -1,5 +1,5 @@
 <template>
-  <div class="marquee-text-container">
+  <div class="marquee-text-container margin-auto">
     <div
     ref="marquee"
     class="marquee-text">
@@ -12,30 +12,47 @@ export default {
   name: 'MarqueeLoader',
   mounted() {
     this.marquee = this.$refs.marquee;
-    // this.animateText(0);
-    this.cycleQuotes(0);
+    this.cycleQuotes();
   },
   data() {
     return {
       marquee: '',
+      firstQuote: ['Waiting for Heroku to wake up, some facts while you wait...'],
       quotes: [
-        'Waiting for Heroku to wake up',
         'Did you know sharks are older than trees?',
-        'Pretty cool, yeah?',
-        'And adult babies have close to 100 more bones than an adult?',
+        'Babies have close to 100 more bones than an adult',
+        'Supposedly the first person who ever got a speeding ticket was going 8 mph lol',
+        'The severed head of a slug can grow a whole new body',
         'As you can tell Heroku had a long night...',
       ],
+      displayedFirstQuote: false,
+      previousQuote: undefined,
     };
   },
   methods: {
-    cycleQuotes(start) {
-      let i = start;
+    cycleQuotes() {
       const ref = setInterval(() => {
-        this.animateText(i);
-        i += 1;
-        if (i === this.quotes.length) {
+        if (this.foo) {
+          console.log('child', this.foo);
+          const num = this.randomNum();
+          if (this.displayedFirstQuote && num !== this.previousQuote) {
+            this.previousQuote = num;
+            this.animateText(num);
+          } else if (!this.displayedFirstQuote) {
+            this.displayedFirstQuote = true;
+            this.animateText(false);
+          } else {
+            clearInterval(ref);
+            if (this.previousQuote === 0) {
+              this.animateText(this.previousQuote + 1);
+            } else {
+              this.animateText(this.previousQuote - 1);
+            }
+            this.cycleQuotes();
+          }
+        } else {
           clearInterval(ref);
-          this.cycleQuotes(0);
+          this.isLoading = false;
         }
       }, 5000);
     },
@@ -46,10 +63,21 @@ export default {
       }
       setTimeout(() => {
         this.marquee.classList.remove('fade');
-        this.marquee.innerText = this.quotes[i];
+        if (i === false) {
+          [this.marquee.innerText] = this.firstQuote;
+        } else {
+          this.marquee.innerText = this.quotes[i];
+        }
         this.marquee.classList.add('read');
       }, 1000);
     },
+    randomNum() {
+      return Math.floor(Math.random() * this.quotes.length);
+    },
+  },
+  props: {
+    isLoading: Boolean,
+    foo: Boolean,
   },
 };
 </script>
@@ -59,7 +87,7 @@ export default {
   overflow: hidden;
   max-width: 900px;
   text-align: center;
-  margin: 10px;
+  padding: 10px;
 }
 
 .marquee-text{
