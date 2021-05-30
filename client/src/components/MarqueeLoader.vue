@@ -3,6 +3,7 @@
     <div
     ref="marquee"
     class="marquee-text">
+    {{isLoading}}
     </div>
   </div>
 </template>
@@ -16,6 +17,7 @@ export default {
   },
   data() {
     return {
+      loading: this.isLoading,
       marquee: '',
       firstQuote: ['Waiting for Heroku to wake up, some facts while you wait...'],
       quotes: [
@@ -23,6 +25,14 @@ export default {
         'Babies have close to 100 more bones than an adult',
         'Supposedly the first person who ever got a speeding ticket was going 8 mph lol',
         'The severed head of a slug can grow a whole new body',
+        'The wood frog can hold its pee for up to 8 months',
+        'The phenomenon of feeling lost in a mall is known as the Gruen Transfer',
+        'The human mouth loses up to 30 percent of taste bud sensitivity in an airplane',
+        'Your nostrils work one at a time',
+        'Only 2 mammals have an appetite for spicy foods: the human and three shrew',
+        'Rabbits can\'t vomit :(',
+        'The human body emits a low level glow that is around 1,000 times less intense than normal visible light levels',
+        'Cotton candy was invented by a dentist',
         'As you can tell Heroku had a long night...',
       ],
       displayedFirstQuote: false,
@@ -32,8 +42,7 @@ export default {
   methods: {
     cycleQuotes() {
       const ref = setInterval(() => {
-        if (this.foo) {
-          console.log('child', this.foo);
+        if (this.loading) {
           const num = this.randomNum();
           if (this.displayedFirstQuote && num !== this.previousQuote) {
             this.previousQuote = num;
@@ -52,7 +61,7 @@ export default {
           }
         } else {
           clearInterval(ref);
-          this.isLoading = false;
+          console.log('marquee interval cleared');
         }
       }, 5000);
     },
@@ -73,6 +82,11 @@ export default {
     },
     randomNum() {
       return Math.floor(Math.random() * this.quotes.length);
+    },
+  },
+  watch: {
+    isLoading() {
+      this.loading = this.isLoading;
     },
   },
   props: {
