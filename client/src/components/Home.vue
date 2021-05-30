@@ -8,6 +8,9 @@
           <TheLoader />
       </div>
       </div>
+      <MarqueeLoader
+      v-if="useMarquee"
+      :isLoading="loading"/>
       <div
       v-if="!loading && firstBlog"
       class="container margin-auto">
@@ -91,13 +94,14 @@
 <script>
 import Heart from '@/components/svgs/HeartNoLike.vue';
 import TheLoader from '@/components/TheLoader.vue';
-// import MarqueeLoader from '@/components/MarqueeLoader.vue';
+import MarqueeLoader from '@/components/MarqueeLoader.vue';
 
 export default {
   name: 'BlogLanding',
   components: {
     Heart,
     TheLoader,
+    MarqueeLoader,
   },
   data() {
     return {
@@ -106,6 +110,7 @@ export default {
       blogs: '',
       firstBlog: '',
       setIntervalRef: '',
+      useMarquee: true,
     };
   },
   mounted() {
