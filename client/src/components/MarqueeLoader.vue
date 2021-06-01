@@ -1,5 +1,7 @@
 <template>
-  <div class="marquee-text-container margin-auto">
+  <div
+  ref="marqueeContainer"
+  class="marquee-text-container margin-auto">
     <div
     ref="marquee"
     class="marquee-text">
@@ -13,11 +15,17 @@ export default {
   name: 'MarqueeLoader',
   mounted() {
     this.marquee = this.$refs.marquee;
-    this.cycleQuotes();
+    // if (this.loading) {
+    //   this.animateText(false);
+    //   this.intId = this.cycleQuotes();
+    // }
+    this.animateText(false);
+    this.intId = this.cycleQuotes();
   },
   data() {
     return {
       loading: this.isLoading,
+      intId: '',
       marquee: '',
       firstQuote: ['Waiting for Heroku to wake up, some facts while you wait...'],
       quotes: [
@@ -41,7 +49,8 @@ export default {
   },
   methods: {
     cycleQuotes() {
-      const ref = setInterval(() => {
+      return setInterval(() => {
+        console.log('firing');
         if (this.loading) {
           const num = this.randomNum();
           if (this.displayedFirstQuote && num !== this.previousQuote) {
@@ -51,7 +60,7 @@ export default {
             this.displayedFirstQuote = true;
             this.animateText(false);
           } else {
-            clearInterval(ref);
+            clearInterval(this.intId);
             if (this.previousQuote === 0) {
               this.animateText(this.previousQuote + 1);
             } else {
@@ -60,7 +69,7 @@ export default {
             this.cycleQuotes();
           }
         } else {
-          clearInterval(ref);
+          clearInterval(this.intId);
           console.log('marquee interval cleared');
         }
       }, 5000);
@@ -73,6 +82,7 @@ export default {
       setTimeout(() => {
         this.marquee.classList.remove('fade');
         if (i === false) {
+          this.displayedFirstQuote = true;
           [this.marquee.innerText] = this.firstQuote;
         } else {
           this.marquee.innerText = this.quotes[i];
@@ -83,15 +93,23 @@ export default {
     randomNum() {
       return Math.floor(Math.random() * this.quotes.length);
     },
+    destroyElement() {
+      clearInterval(this.intId);
+      this.$destroy();
+      console.log('marquee destroyed');
+    },
   },
   watch: {
     isLoading() {
       this.loading = this.isLoading;
+      console.log(this.loading);
+      if (this.loading === false) {
+        clearInterval(this.intId);
+      }
     },
   },
   props: {
     isLoading: Boolean,
-    foo: Boolean,
   },
 };
 </script>
@@ -118,5 +136,9 @@ export default {
 .marquee-text.fade{
   top: -40px;
   opacity: 0;
+}
+
+.marquee-text-container.invisible{
+  visibility: hidden;
 }
 </style>
