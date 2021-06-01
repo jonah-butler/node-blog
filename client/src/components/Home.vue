@@ -9,7 +9,7 @@
       </div>
       </div>
       <MarqueeLoader
-      v-if="useMarquee"
+      ref="marquee"
       :isLoading="loading"/>
       <div
       v-if="!loading && firstBlog"
@@ -116,6 +116,9 @@ export default {
   mounted() {
     this.retrievePosts();
   },
+  destroyed() {
+    this.$children[0].destroyElement();
+  },
   methods: {
     async retrievePosts() {
       this.loading = true;
@@ -126,7 +129,15 @@ export default {
         this.blogs = splicedList.splice(0, 4);
         this.remainingBlogs = splicedList;
       }
+
+      // setInterval(() => {
       this.loading = false;
+      this.useMarquee = false;
+      this.$refs.marquee.$refs.marqueeContainer.classList.add('hide');
+      // }, 5000);
+      // this.$refs.test.classList.add('hide');
+      // this.$refs.marquee.destroyElement();
+      // this.$refs.marquee.$refs.marqueeContainer.classList.add('hide');
     },
     addHyphens(str) { return str.split(' ').join('-'); },
     dateFormat(isoDate) {
