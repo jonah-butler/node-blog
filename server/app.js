@@ -37,9 +37,17 @@ app.use(function(req, res, next) {
  next();
 });
 
+const whitelist = ['https://www.jonahbutler.dev', 'http://localhost:8080'];
+
 const corsOptions = {
-  origin: 'https://www.jonahbutler.dev',
-};
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
+}
 
 
 app.set("view engine", "ejs");
