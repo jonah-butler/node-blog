@@ -64,8 +64,8 @@ const sliderFactory = (node, params) => {
     // populateCaption();
     values.width = imgNodeList[0].clientWidth;
     values.height = domItems.currentSlide.clientHeight;
-    console.log('first img', domItems.currentSlide);
-    console.log('height', values.height)
+    // console.log('first img', domItems.currentSlide);
+    // console.log('height', values.height)
     if(values.firstRender === true){
       imgContainer.style.transition = 'none';
       values.firstRender = false;
@@ -90,16 +90,16 @@ const sliderFactory = (node, params) => {
       if(caption.length >= 1){
         domItems.captionContainer.style.visibility = "visible";
         domItems.captionContainer.innerText = caption;
-        console.log('value here');
+        // console.log('value here');
         return caption;
       } else {
         domItems.captionContainer.style.display = "none !important";
-        console.log('set to true...no value');
+        // console.log('set to true...no value');
         return "";
       }
     } else {
       domItems.captionContainer.style.display = "none !important";
-      console.log('set to false...no value');
+      // console.log('set to false...no value');
       return "";
     }
   }
@@ -116,7 +116,7 @@ const sliderFactory = (node, params) => {
   const resizeContainerToImages = (imgContainer) => {
     let currentSlideHeight = domItems.currentSlide.clientHeight;
     if(imgContainer.clientHeight != currentSlideHeight){
-      console.log(imgContainer.clientHeight);
+      // console.log(imgContainer.clientHeight);
         imgContainer.style.height = `${values.height}px`;
     }
   }
