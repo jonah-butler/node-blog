@@ -101,20 +101,14 @@
                 </svg>
               </div>
               <div class="picture-row">
-                <div class="carousel-img">
-                  <div class="img-container">
-                    <img
-                    src="../../public/assets/imgs/nb1.png"
-                  alt="node blog landing">
+                  <div
+                  v-for="image in ProjectImages.nb"
+                  :key="image"
+                  class="carousel-img">
+                  <SliderImage
+                  v-on:loaded="test"
+                  :src="image"/>
                   </div>
-                </div>
-                <div class="carousel-img">
-                  <div class="img-container">
-                    <img
-                    src="../../public/assets/imgs/nb2.png"
-                  alt="node blog post view">
-                  </div>
-                </div>
               </div>
               <div class="dot-container dot-container-top"></div>
             </div>
@@ -226,24 +220,13 @@
                 </svg>
               </div>
               <div class="picture-row">
-                <div class="carousel-img">
-                  <div class="img-container">
-                    <img
-                    src="../../public/assets/imgs/db-category.png"
-                  alt="rvalibrary deskbook landing dashboard">
-                  </div>
-                </div>
-                <div class="carousel-img">
-                  <div class="img-container">
-                    <img src="../../public/assets/imgs/db-dashboard.png"
-                  alt="rvalibrary deskbook landing dashboard">
-                  </div>
-                </div>
-                <div class="carousel-img">
-                  <div class="img-container">
-                    <img src="../../public/assets/imgs/db-ref.png"
-                  alt="rvalibrary deskbook landing dashboard">
-                  </div>
+                <div
+                v-for="image in ProjectImages.db"
+                :key="image"
+                class="carousel-img">
+                <SliderImage
+                v-on:loaded="test"
+                :src="image"/>
                 </div>
               </div>
               <div class="dot-container dot-container-top"></div>
@@ -408,14 +391,14 @@
                 </svg>
               </div>
               <div class="picture-row">
-                <div class="carousel-img">
-                  <div class="img-container">
-                    <img
-                    src="../../public/assets/imgs/cs-landing.jpg"
-                  alt="rvalibrary deskbook landing dashboard">
-                  </div>
+                <div
+                v-for="image in ProjectImages.cn"
+                :key="image"
+                class="carousel-img">
+                <SliderImage
+                v-on:loaded="test"
+                :src="image"/>
                 </div>
-
               </div>
               <div class="dot-container dot-container-top"></div>
             </div>
@@ -515,54 +498,13 @@
                 </svg>
               </div>
               <div class="picture-row">
-                <div class="carousel-img">
-                  <div class="img-container">
-                    <img
-                    src="../../public/assets/imgs/rva-bookology1.jpg"
-                  alt="rvalibrary deskbook landing dashboard">
-                  </div>
-                </div>
-                <div class="carousel-img">
-                  <div class="img-container">
-                    <img
-                    src="../../public/assets/imgs/rva-teen2.jpg"
-                  alt="rvalibrary deskbook landing dashboard">
-                  </div>
-                </div>
-                <div class="carousel-img">
-                  <div class="img-container">
-                    <img
-                    src="../../public/assets/imgs/rva-teen4.jpg"
-                  alt="rvalibrary deskbook landing dashboard">
-                  </div>
-                </div>
-                <div class="carousel-img">
-                  <div class="img-container">
-                    <img
-                    src="../../public/assets/imgs/rva-teen5.jpg"
-                  alt="rvalibrary deskbook landing dashboard">
-                  </div>
-                </div>
-                <div class="carousel-img">
-                  <div class="img-container">
-                    <img
-                    src="../../public/assets/imgs/rva-yava1.jpg"
-                  alt="rvalibrary deskbook landing dashboard">
-                  </div>
-                </div>
-                <div class="carousel-img">
-                  <div class="img-container">
-                    <img
-                    src="../../public/assets/imgs/rva-yava2.jpg"
-                  alt="rvalibrary deskbook landing dashboard">
-                  </div>
-                </div>
-                <div class="carousel-img">
-                  <div class="img-container">
-                    <img
-                    src="../../public/assets/imgs/rva-yava3.jpg"
-                  alt="rvalibrary deskbook landing dashboard">
-                  </div>
+                <div
+                v-for="image in ProjectImages.rvalib"
+                :key="image"
+                class="carousel-img">
+                <SliderImage
+                v-on:loaded="test"
+                :src="image"/>
                 </div>
               </div>
               <div class="dot-container dot-container-top"></div>
@@ -708,48 +650,13 @@
                 </svg>
               </div>
               <div class="picture-row">
-                <div class="carousel-img">
-                  <div class="img-container">
-                    <img
-                    src="../../public/assets/imgs/mg-landing.jpg"
-                  alt="rvalibrary deskbook landing dashboard">
-                  </div>
-                </div>
-                <div class="carousel-img">
-                  <div class="img-container">
-                    <img
-                    src="../../public/assets/imgs/mg-landing2.jpg"
-                  alt="rvalibrary deskbook landing dashboard">
-                  </div>
-                </div>
-                <div class="carousel-img">
-                  <div class="img-container">
-                    <img
-                    src="../../public/assets/imgs/mg-landing3.jpg"
-                  alt="rvalibrary deskbook landing dashboard">
-                  </div>
-                </div>
-                <div class="carousel-img">
-                  <div class="img-container">
-                    <img
-                    src="../../public/assets/imgs/mg-landing4.jpg"
-                  alt="rvalibrary deskbook landing dashboard">
-                  </div>
-                </div>
-                <div class="carousel-img">
-                  <div class="img-container">
-                    <img
-                    src="../../public/assets/imgs/mg-view.jpg"
-                  alt="rvalibrary deskbook landing dashboard">
-                  </div>
-                </div>
-                <div class="carousel-img">
-                  <div class="img-container">
-                    <img
-                    @load="setUpSliders"
-                    src="../../public/assets/imgs/mg-view2.jpg"
-                  alt="rvalibrary deskbook landing dashboard">
-                  </div>
+                <div
+                v-for="image in ProjectImages.mg"
+                :key="image"
+                class="carousel-img">
+                <SliderImage
+                v-on:loaded="test"
+                :src="image"/>
                 </div>
               </div>
               <div class="dot-container dot-container-top"></div>
@@ -779,9 +686,16 @@
 </template>
 
 <script>
+import ProjectImages from '@/project-images';
 import sliderFactory from '@/assets/scripts/slider-factory';
+// import TheLoader from '@/components/TheLoader.vue';
+import SliderImage from '@/components/SliderImage.vue';
 
 export default {
+  components: {
+    // TheLoader,
+    SliderImage,
+  },
   data() {
     return {
       sliderParams: {
@@ -793,11 +707,25 @@ export default {
         arrows: false,
         expand: false,
       },
+      ProjectImages,
+      imagesLoaded: 0,
     };
   },
   mounted() {
   },
   methods: {
+    test() {
+      this.imagesLoaded += 1;
+      if (this.imagesLoaded === 19) {
+        this.setUpSliders();
+      }
+    },
+    loadImage() {
+      this.imagesLoaded += 1;
+      if (this.imagesLoaded === 19) {
+        this.setUpSliders();
+      }
+    },
     setUpSliders() {
       const sliders = document.querySelectorAll('.slider');
       Array.from(sliders).forEach((slider) => {
