@@ -37,12 +37,16 @@ app.use(function(req, res, next) {
  next();
 });
 
+const corsOptions = {
+  origin: 'https://www.jonahbutler.dev',
+};
+
 
 app.set("view engine", "ejs");
 // {origin: 'https://goofy-jang-76ea1a.netlify.app'}
-app.use(cors());
+// app.use(cors());
 app.use(morgan("dev"));
-app.options('*', cors({origin: 'https://www.jonahbutler.dev'}));
+// app.options('*', cors({origin: 'https://www.jonahbutler.dev'}));
 app.use(express.static(__dirname + "/scripts"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({
@@ -52,10 +56,10 @@ app.use(expressSanitizer());
 app.use(methodOverride("_method"));
 
 
-app.use("/", blogRoutes);
-app.use("/", userRoutes);
-app.use("/", sdkRoutes);
-app.use("/", contactRoutes);
+app.use("/", cors(corsOptions), blogRoutes);
+app.use("/", cors(corsOptions), userRoutes);
+app.use("/", cors(corsOptions), sdkRoutes);
+app.use("/", cors(corsOptions), contactRoutes);
 
 // Seed();
 
