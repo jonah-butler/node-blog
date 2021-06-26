@@ -242,6 +242,7 @@ export default {
 @media (max-width: 767px) {
   .blog-categories{
     flex-direction: row !important;
+    flex-wrap: wrap !important;
   }
 }
 @media (max-width: 820px) {
@@ -311,7 +312,7 @@ export default {
 
 .featured-image-container:after{
   content: '';
-  background-image: linear-gradient(to bottom, rgba(0,71,101, 0) 40%, #f4f5f7 100%);
+  background-image: linear-gradient(to bottom, rgba(0,71,101, 0)15%, #f4f5f7 100%);
   position: absolute;
   width: 100%;
   height: 100%;
