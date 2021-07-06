@@ -52,9 +52,9 @@
           </div>
           <div class="status label-input-container">
             <h3>Publish?</h3>
-            <div v-if="blog.published == false">
+            <div v-if="!blog.published">
               <div>
-                <input v-model="blog.published" type="radio" id="false" name="status" value="false"
+                <input v-model="publish" type="radio" id="false" name="status" value="false"
                 checked>
                 <label for="false">False</label>
               </div>
@@ -201,8 +201,8 @@ export default {
           formData.append('published', false);
         }
       }
-      const response = await fetch('https://jonahbutler-dev.herokuapp.com/blog/edit', {
-      // const response = await fetch('http://localhost:4000/blog/edit', {
+      // const response = await fetch('https://jonahbutler-dev.herokuapp.com/blog/edit', {
+      const response = await fetch('http://localhost:4000/blog/edit', {
         method: 'PUT',
         body: formData,
         headers: {
