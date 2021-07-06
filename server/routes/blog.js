@@ -60,7 +60,7 @@ const upload2 = async(req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const blogs = await Blog.find({}).sort({createdAt: -1});
+    const blogs = await Blog.find({'published': true}).sort({createdAt: -1});
     res.send(blogs);
   } catch (err) {
     console.log(err);
@@ -125,19 +125,6 @@ router.post('/blog/edit', auth.isLoggedIn, async (req, res) => {
   res.send(post);
 })
 
-// router.post('/register', async(req, res) => {
-//   console.log(req.body.auth);
-//   const newUser = new User(req.body.auth);
-//   User.register(newUser, req.body.auth.password, (err, user) => {
-//     if(err){
-//       console.log(err);
-//     } else {
-//       res.send({});
-//     }
-//   })
-// })
-
-
 router.put('/blog/edit', uploadImg, async (req, res) => {
   try{
     const blog = await Blog.findOne({_id: req.body.id});
@@ -175,12 +162,13 @@ router.put('/blog/edit', uploadImg, async (req, res) => {
 })
 
 router.delete('/blog/delete/:slug', async (req, res) => {
-  console.log(req.params.slug);
-  const result = await Blog.deleteOne({slug: req.params.slug});
-  res.send(result);
+  console.log(req.body.user);
+  // const result = await Blog.deleteOne({slug: req.params.slug});
+  // res.send(result);
   // res.send({'test': 'test'});
 })
 
+// NEW BLOG POST ROUTE
 router.post("/", async (req, res) => {
   try{
     uploadImg(req, res, (err) => {
@@ -193,6 +181,7 @@ router.post("/", async (req, res) => {
           featuredImageTag: res.req.file.etag,
           featuredImageKey: res.req.file.key,
           text: req.body.froala,
+          published: req.body.published,
           categories: [],
         }
         JSON.parse(req.body.categories).forEach(category => newBlog.categories.push(category));
