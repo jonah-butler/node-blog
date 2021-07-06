@@ -50,6 +50,31 @@
             type="text"
             >
           </div>
+          <div class="status label-input-container">
+            <h3>Publish?</h3>
+            <div v-if="blog.published == false">
+              <div>
+                <input v-model="blog.published" type="radio" id="false" name="status" value="false"
+                checked>
+                <label for="false">False</label>
+              </div>
+              <div>
+                <input v-model="publish" type="radio" id="true" name="status" value="true">
+                <label for="true">True</label>
+              </div>
+            </div>
+            <div v-else>
+              <div>
+                <input v-model="publish" type="radio" id="false" name="status" value="false">
+                <label for="false">False</label>
+              </div>
+              <div>
+                <input v-model="publish" type="radio" id="true" name="status" value="true"
+                checked>
+                <label for="true">True</label>
+              </div>
+            </div>
+          </div>
           <div v-if="submitting">
             <Loader/>
           </div>
@@ -85,6 +110,7 @@ export default {
       blog: '',
       error: '',
       upload: '',
+      publish: '',
       updatedBlog: {
         text: '',
         file: '',
@@ -118,7 +144,7 @@ export default {
           },
         });
         this.blog = await res.json();
-        console.log(this.blog);
+        this.publish = this.blog.published;
         this.loading = false;
       } catch (err) {
         this.error = err;
@@ -168,7 +194,15 @@ export default {
         formData.append('categories', JSON.stringify(this.updatedBlog.categories));
         // blogKeys.categories = this.updatedBlog.categories;
       }
-      const response = await fetch('https://jonahbutler-dev.herokuapp.com/blog/edit', {
+      if (this.publish !== '') {
+        if (this.publish === 'true') {
+          formData.append('published', true);
+        } else {
+          formData.append('published', false);
+        }
+      }
+      // const response = await fetch('https://jonahbutler-dev.herokuapp.com/blog/edit', {
+      const response = await fetch('http://localhost:4000/blog/edit', {
         method: 'PUT',
         body: formData,
         headers: {
@@ -200,5 +234,14 @@ export default {
 <style lang="css" scoped>
 img{
   max-width: 250px;
+}
+
+.status > div{
+  display: inline-block;
+  margin: 5px 10px 5px 0px;
+}
+
+input[type="radio"]{
+  margin: 0 auto;
 }
 </style>
