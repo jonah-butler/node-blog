@@ -201,8 +201,8 @@ export default {
           formData.append('published', false);
         }
       }
-      // const response = await fetch('https://jonahbutler-dev.herokuapp.com/blog/edit', {
-      const response = await fetch('http://localhost:4000/blog/edit', {
+      const response = await fetch('https://jonahbutler-dev.herokuapp.com/blog/edit', {
+      // const response = await fetch('http://localhost:4000/blog/edit', {
         method: 'PUT',
         body: formData,
         headers: {
