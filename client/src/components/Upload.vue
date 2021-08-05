@@ -84,6 +84,17 @@
             ref="upload"
             name="post[featuredImage]">
           </div>
+          <div class="label-input-container">
+            <label>Post Status</label>
+            <select
+            ref="status"
+            v-model="status"
+            id="postStatus">
+              <!-- <option value="" hidden selected>Publish Post?</option> -->
+              <option selected value="false">Draft</option>
+              <option value="true">Publish</option>
+            </select>
+          </div>
           <div class="tag-input-container">
             <div class="headline">Add Category</div>
             <div id="spanContainer"></div>
@@ -91,6 +102,17 @@
             class="tag-input-component"
             type="text">
           </div>
+          <!-- <div class="status label-input-container">
+            <h3>Publish?</h3>
+            <div>
+              <input v-model="publish" type="radio" value="false" name="status" id="false">
+              <label for="false">Keep Draft</label>
+            </div>
+            <div>
+              <input v-model="publish" type="radio" name="status" id="true" value="true">
+              <label for="true">Publish</label>
+            </div>
+          </div> -->
           <div class="">
             <button
             class="primary-btn-link"
@@ -130,6 +152,7 @@ export default {
       submitting: false,
       title: '',
       froala: 'edit here',
+      status: 'false',
       body: '',
       upload: '',
       categories: [],
@@ -206,9 +229,15 @@ export default {
       }
     },
     async newBlog() {
+      console.log(this.status);
       this.selectCategories();
       const formData = new FormData();
       formData.append('image', this.upload);
+      if (this.status === 'false') {
+        formData.append('published', false);
+      } else {
+        formData.append('published', true);
+      }
       formData.append('title', this.title);
       formData.append('froala', this.froala);
       formData.append('post', this.body);
