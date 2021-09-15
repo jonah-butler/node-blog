@@ -723,7 +723,7 @@ export default {
     loadImage() {
       this.imagesLoaded += 1;
       if (this.imagesLoaded === 19) {
-        this.setUpSliders();
+        // this.setUpSliders();
       }
     },
     setUpSliders() {
