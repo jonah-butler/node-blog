@@ -37,7 +37,7 @@ export default {
         'The phenomenon of feeling lost in a mall is known as the Gruen Transfer',
         'The human mouth loses up to 30 percent of taste bud sensitivity in an airplane',
         'Your nostrils work one at a time',
-        'Only 2 mammals have an appetite for spicy foods: the human and three shrew',
+        'Only 2 mammals have an appetite for spicy foods: the human and tree shrew',
         'Rabbits can\'t vomit :(',
         'The human body emits a low level glow that is around 1,000 times less intense than normal visible light levels',
         'Cotton candy was invented by a dentist',
