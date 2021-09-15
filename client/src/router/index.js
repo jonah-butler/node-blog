@@ -7,7 +7,8 @@ import ImageUpload from '../views/upload.vue';
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
 import Logout from '../views/Logout.vue';
-// import Contact from '../views/Contact.vue';
+import Drafts from '../views/Drafts.vue';
+import DraftShow from '../views/DraftShow.vue';
 
 Vue.use(VueRouter);
 
@@ -18,6 +19,60 @@ const routes = [
     component: Blog,
     meta: {
       title: 'Jonah Butler Dev',
+    },
+  },
+  {
+    path: '/drafts',
+    name: 'Drafts',
+    component: Drafts,
+    props: true,
+    meta: {
+      title: 'Drafts',
+    },
+    beforeEnter: (to, from, next) => {
+      try {
+        const hasPermission = store.state.isUserLoggedIn;
+        if (hasPermission) {
+          next();
+        } else {
+          next({
+            name: 'Blog', // back to safety route //
+            query: { redirectFrom: to.fullPath },
+          });
+        }
+      } catch (e) {
+        next({
+          name: 'Blog', // back to safety route //
+          query: { redirectFrom: to.fullPath },
+        });
+      }
+    },
+  },
+  {
+    path: '/drafts/:slug',
+    name: 'DraftShow',
+    component: DraftShow,
+    props: true,
+    meta: {
+      title: 'Draft Show',
+    },
+    beforeEnter: (to, from, next) => {
+      try {
+        const hasPermission = store.state.isUserLoggedIn;
+        if (hasPermission) {
+          next();
+        } else {
+          next({
+            name: 'Blog', // back to safety route //
+            query: { redirectFrom: to.fullPath },
+          });
+        }
+      } catch (e) {
+        next({
+          name: 'Blog', // back to safety route //
+          query: { redirectFrom: to.fullPath },
+        });
+      }
     },
   },
   {
