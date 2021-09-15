@@ -25,6 +25,9 @@
               <Heart :slug="slug"/>
               <div class="rating">{{ rating }}</div>
             </div>
+            <span class="views-container">
+              <span class="views">{{ blog.views }}</span>
+            </span>
           </div>
           </div>
           <div class="row">
@@ -120,8 +123,8 @@ export default {
       },
     };
   },
-  created() {
-    this.retrieveBlog({ slug: this.slug });
+  async created() {
+    const resp = await this.retrieveBlog({ slug: this.slug });
   },
   mounted() {
     EventBus.$on('update-rating', (data) => {
@@ -182,9 +185,11 @@ export default {
         this.nextBlog = response.nextPost;
         this.rating = this.blog.rating;
         this.states.loading = false;
+        return response;
       } catch (err) {
         console.log(err);
         this.error = err;
+        return err;
       }
     },
     async likePost(data = {}) {
@@ -195,7 +200,6 @@ export default {
           updating: false,
         });
       } catch (err) {
-        console.log(err);
         this.error = err;
       }
     },
@@ -325,6 +329,10 @@ export default {
   bottom: 10px;
   left: 3rem;
   z-index: 1;
+}
+
+.views-container{
+  margin-left: 15px;
 }
 
 </style>
