@@ -124,7 +124,7 @@ export default {
     };
   },
   async created() {
-    const resp = await this.retrieveBlog({ slug: this.slug });
+    await this.retrieveBlog({ slug: this.slug });
   },
   mounted() {
     EventBus.$on('update-rating', (data) => {
