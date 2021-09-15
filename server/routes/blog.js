@@ -67,6 +67,15 @@ router.get("/", async (req, res) => {
   }
 })
 
+router.post("/drafts", auth.isLoggedIn, async (req, res) => {
+  try{
+    const drafts = await Blog.find({'published': false});
+    res.send(drafts);
+  } catch (err) {
+    console.log(err);
+  }
+})
+
 router.get("/random", async (req, res) => {
   const blogs = await Blog.find({});
   res.send(helpers.selectRandomBlog(blogs));
@@ -76,7 +85,22 @@ router.get("/new", (req, res) => {
   res.render("blog/new");
 })
 
-router.post('/blog/', async (req, res) => {
+router.post('/blog/', helpers.isNotDraft, async (req, res) => {
+  let post = await Blog.findOne({slug: req.body.slug});
+  const previousPost = await Blog.findOne({_id: {"$lt": post._id}}).sort({_id: -1}).limit(1);
+  const nextPost = await Blog.findOne({_id: {"$gt": post._id}}).sort({_id: 1}).limit(1);
+  res.send({
+    post1: post,
+    previousPost: previousPost,
+    nextPost: nextPost,
+  });
+  post = await Blog.findOneAndUpdate(
+    {slug: req.body.slug},
+    {views: post.views + 1}
+    )
+})
+
+router.post('/drafts/:slug', async (req, res) => {
   let post = await Blog.findOne({slug: req.body.slug});
   const previousPost = await Blog.findOne({_id: {"$lt": post._id}}).sort({_id: -1}).limit(1);
   const nextPost = await Blog.findOne({_id: {"$gt": post._id}}).sort({_id: 1}).limit(1);

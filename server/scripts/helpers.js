@@ -1,5 +1,15 @@
 // const AWS = require('aws-sdk');
 // const fs = require('file-system');
+const Blog = require('../models/blog.js');
+
+const isNotDraft = async (req, res, next) => {
+  let post = await Blog.findOne({slug: req.body.slug});
+  if (!post.published) {
+    res.status(500).send({error: 'post is draft'});
+  } else {
+    next();
+  }
+}
 
 const splitStr = (str) => {
   return str.split(" ");
@@ -48,3 +58,4 @@ const test = () => {
 //
 exports.splitStr = splitStr;
 exports.selectRandomBlog = selectRandomBlog;
+exports.isNotDraft = isNotDraft;
