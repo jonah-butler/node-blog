@@ -40,6 +40,12 @@
         </li>
         <li
         class="links"
+        v-if="this.$store.state.isUserLoggedIn"
+        >
+          <router-link to="/drafts">Drafts</router-link>
+        </li>
+        <li
+        class="links"
         >
           <router-link to="/contact">
           Contact
@@ -186,7 +192,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 #nav-container{
   width: 100%;
   background-color: #f4f5f7;
