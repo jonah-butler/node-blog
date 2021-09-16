@@ -203,7 +203,7 @@ export default {
       const data = await response.json();
       if (data.updatedBlog) {
         this.submitting = !this.submitting;
-        if(data.updatedBlog.published) {
+        if (data.updatedBlog.published) {
           this.$router.push({ path: `/blog/${data.updatedBlog.slug}` });
         } else {
           this.$router.push({ path: `/drafts/${data.updatedBlog.slug}` });
