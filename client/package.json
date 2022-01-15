@@ -13,6 +13,7 @@
     "core-js": "^3.6.5",
     "froala-editor": "^3.2.3",
     "highlight.js": "^10.4.1",
+    "quill": "^1.3.7",
     "vue": "^2.6.11",
     "vue-froala-wysiwyg": "^3.2.3",
     "vue-highlightjs": "^1.3.3",
@@ -34,7 +35,9 @@
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
-    "ignorePatterns": ["categorical.js"],
+    "ignorePatterns": [
+      "categorical.js"
+    ],
     "root": true,
     "env": {
       "node": true
