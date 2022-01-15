@@ -206,6 +206,7 @@ export default {
     async promptUserDelete() {
       const confirmation = prompt(`Do you really wanna delete your post? Type ${this.slug} to confirm.`); // eslint-disable-line no-alert
       if (confirmation === this.slug) {
+        console.log('in here');
         try {
           const result = (await BlogServices.delete(
             {
@@ -213,6 +214,7 @@ export default {
               user: this.$store.state.user,
             },
           )).data;
+          console.log(result);
           if (result.deletedCount === 1) {
             this.$router.push({ name: 'Blog' });
           }

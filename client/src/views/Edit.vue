@@ -8,10 +8,13 @@
             <input v-model="blog.title" type="text" ref="title" @input="selectTitle">
           </div>
           <div class="label-upload-container">
-            <textarea ref="text"
+            <div id="quill">
+              <div @input="selectText" ref="text" id="editor"></div>
+            </div>
+            <!-- <textarea ref="text"
             :value="blog.text"
             @input="selectText" rows="8" cols="80">
-            </textarea>
+            </textarea> -->
             <!-- <froala
             ref="text"
             :value="blog.sanitizedHTML"
@@ -94,8 +97,10 @@
 </template>
 
 <script>
+import hljs from 'highlight.js';
 import Loader from '@/components/TheLoader.vue';
 import categorical from '@/assets/scripts/categorical';
+import Quill from 'quill';
 
 export default {
   name: 'BlogEdit',
@@ -117,12 +122,29 @@ export default {
         title: '',
         categories: [],
       },
+      quill: undefined,
     };
   },
   created() {
-    this.retrieveBlog({ _id: this.id, user: this.$store.state.user });
+    // await this.retrieveBlog({ _id: this.id, user: this.$store.state.user });
   },
-  mounted() {
+  async mounted() {
+    await this.retrieveBlog({ _id: this.id, user: this.$store.state.user });
+    this.editor = new Quill('#editor', {
+      modules: {
+        toolbar: [
+          // [{ 'font': []} ],
+          ['bold', 'italic', 'underline', 'strike'],
+          ['blockquote', 'code-block'],
+        ],
+        syntax: {
+          highlight: (text) => hljs.highlightAuto(text).value,
+        },
+      },
+      theme: 'snow',
+    });
+    this.editor.root.innerHTML = this.blog.text;
+    console.log(this.blog);
     this.initializeCategorical();
   },
   methods: {
@@ -154,7 +176,8 @@ export default {
       console.log(this.blog.sanitizedHTML);
     },
     selectText() {
-      this.updatedBlog.text = this.$refs.text.value;
+      // this.updatedBlog.text = this.$refs.text.value;
+      this.updatedBlog.text = this.editor.root.innerHTML;
     },
     selectTitle() {
       // this.title = this.$refs.title.value;

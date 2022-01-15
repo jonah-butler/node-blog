@@ -1,26 +1,11 @@
-import VueFroala from 'vue-froala-wysiwyg';
-// import Highlight from 'vue-highlightjs';
-// import hljs from 'highlight.js';
-// import Vuex from 'vuex';
 import { sync } from 'vuex-router-sync';
 import store from '@/store/store';
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 
-import 'froala-editor/js/third_party/embedly.min';
-import 'froala-editor/js/third_party/font_awesome.min';
-import 'froala-editor/js/plugins/code_view.min';
-import 'froala-editor/js/plugins/image.min';
-import 'froala-editor/js/plugins/image_manager.min';
-
-import 'froala-editor/css/froala_editor.pkgd.min.css';
-
-// require('froala-editor/js/froala_editor.pkgd.min.js');
-// require('froala-editor/js/third_party/image_tui.min');
-import 'froala-editor/js/plugins.pkgd.min';
-
-Vue.use(VueFroala);
+import 'quill/dist/quill.snow.css';
+import 'highlight.js/styles/srcery.css';
 
 Vue.config.productionTip = false;
 

@@ -208,8 +208,10 @@ export default {
     },
     async promptUserDelete() {
       const confirmation = prompt(`Do you really wanna delete your post? Type ${this.slug} to confirm.`); // eslint-disable-line no-alert
+      console.log('in prompt');
       if (confirmation === this.slug) {
         try {
+          console.log('yooo');
           const result = (await BlogServices.delete(
             {
               slug: this.slug,
@@ -223,6 +225,8 @@ export default {
           console.log(err);
           this.error = err;
         }
+      } else {
+        console.log('did not make it');
       }
     },
     async promptUserEdit() {
