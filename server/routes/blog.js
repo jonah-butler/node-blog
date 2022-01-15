@@ -185,11 +185,10 @@ router.put('/blog/edit', uploadImg, async (req, res) => {
 
 })
 
-router.delete('/blog/delete/:slug', async (req, res) => {
-  console.log(req.body.user);
-  // const result = await Blog.deleteOne({slug: req.params.slug});
-  // res.send(result);
-  // res.send({'test': 'test'});
+router.delete('/blog/delete/:slug', auth.isLoggedIn, async (req, res) => {
+  const result = await Blog.deleteOne({slug: req.params.slug});
+  res.send(result);
+  res.send({'test': 'test'});
 })
 
 // NEW BLOG POST ROUTE
