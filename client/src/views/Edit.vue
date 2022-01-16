@@ -122,7 +122,7 @@ export default {
         title: '',
         categories: [],
       },
-      quill: undefined,
+      editor: undefined,
     };
   },
   created() {

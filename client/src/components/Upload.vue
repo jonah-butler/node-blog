@@ -1,44 +1,5 @@
 <template>
   <div class="site-content">
-    <modal ref="modalYeah">
-      <template v-slot:header>
-        <h1>Markdown Reference</h1>
-        <hr>
-      </template>
-      <template v-slot:body>
-        <h4>Headers</h4>
-        <hr>
-        <p>Headers are just text preceeded by # symbols</p>
-        <p># Test = h1</p>
-        <p>## Test = h2</p>
-        <p>There must be a space between the symbol and text!</p>
-        <hr>
-        <h4>Paragraphs</h4>
-        <hr>
-        <p>paragraphs are the easiest!</p>
-        <p>Just enter chunks of text with spaces in between.</p>
-        <hr>
-        <h4>Bold/Italics</h4>
-        <hr>
-        <p>*single stars* or _single underscores_ are italics.</p>
-        <p>Double stars or underscores are bold.</p>
-        <p>Triple stars or underscores are both!</p>
-        <hr>
-        <h4>Including Code / Preserving Lines</h4>
-        <hr>
-        <p>To preserve line, indent the line with tab or at least four spaces.</p>
-        <p>This is called preformatted text, so any markdown will not get formatted.</p>
-        <hr>
-        <h4>Inline HTML</h4>
-        <hr>
-        <p>Insert any type of markdown by seperating the elements from
-           the text by a blank line and it must not include any spaces
-           before the opening and closing HTML.</p>
-      </template>
-      <template v-slot:footer>
-
-      </template>
-    </modal>
     <button
     class="primary-btn-link"
     @click="$refs.modalYeah.toggle()">
@@ -63,14 +24,17 @@
             name="post[title]">
           </div>
           <div class="label-upload-container">
-            <textarea
+            <!-- <textarea
             v-if="config.imageUploadToS3"
             :tag="'textarea'"
             @change="selectFroala"
             ref="froalaText"
             v-model="froala"
             :config="config">
-           </textarea>
+           </textarea> -->
+            <div id="quill">
+              <div @input="selectText" ref="text" id="editor"></div>
+            </div>
             <section
             class="notification">
             {{ notification }}
@@ -102,17 +66,6 @@
             class="tag-input-component"
             type="text">
           </div>
-          <!-- <div class="status label-input-container">
-            <h3>Publish?</h3>
-            <div>
-              <input v-model="publish" type="radio" value="false" name="status" id="false">
-              <label for="false">Keep Draft</label>
-            </div>
-            <div>
-              <input v-model="publish" type="radio" name="status" id="true" value="true">
-              <label for="true">Publish</label>
-            </div>
-          </div> -->
           <div class="">
             <button
             class="primary-btn-link"
@@ -127,23 +80,22 @@
 </template>
 
 <script>
-import Modal from '@/components/Modal.vue';
 import Loader from '@/components/TheLoader.vue';
 import categorical from '@/assets/scripts/categorical';
-import S3Services from '../services/S3Services';
+import hljs from 'highlight.js';
+import Quill from 'quill';
 import BlogServices from '../services/BlogServices';
-
-// import VueFroala from 'vue-froala-wysiwyg';
 
 export default {
   name: 'ImageUploadTest',
   components: {
-    Modal, Loader,
+    Loader,
   },
   created() {
-    this.getHash();
+    // this.getHash();
   },
   mounted() {
+    this.initializeQuill();
     this.initializeCategorical();
   },
   data() {
@@ -156,44 +108,34 @@ export default {
       body: '',
       upload: '',
       categories: [],
+      editor: null,
       sample: {
         text: '',
         file: '',
         title: '',
         categories: '',
       },
-      config: {
-        theme: 'dark',
-        imageAllowedTypes: ['jpeg', 'jpg', 'png'],
-        imageUploadToS3: null,
-        toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'insertImage', '|',
-          'fontFamily', 'fontSize', 'color', 'inlineStyle', 'paragraphStyle', 'textColor', 'backgroundColor', '|', 'paragraphFormat', 'align',
-          'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertTable', '|',
-          'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', 'html', '|'],
-        events: {
-          uploadedToS3: (link, key, response) => {
-            console.log(link, key, response);
-          },
-          'image.removed': (img) => {
-            this.deleteImg(img[0].getAttribute('src'));
-          },
-          initialized: async () => {
-            console.log('init');
-          },
-        },
-      },
     };
   },
   methods: {
+    initializeQuill() {
+      this.editor = new Quill('#editor', {
+        modules: {
+          toolbar: [
+            // [{ 'font': []} ],
+            ['bold', 'italic', 'underline', 'strike'],
+            ['blockquote', 'code-block'],
+          ],
+          syntax: {
+            highlight: (text) => hljs.highlightAuto(text).value,
+          },
+        },
+        theme: 'snow',
+      });
+    },
     initializeCategorical() {
       const c = new categorical.Categorical(document.querySelector('.tag-input-component'), document.querySelector('#spanContainer'), 'post[category]');
       c.init();
-    },
-    test() {
-      console.log(this.froala);
-    },
-    selectFroala() {
-      console.log(this.froala);
     },
     selectCategories() {
       Array.from(document.querySelectorAll('.data-added > input')).forEach((input) => this.categories.push(input.value));
@@ -207,26 +149,8 @@ export default {
       this.sample.file = this.upload;
     },
     selectText() {
-      this.body = this.$refs.text.value;
-      this.sample.text = this.body;
-    },
-    async getHash() {
-      const response = await fetch('https://jonahbutler-dev.herokuapp.com/get-signature');
-      this.config.imageUploadToS3 = await response.json();
-    },
-    async deleteImg(imgS3Src) {
-      try {
-        const response = (await S3Services.deleteImg({ s3src: imgS3Src })).data;
-        console.log(response);
-        if (response.statusCode === 200) {
-          this.updateNotification('image deleted from s3 server');
-        } else {
-          this.updateNotification('uh oh - looks like there was an error! :(');
-        }
-      } catch (err) {
-        console.log(err);
-        this.error = err;
-      }
+      this.froala = this.editor.root.innerHTML;
+      console.log(this.froala);
     },
     async newBlog() {
       console.log(this.status);
