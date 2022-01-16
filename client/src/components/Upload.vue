@@ -168,8 +168,7 @@ export default {
       formData.append('categories', JSON.stringify(this.categories));
       const response = (await BlogServices.new(formData)).data;
       if (response._id) { // eslint-disable-line
-      console.log('published status', response.published)
-        if(response.published) {
+        if (response.published) {
           this.$router.push({ path: `/blog/${response.slug}` });
         } else {
           this.$router.push({ path: `/drafts/${response.slug}` });
