@@ -43,7 +43,7 @@
                 </div>
                 <div
                 class="col-xsmall-12 col-md-10 dir-col"
-                v-html="blog.sanitizedHTML">
+                v-html="blog.text">
                 </div>
               </div>
               </div>
@@ -138,7 +138,11 @@ export default {
     });
   },
   updated() {
-    this.highlightPost();
+    const published = new Date(this.blog.createdAt);
+    if (published < new Date('Sat Feb 26 2022 00:00:00 GMT-0500 (Eastern Standard Time)')) {
+      console.log('old post');
+      this.highlightPost();
+    }
     this.calculateReadTime(this.blog.text);
   },
   beforeDestroy() {
