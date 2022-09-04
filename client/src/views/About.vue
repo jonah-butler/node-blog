@@ -5,6 +5,7 @@
     <TechnologyBar technology="vue2" percent="100"/>
     <TechnologyBar technology="vue3" percent="100"/>
     <TechnologyBar technology="vuex" percent="100"/>
+    <TechnologyBar technology="typescript" percent="100"/>
     <TechnologyBar technology="node" percent="90"/>
     <TechnologyBar technology="mobile dev: ionic" percent="90"/>
     <TechnologyBar technology="aws s3" percent="90"/>
