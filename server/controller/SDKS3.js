@@ -1,6 +1,7 @@
 const FroalaEditor       = require('wysiwyg-editor-node-sdk');
 const AmazonS3URI        = require('amazon-s3-uri');
-const AWS                = require('aws-sdk')
+const AWS                = require('aws-sdk');
+const Blog               = require('../models/blog.js');
 
 require('dotenv').config();
 
@@ -29,24 +30,57 @@ module.exports = {
     res.send(s3Hash);
 
   },
+  async delete2(req, res) {
+    console.log('handler', req, res);
+  },
   async delete(req, res) {
-    const uri = req.body.s3src;
+
+    const blogId = req.body.blogId;
+    const imageURI = req.body.uri;
+
+    const DEFAULT_IMAGE = process.env.DEFAULT_BG;
+
+    if(DEFAULT_IMAGE === imageURI) {
+      res.status(400).send({
+        statusCode: 400,
+        message: "Default image background can not be deleted"
+      })
+    };
 
     try{
-      const {region, bucket, key} = AmazonS3URI(uri);
+      const { bucket, key } = AmazonS3URI(imageURI);
 
       s3.deleteObject({
         Bucket: bucket,
         Key: key,
-      }, (err, data) => {
+        
+      }, async (err, data) => {
         if(err) {
-          console.log(err);
+          console.log('IMAGE DELETE ERROR: ', err);
         } else {
-          res.status(200).send({statusCode: 200});
+
+          const blog = await Blog.findById(blogId);
+          console.log(blog);
+          
+          blog.featuredImageLocation = DEFAULT_IMAGE;
+          blog.featuredImageTag = "";
+          blog.featuredImageKey = "";
+
+          await blog.save();
+
+          res.status(200).json(
+            {
+              statusCode: 200,
+              blog: blog
+            }
+          );
         }
       })
     } catch(err) {
-      console.warn(err);
+      res.status(400).json({
+        statusCode: 400,
+        message: "Invalid uri parameters"
+      })
     }
   }
 }
