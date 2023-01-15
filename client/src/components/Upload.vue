@@ -153,7 +153,6 @@ export default {
       console.log(this.froala);
     },
     async newBlog() {
-      console.log(this.status);
       this.selectCategories();
       const formData = new FormData();
       formData.append('image', this.upload);
@@ -166,6 +165,7 @@ export default {
       formData.append('froala', this.froala);
       formData.append('post', this.body);
       formData.append('categories', JSON.stringify(this.categories));
+      formData.append('user', this.$store.state.user);
       const response = (await BlogServices.new(formData)).data;
       if (response._id) { // eslint-disable-line
         if (response.published) {

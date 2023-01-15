@@ -11,23 +11,26 @@
             <div id="quill">
               <div @input="selectText" ref="text" id="editor"></div>
             </div>
-            <!-- <textarea ref="text"
-            :value="blog.text"
-            @input="selectText" rows="8" cols="80">
-            </textarea> -->
-            <!-- <froala
-            ref="text"
-            :value="blog.sanitizedHTML"
-            v-model="blog.sanitizedHTML"
-            @input="printFroala">
-            </froala> -->
           </div>
           <div class="label-input-container">
-            <label>Featured Image</label>
-            <div class="">
-              <img :src="blog.featuredImageLocation" alt="">
+            <label>
+              Featured Image
+              <span v-if="!blog.featuredImageKey && !imageBlob">(default featured image)</span>
+            </label>
+            <div class="image-container">
+              <img v-if="imageBlob !== ''" :src="imageBlob" alt="">
+              <img v-if="imageBlob == ''" :src="blog.featuredImageLocation" alt="">
             </div>
             <input @change="selectFile" type="file" ref="upload" name="post[featuredImage]">
+            <button
+              @click.prevent="deleteImage"
+              v-if='blog.featuredImageLocation && blog.featuredImageKey'
+              class="primary-btn-link"
+              :disabled="submitting"
+              name="button"
+            >
+            Delete Image
+            </button>
           </div>
           <div class="tag-input-container">
             <div class="headline">Add Category</div>
@@ -101,6 +104,7 @@ import hljs from 'highlight.js';
 import Loader from '@/components/TheLoader.vue';
 import categorical from '@/assets/scripts/categorical';
 import Quill from 'quill';
+import S3Services from '@/services/S3Services';
 
 export default {
   name: 'BlogEdit',
@@ -123,6 +127,7 @@ export default {
         categories: [],
       },
       editor: undefined,
+      imageBlob: '',
     };
   },
   created() {
@@ -148,6 +153,20 @@ export default {
     this.initializeCategorical();
   },
   methods: {
+    async deleteImage() {
+      this.loading = true;
+      const payload = {
+        uri: this.blog.featuredImageLocation,
+        blogId: this.blog._id,
+      };
+      const response = await S3Services.deleteImg(payload);
+      if (response.status !== 200) {
+        console.log('delete image error', response.data);
+      } else {
+        this.blog = response.data.blog;
+      }
+      this.loading = false;
+    },
     closeListener(event) {
       event.target.parentElement.remove();
     },
@@ -186,10 +205,12 @@ export default {
       console.log(this.updatedBlog.title);
     },
     selectFile() {
+      console.log('select file');
       this.updated = true;
       [this.upload] = this.$refs.upload.files;
       this.updatedBlog.file = this.upload;
-      console.log(this.updatedBlog.file);
+      const blob = new Blob([this.upload]);
+      this.imageBlob = URL.createObjectURL(blob);
     },
     selectCategories() {
       Array.from(document.querySelectorAll('.data-added > input')).forEach((input) => this.updatedBlog.categories.push(input.value));
