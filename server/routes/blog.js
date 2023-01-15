@@ -87,8 +87,17 @@ router.get("/new", (req, res) => {
 
 router.post('/blog/', helpers.isNotDraft, async (req, res) => {
   let post = await Blog.findOne({slug: req.body.slug});
-  const previousPost = await Blog.findOne({_id: {"$lt": post._id}}).sort({_id: -1}).limit(1);
-  const nextPost = await Blog.findOne({_id: {"$gt": post._id}}).sort({_id: 1}).limit(1);
+  const previousPost = await Blog.findOne({
+   $and: [ 
+    { _id: {"$lt": post._id} },
+    { published: true },
+  ]
+  }).sort({_id: -1}).limit(1);
+  const nextPost = await Blog.findOne({
+    $and: [
+      {_id: {"$gt": post._id}},
+      {published: true}
+    ]}).sort({_id: 1}).limit(1);
   res.send({
     post1: post,
     previousPost: previousPost,
@@ -102,8 +111,17 @@ router.post('/blog/', helpers.isNotDraft, async (req, res) => {
 
 router.post('/drafts/:slug', async (req, res) => {
   let post = await Blog.findOne({slug: req.body.slug});
-  const previousPost = await Blog.findOne({_id: {"$lt": post._id}}).sort({_id: -1}).limit(1);
-  const nextPost = await Blog.findOne({_id: {"$gt": post._id}}).sort({_id: 1}).limit(1);
+  const previousPost = await Blog.findOne({
+    $and: [ 
+     { _id: {"$lt": post._id} },
+     { published: false },
+   ]
+   }).sort({_id: -1}).limit(1);
+  const nextPost = await Blog.findOne({
+    $and: [
+      {_id: {"$gt": post._id}},
+      {published: false}
+    ]}).sort({_id: 1}).limit(1);
   res.send({
     post1: post,
     previousPost: previousPost,
@@ -192,10 +210,33 @@ router.delete('/blog/delete/:slug', async (req, res) => {
   res.send(result);
 })
 
+router.post('/blog/image/:user_id', auth.isLoggedIn, async (req, res) => {
+  if( req.params.user_id !== req.body.userData._id ) {
+    console.log("user credentials does not match route pattern");
+    return res.status(400).send({ error: "Invalid user path" });
+  }
+  try {
+    uploadImg(req, res, async (error) => {
+       if(error) {
+        return res.status(400).send({ error });
+       } else {
+        const uploadedFile = res.req.file;
+        if(Object.keys(uploadedFile).length) {
+          return res.status(200).send(uploadedFile);
+        } else {
+          return res.status(400).send({ error: "No file data" });
+        }
+       }
+    })
+  } catch(error) {
+    return res.status(400).send({ error });
+  }
+})
+
 // NEW BLOG POST ROUTE
 router.post("/", async (req, res) => {
   try{
-    uploadImg(req, res, (err) => {
+    uploadImg(req, res, async (err) => {
       if(err){
         console.log(err);
       } else {
