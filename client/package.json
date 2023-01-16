@@ -8,6 +8,14 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@bomdi/codebox": "^2.0.0",
+    "@editorjs/code": "^2.8.0",
+    "@editorjs/editorjs": "^2.26.4",
+    "@editorjs/header": "^2.7.0",
+    "@editorjs/image": "^2.8.1",
+    "@editorjs/inline-code": "^1.4.0",
+    "@editorjs/list": "^1.8.0",
+    "@editorjs/quote": "^2.5.0",
     "aws-sdk": "^2.757.0",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
@@ -51,7 +59,8 @@
     },
     "rules": {
       "no-console": "off",
-      "no-underscore-dangle": "off"
+      "no-underscore-dangle": "off",
+      "no-irregular-whitespace": "off"
     }
   },
   "browserslist": [
