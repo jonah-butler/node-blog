@@ -1,4 +1,5 @@
 import Api from '@/services/Api';
+import store from '@/store/store';
 
 export default {
   draft(slug) {
@@ -24,5 +25,15 @@ export default {
   },
   search(query) {
     return Api().post('search', query);
+  },
+  uploadImage(file) {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${store.state.token}`,
+      },
+    };
+    const formData = new FormData();
+    formData.append('image', file);
+    return Api().post(`/blog/image/${store.state.user._id}`, formData, config);
   },
 };
