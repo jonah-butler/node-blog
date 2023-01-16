@@ -32,7 +32,10 @@ module.exports = {
   },
   async isLoggedIn(req, res, next) {
     let token;
-    const authHeader = req.headers.authorization.split('Bearer ')[1];
+    let authHeader
+    if(req.headers.authorization) {
+      authHeader = req.headers.authorization.split('Bearer ')[1];
+    }
     if (req.body.user) {
       token = req.body.user.tokens[0].token;
     } else if (authHeader.length) {

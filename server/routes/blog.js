@@ -245,7 +245,7 @@ router.post("/", async (req, res) => {
           featuredImageLocation: res.req.file.location,
           featuredImageTag: res.req.file.etag,
           featuredImageKey: res.req.file.key,
-          text: req.body.froala,
+          text: req.body.text,
           published: req.body.published,
           categories: [],
         }
