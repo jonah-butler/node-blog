@@ -6,6 +6,17 @@ body{
   -webkit-font-smooth: antialiased;
 }
 
+.post blockquote {
+  position: relative;
+  padding: 15px;
+  border: 1px solid #fa709a;
+  box-shadow: 12px 12px 0px 6px #fa709a;
+  font-size: 23px;
+  border-radius: 5px;
+  color: #fa709a;
+  margin: 25px 80px;
+}
+
 .hljs, .ql-syntax, .ql-syntax p{
   display: block;
   overflow-x: auto;
@@ -78,104 +89,6 @@ body{
 .hljs-meta {
   color: #918175;
 }
-
-/* @media (max-width: 735px) {
-  .hljs {
-    font-size: 14px !important;
-  }
-}
-
-.hljs, .ql-syntax {
-  display: block;
-  overflow-x: auto;
-  padding: 0.5em;
-  background: #2d2b57;
-  font-weight: 600;
-  border-radius: 5px;
-  font-size: 17px;
-  width: 98%;
-  border-radius: 5px;
-  color: white;
-}
-
-.hljs-title {
-  color: #fad000;
-  font-weight: normal;
-}
-
-.hljs-name {
-  color: #a1feff;
-}
-
-.hljs-tag {
-  color: #ffffff;
-}
-
-.hljs-attr {
-  color: #f8d000;
-  font-style: italic;
-}
-
-.hljs-built_in,
-.hljs-selector-tag,
-.hljs-section {
-  color: #fb9e00;
-}
-
-.hljs-keyword {
-  color: #fb9e00;
-}
-
-.hljs,
-.hljs-subst {
-  color: #e3dfff;
-}
-
-.hljs-string,
-.hljs-attribute,
-.hljs-symbol,
-.hljs-bullet,
-.hljs-addition,
-.hljs-code,
-.hljs-regexp,
-.hljs-selector-class,
-.hljs-selector-attr,
-.hljs-selector-pseudo,
-.hljs-template-tag,
-.hljs-quote,
-.hljs-deletion {
-  color: #4cd213;
-}
-
-.hljs-meta,
-.hljs-meta-string {
-  color: #fb9e00;
-}
-
-.hljs-comment {
-  color: #ac65ff;
-}
-
-.hljs-keyword,
-.hljs-selector-tag,
-.hljs-literal,
-.hljs-name,
-.hljs-strong {
-  font-weight: normal;
-}
-
-.hljs-literal,
-.hljs-number {
-  color: #fa658d;
-}
-
-.hljs-emphasis {
-  font-style: italic;
-}
-
-.hljs-strong {
-  font-weight: bold;
-} */
 
 h1,h2,h3,h4,h5,h6, button, input, select, textarea{
   color: #292929;
@@ -273,10 +186,12 @@ button{
   display: block;
   margin-top: 15px;
   margin-bottom: 15px;
+  position: relative;
 }
 
 .label-input-container > input,
 .label-upload-container > textarea,
+.label-input-container > select,
 .tag-input-container-large,
 .tag-input-container,
 .tag-input-component{
@@ -284,6 +199,7 @@ button{
   padding: 15px;
   border: 1px solid #fe9f75;
   font-family: 'Roboto', sans-serif;
+  background: white;
 }
 
 .label-upload-container > textarea{
@@ -516,6 +432,9 @@ background: linear-gradient(to right bottom, rgba(255,255,255,0.2), #21D4FD 75%)
   text-decoration: none;
   display: inline-block;
   color: #111;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 
 .primary-btn-link:before{
