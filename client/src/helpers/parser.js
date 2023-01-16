@@ -1,9 +1,3 @@
-const sampleData = `<h1>Header 1</h1><h2>Header 2</h2><h3>Header 3</h3><h4>Header 4</h4><h5>Header 5</h5><h6>Header 6</h6><p>just a cool paragraph</p><p>and another cool paragraph</p><h2>a header in between 2 paragraphs</h2><p>the second paragraph</p><pre class="ql-syntax" spellcheck="false"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">test</span>(<span class="hljs-params"></span>) </span>{
-  console.log('hello');
-};</pre><h2>An ordered list</h2><ol><li>list item 1</li><li>list item 2</li><li>list item 3</li></ol><blockquote data-caption="caption yup">A fancy quote with a caption</blockquote><img src="https://dev-blog-resources.s3.amazonaws.com/cell1.png" data-caption="an image with a caption too"><pre class="ql-syntax" data-language="javascript" spellcheck="false"><span class="hljs-function"><span class="hljs-keyword"><span class="hljs-function"><span class="hljs-keyword"><span class="hljs-function"><span class="hljs-keyword">function</span></span></span></span></span><span class="hljs-function"><span class="hljs-function"> </span></span><span class="hljs-title"><span class="hljs-function"><span class="hljs-title"><span class="hljs-function"><span class="hljs-title">test</span></span></span></span></span><span class="hljs-function"><span class="hljs-function">(</span></span><span class="hljs-params"></span><span class="hljs-function"><span class="hljs-params"></span><span class="hljs-function"><span class="hljs-params"></span>) </span></span></span>{
-  <span class="hljs-built_in"><span class="hljs-built_in"><span class="hljs-built_in">console</span></span></span>.log(<span class="hljs-string"><span class="hljs-string"><span class="hljs-string">'hello'</span></span></span>);
-}</pre>`;
-
 const parseBlockToHeader = (block) => `<h${block.data.level}>${block.data.text}</h${block.data.level}>`;
 
 const parseBlockToParagraph = (block) => `<p>${block.data.text}</p>`;
@@ -148,10 +142,10 @@ const parseBlocksToHTML = (blocks) => {
   return convertedHTML;
 };
 
-const parseHTMLToBlocks = () => {
+const parseHTMLToBlocks = (text) => {
   const blocks = [];
   const parser = new DOMParser();
-  const nodes = parser.parseFromString(sampleData, 'text/html').querySelector('body').children;
+  const nodes = parser.parseFromString(text, 'text/html').querySelector('body').children;
   nodes.forEach((node, i) => {
     switch (node.tagName) {
       case 'P':
