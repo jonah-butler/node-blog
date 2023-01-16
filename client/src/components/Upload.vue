@@ -1,80 +1,78 @@
 <template>
   <div class="site-content">
-    <button
-    class="primary-btn-link"
-    @click="$refs.modalYeah.toggle()">
-    Markdown Guide
-    </button>
-
     <div class="" v-if="submitting">
         <Loader/>
     </div>
 
     <div class="upload-form">
-        <form
-        @submit.prevent="newBlog"
-        enctype="multipart/form-data">
+        <div>
           <h1>New Blog</h1>
-          <div class="label-input-container">
-            <label>Title</label>
-            <input
-            @change="selectTitle"
-            type="text"
-            ref="title"
-            name="post[title]">
-          </div>
-          <div class="label-upload-container">
-            <!-- <textarea
-            v-if="config.imageUploadToS3"
-            :tag="'textarea'"
-            @change="selectFroala"
-            ref="froalaText"
-            v-model="froala"
-            :config="config">
-           </textarea> -->
-            <div id="quill">
-              <div @input="selectText" ref="text" id="editor"></div>
-            </div>
-            <section
-            class="notification">
-            {{ notification }}
-          </section>
-          </div>
-          <div class="label-input-container">
-            <label>Featured Image</label>
-            <input
-            @change="selectFile"
-            type="file"
-            ref="upload"
-            name="post[featuredImage]">
-          </div>
           <div class="label-input-container">
             <label>Post Status</label>
             <select
             ref="status"
             v-model="status"
             id="postStatus">
-              <!-- <option value="" hidden selected>Publish Post?</option> -->
               <option selected value="false">Draft</option>
               <option value="true">Publish</option>
             </select>
           </div>
           <div class="tag-input-container">
+            <label class="headline">Featured Image</label>
+            <div class="img-preview-container" v-if="blob">
+              <img class="img-preview" :src="blob">
+            </div>
+            <input
+            @change="selectFile"
+            type="file"
+            ref="upload"
+            name="post[featuredImage]">
+            <button
+              v-if="blob"
+              @click="clearLocalImage"
+              class="primary-btn-link"
+            >
+            clear image
+            </button>
+          </div>
+          <div class="tag-input-container">
+            <label class="headline">Title</label>
+            <input
+            class="tag-input-component"
+            @change="selectTitle"
+            type="text"
+            ref="title"
+            name="post[title]">
+          </div>
+          <div class="tag-input-container">
             <div class="headline">Add Category</div>
             <div id="spanContainer"></div>
             <input
-            class="tag-input-component"
+            class="tag-input-component categorical"
             type="text">
+          </div>
+          <div class="label-input-container">
+            <label>Contents</label>
+            <div class="primary-btn-link" @click="switchEditors">switch editors</div>
+            <Editorjs v-if="selectedEditor === 'editorjs'" @updatedContents="updateContents"/>
+            <div id="quill" v-if="selectedEditor === 'quill'">
+              <div @input="selectText" ref="text" id="editor"></div>
+            </div>
+            <section class="notification">
+              {{ notification }}
+            </section>
           </div>
           <div class="">
             <button
             class="primary-btn-link"
             type="submit"
-            name="button">
+            name="button"
+            @click="createNewBlog"
+          >
             Submit
           </button>
           </div>
-        </form>
+        </div>
     </div>
   </div>
 </template>
@@ -84,18 +82,16 @@ import Loader from '@/components/TheLoader.vue';
 import categorical from '@/assets/scripts/categorical';
 import hljs from 'highlight.js';
 import Quill from 'quill';
+import Editorjs from '@/components/inputs/Editorjs.vue';
 import BlogServices from '../services/BlogServices';
 
 export default {
   name: 'ImageUploadTest',
   components: {
     Loader,
-  },
-  created() {
-    // this.getHash();
+    Editorjs,
   },
   mounted() {
-    this.initializeQuill();
     this.initializeCategorical();
   },
   data() {
@@ -103,7 +99,7 @@ export default {
       notification: '',
       submitting: false,
       title: '',
-      froala: 'edit here',
+      contents: 'edit here',
       status: 'false',
       body: '',
       upload: '',
@@ -115,26 +111,29 @@ export default {
         title: '',
         categories: '',
       },
+      blob: '',
+      selectedEditor: 'editorjs',
     };
   },
   methods: {
     initializeQuill() {
-      this.editor = new Quill('#editor', {
-        modules: {
-          toolbar: [
-            // [{ 'font': []} ],
-            ['bold', 'italic', 'underline', 'strike'],
-            ['blockquote', 'code-block'],
-          ],
-          syntax: {
-            highlight: (text) => hljs.highlightAuto(text).value,
+      setTimeout(() => {
+        this.editor = new Quill('#editor', {
+          modules: {
+            toolbar: [
+              ['bold', 'italic', 'underline', 'strike'],
+              ['blockquote', 'code-block'],
+            ],
+            syntax: {
+              highlight: (text) => hljs.highlightAuto(text).value,
+            },
           },
-        },
-        theme: 'snow',
-      });
+          theme: 'snow',
+        });
+      }, 500);
     },
     initializeCategorical() {
-      const c = new categorical.Categorical(document.querySelector('.tag-input-component'), document.querySelector('#spanContainer'), 'post[category]');
+      const c = new categorical.Categorical(document.querySelector('.categorical'), document.querySelector('#spanContainer'), 'post[category]');
       c.init();
     },
     selectCategories() {
@@ -147,12 +146,32 @@ export default {
     selectFile() {
       [this.upload] = this.$refs.upload.files;
       this.sample.file = this.upload;
+      this.buildImagePreview();
+    },
+    buildImagePreview() {
+      const blob = new Blob([this.upload]);
+      this.blob = URL.createObjectURL(blob);
+    },
+    clearLocalImage() {
+      URL.revokeObjectURL(this.blob);
+      this.blob = '';
+      this.$refs.upload.value = '';
+    },
+    switchEditors() {
+      if (this.selectedEditor === 'editorjs') {
+        this.selectedEditor = 'quill';
+        this.initializeQuill();
+        return;
+      }
+      this.selectedEditor = 'editorjs';
+    },
+    updateContents(updatedContent) {
+      this.text = updatedContent;
     },
     selectText() {
-      this.froala = this.editor.root.innerHTML;
-      console.log(this.froala);
+      this.text = this.editor.root.innerHTML;
     },
-    async newBlog() {
+    async createNewBlog() {
       this.selectCategories();
       const formData = new FormData();
       formData.append('image', this.upload);
@@ -162,10 +181,11 @@ export default {
         formData.append('published', true);
       }
       formData.append('title', this.title);
-      formData.append('froala', this.froala);
+      formData.append('text', this.text);
       formData.append('post', this.body);
       formData.append('categories', JSON.stringify(this.categories));
       formData.append('user', this.$store.state.user);
+      console.log('hit upload func', BlogServices);
       const response = (await BlogServices.new(formData)).data;
       if (response._id) { // eslint-disable-line
         if (response.published) {
@@ -192,12 +212,6 @@ export default {
     padding: 3rem;
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
-  }
-  form{
-    /* max-width: 600px; */
-    min-width: 95%;
-    text-align: left;
   }
   .label-upload-container{
     margin: 15px 0;
@@ -271,6 +285,7 @@ export default {
   margin: 0 auto;
   position: relative;
   overflow: hidden;
+  margin-bottom: 15px;
 }
 
 .tag-input-container-large{
@@ -278,7 +293,7 @@ export default {
 }
 
 .tag-input-container > input{
-  border-bottom: 1px solid rgba(0,0,0,0.3);
+  /* border-bottom: 1px solid rgba(0,0,0,0.3); */
   outline: none;
   width: 90%;
 }
@@ -332,5 +347,16 @@ label{
 .tag-input-container > textarea, .tag-input-container-large > textarea{
   box-shadow: 0 0 0 !important;
   border-radius: 0px !important;
+}
+
+.img-preview-clear {
+  position: absolute;
+  top: 25px;
+  left: 270px;
+  font-weight: 800;
+}
+
+.img-preview {
+  max-width: 400px;
 }
 </style>
