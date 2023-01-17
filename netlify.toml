@@ -1,7 +1,5 @@
 [build]
   command = "npm run build"
-  functions = "netlify/functions"
   publish = "dist"
-  base = "client"
   # The base directory should be the path to the nested Vue project
 
