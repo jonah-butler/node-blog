@@ -31,11 +31,14 @@ export default {
     };
   },
   mounted() {
+    console.log('contents: ', this.contents);
     this.editor = new EditorJS({
       holder: 'editorjs',
-      data: {
-        time: Date.now(),
-        blocks: helpers.parseHTMLToBlocks(this.contents),
+      ...(this.contents !== '') && {
+        data: {
+          time: Date.now(),
+          blocks: helpers.parseHTMLToBlocks(this.contents),
+        },
       },
       tools: {
         codeBox: {
