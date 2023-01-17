@@ -5,7 +5,6 @@
 <script>
 import helpers from '@/assets/scripts/helpers';
 import hljs from 'highlight.js';
-import router from '@/router/index';
 
 export default {
   name: 'Random',
@@ -31,7 +30,7 @@ export default {
       this.loading = true;
       const res = await fetch('https://jonahbutler-dev.herokuapp.com/random');
       this.blog = await res.json();
-      router.push({ name: 'BlogShow', params: { slug: this.blog.slug } });
+      this.$router.push({ name: 'BlogShow', params: { slug: this.blog.slug } });
       this.loading = false;
     },
     dateFormat(date) {
