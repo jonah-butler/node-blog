@@ -145,13 +145,9 @@ const parseBlocksToHTML = (blocks) => {
 const parseHTMLToBlocks = (text) => {
   const blocks = [];
   const parser = new DOMParser();
-  // const nodes = parser.parseFromString(text, 'text/html').querySelector('body').children;
   const html = parser.parseFromString(text, 'text/html');
-  console.log('html', html);
-  const body = html.querySelector('body');
-  console.log('body', body);
-  const { children } = body.children;
-  console.log('childre', children);
+  const [...children] = html.querySelector('body').children;
+  console.log(children);
   children.forEach((node, i) => {
     switch (node.tagName) {
       case 'P':
