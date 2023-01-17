@@ -60,7 +60,8 @@
     "rules": {
       "no-console": "off",
       "no-underscore-dangle": "off",
-      "no-irregular-whitespace": "off"
+      "no-irregular-whitespace": "off",
+      "import/extensions": "off"
     }
   },
   "browserslist": [
