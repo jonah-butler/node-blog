@@ -149,12 +149,12 @@ export default {
   methods: {
     changeRoute(slug, id) {
       this.$router.push({
-        name: 'BlogShow',
+        name: 'DraftShow',
         params: {
           slug,
           id,
         },
-        path: `/blog/${slug}`,
+        path: `/drafts/${slug}`,
       }).catch((err) => {
         if (
           err.name !== 'NavigationDuplicated'
