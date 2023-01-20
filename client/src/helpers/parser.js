@@ -34,9 +34,10 @@ const parseBlockToQuote = (block) => {
 };
 
 const convertNodeToPara = (node, i) => {
+  console.log('paragraph node: ', node);
   const block = {
     data: {
-      text: node.innerText,
+      text: node.innerHTML,
     },
     id: i,
     type: 'paragraph',
