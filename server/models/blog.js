@@ -50,12 +50,10 @@ const blogSchema = new mongoose.Schema(
       type: Boolean,
       required: false,
     },
-    publishedBy: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
+    publishedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   {
     timestamps: true,
