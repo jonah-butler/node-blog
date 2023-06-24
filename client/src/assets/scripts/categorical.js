@@ -16,7 +16,6 @@ class Categorical {
 
   keyDownListener() {
       this.textInput.addEventListener('keydown', event => {
-        console.log(event);
       if(event.keyCode > 47 && event.keyCode < 58 ||
          event.keyCode > 64 && event.keyCode < 91 ||
          event.keyCode == 32 ||

@@ -1,16 +1,22 @@
 <template>
   <div class="site-content">
     <div class="upload-form">
-        <form @submit.prevent="updateBlog" action="https://jonahbutler-dev.herokuapp.com/blog/edit" enctype="multipart/form-data">
+        <div>
           <h1>Edit {{ blog.title }}</h1>
           <div class="label-input-container">
             <label>Title</label>
             <input v-model="blog.title" type="text" ref="title" @input="selectTitle">
           </div>
-          <div class="label-upload-container">
+          <!-- <div class="label-upload-container">
             <div id="quill">
               <div @input="selectText" ref="text" id="editor"></div>
             </div>
+          </div> -->
+          <div class="label-input-container">
+            <Editorjs v-if="blog._id" @updatedContents="updateContents" :contents="blogContents"/>
+            <!-- <div id="quill">
+              <div @input="selectText" ref="text" id="editor"></div>
+            </div> -->
           </div>
           <div class="label-input-container">
             <label>
@@ -89,27 +95,30 @@
             <button
             class="primary-btn-link"
             type="submit"
+            @click="updateBlog"
             :disabled="submitting"
             name="button">
             Submit
             </button>
           </div>
-        </form>
+        </div>
     </div>
   </div>
 </template>
 
 <script>
-import hljs from 'highlight.js';
+// import hljs from 'highlight.js';
 import Loader from '@/components/TheLoader.vue';
 import categorical from '@/assets/scripts/categorical';
-import Quill from 'quill';
+// import Quill from 'quill';
+import Editorjs from '@/components/inputs/Editorjs.vue';
 import S3Services from '@/services/S3Services';
 
 export default {
   name: 'BlogEdit',
   components: {
     Loader,
+    Editorjs,
   },
   data() {
     return {
@@ -130,26 +139,21 @@ export default {
       imageBlob: '',
     };
   },
-  created() {
-    // await this.retrieveBlog({ _id: this.id, user: this.$store.state.user });
-  },
   async mounted() {
     await this.retrieveBlog({ _id: this.id, user: this.$store.state.user });
-    this.editor = new Quill('#editor', {
-      modules: {
-        toolbar: [
-          // [{ 'font': []} ],
-          ['bold', 'italic', 'underline', 'strike'],
-          ['blockquote', 'code-block'],
-        ],
-        syntax: {
-          highlight: (text) => hljs.highlightAuto(text).value,
-        },
-      },
-      theme: 'snow',
-    });
-    this.editor.root.innerHTML = this.blog.text;
-    console.log(this.blog);
+    // this.editor = new Quill('#editor', {
+    //   modules: {
+    //     toolbar: [
+    //       ['bold', 'italic', 'underline', 'strike'],
+    //       ['blockquote', 'code-block'],
+    //     ],
+    //     syntax: {
+    //       highlight: (text) => hljs.highlightAuto(text).value,
+    //     },
+    //   },
+    //   theme: 'snow',
+    // });
+    // this.editor.root.innerHTML = this.blog.text;
     this.initializeCategorical();
   },
   methods: {
@@ -194,9 +198,8 @@ export default {
     printFroala() {
       console.log(this.blog.sanitizedHTML);
     },
-    selectText() {
-      // this.updatedBlog.text = this.$refs.text.value;
-      this.updatedBlog.text = this.editor.root.innerHTML;
+    updateContents(updatedContent) {
+      this.updatedBlog.text = updatedContent;
     },
     selectTitle() {
       // this.title = this.$refs.title.value;
@@ -253,6 +256,12 @@ export default {
           this.$router.push({ path: `/drafts/${data.updatedBlog.slug}` });
         }
       }
+    },
+  },
+  computed: {
+    blogContents() {
+      console.log(this.blog.text);
+      return this.blog.text;
     },
   },
   props: {

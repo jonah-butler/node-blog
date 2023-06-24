@@ -98,7 +98,7 @@ import helpers from '@/assets/scripts/helpers';
 import Loader from '@/components/TheLoader.vue';
 import Heart from '@/components/svgs/HeartLike.vue';
 import hljs from 'highlight.js';
-import EventBus from '@/bus.js';
+import EventBus from '@/bus';
 import BlogServices from '../services/BlogServices';
 
 export default {
@@ -149,12 +149,12 @@ export default {
   methods: {
     changeRoute(slug, id) {
       this.$router.push({
-        name: 'BlogShow',
+        name: 'DraftShow',
         params: {
           slug,
           id,
         },
-        path: `/blog/${slug}`,
+        path: `/drafts/${slug}`,
       }).catch((err) => {
         if (
           err.name !== 'NavigationDuplicated'

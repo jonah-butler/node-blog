@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import EventBus from '@/bus.js';
+import EventBus from '@/bus';
 
 export default {
   name: 'HeartSVG',
