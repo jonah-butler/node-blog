@@ -6,7 +6,8 @@
 </template>
 
 <script>
-import EditorJS from '@editorjs/editorjs';
+// import EditorJS from '@editorjs/editorjs';
+const EditorJS = required('@editorjs/editorjs')
 import Header from '@editorjs/header';
 import List from '@editorjs/list';
 import InlineCode from '@editorjs/inline-code';
