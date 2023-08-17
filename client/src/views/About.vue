@@ -23,14 +23,14 @@
     <TechnologyBar technology="mongodb" percent="90"/>
     <TechnologyBar technology="ui/ux" percent="80"/>
     <TechnologyBar technology="adobe suite" percent="80"/>
+    <TechnologyBar technology="golang" percent="70"/>
+    <TechnologyBar technology="golang fiber" percent="70"/>
+    <TechnologyBar technology="golang gorm" percent="70"/>
     <TechnologyBar technology="php" percent="70"/>
     <TechnologyBar technology="mysql" percent="70"/>
     <TechnologyBar technology="postgres" percent="70"/>
     <TechnologyBar technology="docker" percent="65"/>
     <TechnologyBar technology="data structures" percent="65"/>
-    <TechnologyBar technology="golang" percent="60"/>
-    <TechnologyBar technology="golang fiber" percent="60"/>
-    <TechnologyBar technology="golang gorm" percent="60"/>
     <TechnologyBar technology="redis" percent="60"/>
     <TechnologyBar technology="sqlite" percent="50"/>
   </div>
