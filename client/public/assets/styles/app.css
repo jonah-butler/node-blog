@@ -284,19 +284,8 @@ button{
   font-size: 75px;
   /* color: #3d4656; */
   margin: 0;
-  /* text-shadow: 1px 1px 1px rgba(0 0 0 1); */
-  text-shadow: 2px 2px 11px rgb(211 94 130),
-  2.2px 2.2px 0px rgb(211 94 130),
-  2.4px 2.4px 0px rgb(211 94 130),
-  2.6px 2.6px 0px rgb(211 94 130),
-  2.8px 2.8px 0px rgb(211 94 130),
-  3px 3px 0px rgb(211 94 130),
-  3.2px 3.2px 0px rgb(211 94 130),
-  3.6px 3.6px 0px rgb(211 94 130),
-  3.8px 3.8px 0px rgb(211 94 130),
-  4px 4px 0px rgb(211 94 130),
-  4.2px 4.2px 0px rgb(211 94 130),
-  4.6px 4.6px 0px rgb(211 94 130);
+  transition: text-shadow 0.5s ease;
+  text-shadow: 0px 0px 0px rgba(0, 0, 0, 255);
 }
 
  .nav-link{

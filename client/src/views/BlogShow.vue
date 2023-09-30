@@ -16,7 +16,7 @@
             backgroundSize: 'cover',
           }">
           <div class="blog-details">
-            <h1 class="post-title">{{ blog.title }}</h1>
+            <h1 :style="dynamicTitleShadow" class="post-title">{{ blog.title }}</h1>
             <div class="date-container">
               <span class="date">{{ dateFormat(blog.createdAt) }}</span>
               <span class="read-time">{{calculateReadTime(blog.text)}} minute read</span>
@@ -97,6 +97,7 @@
 </template>
 
 <script>
+import palette from '@jayimbee/palette';
 import helpers from '@/assets/scripts/helpers';
 import Loader from '@/components/TheLoader.vue';
 import Heart from '@/components/svgs/HeartLike.vue';
@@ -121,10 +122,14 @@ export default {
         updatingLike: undefined,
         loading: false,
       },
+      colors: {},
     };
   },
   async created() {
     await this.retrieveBlog({ slug: this.slug });
+    if (!this.blog.featuredImageLocation) return;
+    const data = await palette.extractImageDataFromSrc(this.blog.featuredImageLocation, 6);
+    this.colors = palette.quantize(data);
   },
   mounted() {
     EventBus.$on('update-rating', (data) => {
@@ -147,6 +152,14 @@ export default {
   },
   beforeDestroy() {
     EventBus.$off('update-rating');
+  },
+  computed: {
+    dynamicTitleShadow() {
+      if (Object.keys(this.colors).length) {
+        return `text-shadow: 3px 3px 0px rgb(${this.colors[2].r} ${this.colors[2].g} ${this.colors[2].b})`;
+      }
+      return 'text-shadow: 0px 0px 0px rgb(211 94 130)';
+    },
   },
   methods: {
     changeRoute(slug, id) {
