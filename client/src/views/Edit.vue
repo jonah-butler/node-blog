@@ -56,8 +56,6 @@
           </div>
           <div class="status label-input-container">
             <h3>Publish?</h3>
-
-            pub value: {{ publish }}
             <div v-if="!publish">
               <div>
                 <input v-model="publish" type="radio" id="false" name="status" value="false"
