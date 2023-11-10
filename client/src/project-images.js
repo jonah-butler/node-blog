@@ -1,4 +1,7 @@
 export default {
+  ns: [
+    'https://dev-blog-resources.s3.amazonaws.com/projects/news-cli.png',
+  ],
   cn: [
     'https://dev-blog-resources.s3.amazonaws.com/projects/cs-landing.jpg',
   ],

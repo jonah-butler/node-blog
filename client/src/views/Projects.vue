@@ -9,6 +9,126 @@
     </div>
     <div class="container margin-auto">
       <div class="row project">
+        <div class="col-md-5 dir-col md-margin-top dot-background-left">
+          <div class="slider">
+            <div class="slider-container">
+              <div class="expand-icon-container"
+              style="transform: scale(0); opacity: 0; display: none;">
+                <svg class="expand-icon" width="40" height="40"
+                viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g filter="url(#filter3_d)">
+                <path d="M4.0659 11.0033C4.06768 11.5535 4.51849
+                11.9981 5.0728 11.9963L14.1058 11.967C14.6601 11.9652
+                15.108 11.5177 15.1062 10.9674C15.1045 10.4172 14.6536
+                9.97258 14.0993 9.97438L6.07 10.0004L6.04414 2.02997C6.04235
+                1.47972 5.59155 1.03512 5.03724 1.03691C4.48293 1.03871 4.03502
+                1.48623 4.03681 2.03648L4.0659 11.0033ZM5.21845 9.43769L4.35758
+                10.2978L5.78155 11.7022L6.64242 10.8421L5.21845 9.43769Z" fill="white">
+                </path>
+                </g>
+                <g filter="url(#filter4_d)">
+                <path d="M19.3091 2.00304C19.3108 1.45279 18.8628 1.00537
+                18.3085 1.00369L9.27546 0.976336C8.72115 0.974657 8.27044
+                1.41936 8.26878 1.96961C8.26711 2.51985 8.71512 2.96728 9.26943
+                2.96895L17.2988 2.99327L17.2746 10.9637C17.273 11.514 17.721 11.9614
+                18.2753 11.9631C18.8296 11.9648 19.2803 11.5201 19.282 10.9698L19.3091
+                2.00304ZM18.7076 3.00803L19.013 2.70665L17.5979 1.29335L17.2924
+                1.59474L18.7076 3.00803Z" fill="white">
+                </path>
+                </g>
+                <defs>
+                <filter id="filter3_d" x="0.0368042" y="1.03691" width="19.0694"
+                height="18.9594" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix">
+                </feFlood>
+                <feColorMatrix in="SourceAlpha" type="matrix"
+                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0">
+                </feColorMatrix>
+                <feOffset dy="4"></feOffset>
+                <feGaussianBlur stdDeviation="2"></feGaussianBlur>
+                <feColorMatrix type="matrix"
+                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0">
+                </feColorMatrix>
+                <feBlend mode="normal" in2="BackgroundImageFix"
+                result="effect1_dropShadow">
+                </feBlend>
+                <feBlend mode="normal" in="SourceGraphic"
+                in2="effect1_dropShadow" result="shape">
+                </feBlend>
+                </filter>
+                <filter id="filter4_d" x="4.26877" y="0.976331" width="19.0404"
+                height="18.9868" filterUnits="userSpaceOnUse"
+                color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix">
+                </feFlood>
+                <feColorMatrix in="SourceAlpha" type="matrix"
+                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0">
+                </feColorMatrix>
+                <feOffset dy="4">
+                </feOffset>
+                <feGaussianBlur stdDeviation="2">
+                </feGaussianBlur>
+                <feColorMatrix type="matrix"
+                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0">
+                </feColorMatrix>
+                <feBlend mode="normal" in2="BackgroundImageFix"
+                result="effect1_dropShadow"></feBlend>
+                <feBlend mode="normal" in="SourceGraphic"
+                in2="effect1_dropShadow" result="shape">
+                </feBlend>
+                </filter>
+                </defs>
+                </svg>
+              </div>
+              <div class="picture-row">
+                  <div
+                  v-for="image in ProjectImages.ns"
+                  :key="image"
+                  class="carousel-img">
+                  <SliderImage
+                  v-on:loaded="test"
+                  :src="image"/>
+                  </div>
+              </div>
+              <div class="dot-container dot-container-top"></div>
+            </div>
+          </div>
+          <div class="row">
+            <span class="category-tag">
+              golang
+            </span>
+            <span class="category-tag">
+              colly
+            </span>
+            <span class="category-tag">
+              promptui
+            </span>
+          </div>
+        </div>
+        <div class="col-md-7 side-text-right">
+          <div class="row dir-col">
+          <h1 class="post-title text-underline text-sm">
+            New CLI
+          </h1>
+          <div>
+        <p>
+          A CLI application written in Go, leveraging the
+          colly and promptui packages to allow the reading of articles from a news site. Some
+          configuration options include the site's base URL, search endpoints, query params and
+          HTML targets. With all these configurations loaded, and permitted access for scraping,
+          this package can allow for the reading and navigation of a site all within the CLI.
+          It supports browsing of latest content, accessing a particular endpoint or searching,
+          with date filtering, granted if the site in question supports these features through
+          a search endpoint.
+        </p>
+        <p>
+          <a href="https://github.com/jonah-butler/news-cli">check it out</a>
+        </p>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="row project">
         <div class="col-md-7 side-text-right">
           <div class="row dir-col">
           <h1 class="post-title text-underline text-sm">
@@ -302,131 +422,26 @@
         <div class="col-md-7 side-text-right">
           <div class="row dir-col">
           <h1 class="post-title text-underline text-sm">
-            No RPD in RPS
+            rvalibrary.org
           </h1>
           <div>
         <p>
-          No RPD in RPS was a quick and simple application used for a local campaign in
-          Richmond, Va. This application consisted of a landing page with information
-          about the campaign and a form. Users selected their city district, filled
-          out the form for their support of the campaign and their email was sent
-          to their district's school board rep. It leveraged emailing services
-          through SendGrip and Outlook through GoDaddy.
+          During my time as web developer for the City of Richmond's Richmond Public Library
+          system, one of my main objectives was seeing to the development, maintenance and
+          improvement of their site rvalibrary.org. This ongoing project consisted of
+          redesigning many of most visited pages and moving the entire site design into
+          a component based system that allowed for rapid and modular prototyping of new
+          pages. This project is leveraged through the Wordpress CMS with a fully custom
+          theme. It also relied heavily on Advanced Custom Fields and the Gravity Forms
+          API.
         </p>
         <p>
-          <a href="https://github.com/jonah-butler/no-rpd-email-service">check it out</a>
+          <a href="https://rvalibrary.org">check it out</a>
         </p>
           </div>
           </div>
         </div>
         <div class="col-md-5 dir-col md-margin-top dot-background-right">
-          <div class="slider">
-            <div class="slider-container">
-              <div class="expand-icon-container"
-              style="transform: scale(0); opacity: 0; display: none;">
-                <svg class="expand-icon" width="40" height="40"
-                viewBox="0 0 24 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g filter="url(#filter3_d)">
-                <path d="M4.0659 11.0033C4.06768 11.5535 4.51849
-                11.9981 5.0728 11.9963L14.1058 11.967C14.6601 11.9652
-                15.108 11.5177 15.1062 10.9674C15.1045 10.4172 14.6536
-                9.97258 14.0993 9.97438L6.07 10.0004L6.04414 2.02997C6.04235
-                1.47972 5.59155 1.03512 5.03724 1.03691C4.48293 1.03871 4.03502
-                1.48623 4.03681 2.03648L4.0659 11.0033ZM5.21845 9.43769L4.35758
-                10.2978L5.78155 11.7022L6.64242 10.8421L5.21845 9.43769Z" fill="white">
-                </path>
-                </g>
-                <g filter="url(#filter4_d)">
-                <path d="M19.3091 2.00304C19.3108 1.45279 18.8628 1.00537
-                18.3085 1.00369L9.27546 0.976336C8.72115 0.974657 8.27044
-                1.41936 8.26878 1.96961C8.26711 2.51985 8.71512 2.96728 9.26943
-                2.96895L17.2988 2.99327L17.2746 10.9637C17.273 11.514 17.721 11.9614
-                18.2753 11.9631C18.8296 11.9648 19.2803 11.5201 19.282 10.9698L19.3091
-                2.00304ZM18.7076 3.00803L19.013 2.70665L17.5979 1.29335L17.2924
-                1.59474L18.7076 3.00803Z" fill="white">
-                </path>
-                </g>
-                <defs>
-                <filter id="filter3_d" x="0.0368042" y="1.03691" width="19.0694"
-                height="18.9594" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                <feFlood flood-opacity="0" result="BackgroundImageFix">
-                </feFlood>
-                <feColorMatrix in="SourceAlpha" type="matrix"
-                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0">
-                </feColorMatrix>
-                <feOffset dy="4"></feOffset>
-                <feGaussianBlur stdDeviation="2"></feGaussianBlur>
-                <feColorMatrix type="matrix"
-                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0">
-                </feColorMatrix>
-                <feBlend mode="normal" in2="BackgroundImageFix"
-                result="effect1_dropShadow">
-                </feBlend>
-                <feBlend mode="normal" in="SourceGraphic"
-                in2="effect1_dropShadow" result="shape">
-                </feBlend>
-                </filter>
-                <filter id="filter4_d" x="4.26877" y="0.976331" width="19.0404"
-                height="18.9868" filterUnits="userSpaceOnUse"
-                color-interpolation-filters="sRGB">
-                <feFlood flood-opacity="0" result="BackgroundImageFix">
-                </feFlood>
-                <feColorMatrix in="SourceAlpha" type="matrix"
-                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0">
-                </feColorMatrix>
-                <feOffset dy="4">
-                </feOffset>
-                <feGaussianBlur stdDeviation="2">
-                </feGaussianBlur>
-                <feColorMatrix type="matrix"
-                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0">
-                </feColorMatrix>
-                <feBlend mode="normal" in2="BackgroundImageFix"
-                result="effect1_dropShadow"></feBlend>
-                <feBlend mode="normal" in="SourceGraphic"
-                in2="effect1_dropShadow" result="shape">
-                </feBlend>
-                </filter>
-                </defs>
-                </svg>
-              </div>
-              <div class="picture-row">
-                <div
-                v-for="image in ProjectImages.cn"
-                :key="image"
-                class="carousel-img">
-                <SliderImage
-                v-on:loaded="test"
-                :src="image"/>
-                </div>
-              </div>
-              <div class="dot-container dot-container-top"></div>
-            </div>
-          </div>
-          <div class="row">
-            <span class="category-tag">
-              javascript
-            </span>
-            <span class="category-tag">
-              node.js
-            </span>
-            <span class="category-tag">
-              heroku
-            </span>
-            <span class="category-tag">
-              GoDaddy
-            </span>
-            <span class="category-tag">
-              sendgrid
-            </span>
-            <span class="category-tag">
-              Tailwind
-            </span>
-          </div>
-        </div>
-      </div>
-      <div class="row project">
-        <div class="col-md-5 dir-col md-margin-top dot-background-left">
           <div class="slider">
             <div class="slider-container">
               <div class="expand-icon-container"
@@ -531,54 +546,9 @@
             </span>
           </div>
         </div>
-        <div class="col-md-7 side-text-right">
-          <div class="row dir-col">
-          <h1 class="post-title text-underline text-sm">
-            rvalibrary.org
-          </h1>
-          <div>
-        <p>
-          During my time as web developer for the City of Richmond's Richmond Public Library
-          system, one of my main objectives was seeing to the development, maintenance and
-          improvement of their site rvalibrary.org. This ongoing project consisted of
-          redesigning many of most visited pages and moving the entire site design into
-          a component based system that allowed for rapid and modular prototyping of new
-          pages. This project is leveraged through the Wordpress CMS with a fully custom
-          theme. It also relied heavily on Advanced Custom Fields and the Gravity Forms
-          API.
-        </p>
-        <p>
-          <a href="https://rvalibrary.org">check it out</a>
-        </p>
-          </div>
-          </div>
-        </div>
       </div>
       <div class="row project">
-        <div class="col-md-7 side-text-right">
-          <div class="row dir-col">
-          <h1 class="post-title text-underline text-sm">
-            Master Gardener Help Desk
-          </h1>
-          <div>
-        <p>
-          The Master Gardener Help Desk is an active project with a partnership between
-          Richmond Public Library and the Virginia Cooperative Extension. Residents of
-          Virginia can submit questions to participating master gardeners. The gardeners
-          receive an email when a new question is submitted, and the gardeners
-          visit the custom built admin panel of our Wordpress CMS where they can
-          manage and answer questions. Users are then automatically emailed when
-          a new question is submitted and answers are then aggregated in a forum
-          style answer page where users can browse, sort and search for related
-          gardening information.
-        </p>
-        <p>
-          <a href="https://rvalibrary.org/master-gardener">check it out</a>
-        </p>
-          </div>
-          </div>
-        </div>
-        <div class="col-md-5 dir-col md-margin-top dot-background-right">
+        <div class="col-md-5 dir-col md-margin-top dot-background-left">
           <div class="slider">
             <div class="slider-container">
               <div class="expand-icon-container"
@@ -680,6 +650,29 @@
             </span>
           </div>
         </div>
+        <div class="col-md-7 side-text-right">
+          <div class="row dir-col">
+          <h1 class="post-title text-underline text-sm">
+            Master Gardener Help Desk
+          </h1>
+          <div>
+        <p>
+          The Master Gardener Help Desk is an active project with a partnership between
+          Richmond Public Library and the Virginia Cooperative Extension. Residents of
+          Virginia can submit questions to participating master gardeners. The gardeners
+          receive an email when a new question is submitted, and the gardeners
+          visit the custom built admin panel of our Wordpress CMS where they can
+          manage and answer questions. Users are then automatically emailed when
+          a new question is submitted and answers are then aggregated in a forum
+          style answer page where users can browse, sort and search for related
+          gardening information.
+        </p>
+        <p>
+          <a href="https://rvalibrary.org/master-gardener">check it out</a>
+        </p>
+          </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -688,12 +681,10 @@
 <script>
 import ProjectImages from '@/project-images';
 import sliderFactory from '@/assets/scripts/slider-factory';
-// import TheLoader from '@/components/TheLoader.vue';
 import SliderImage from '@/components/SliderImage.vue';
 
 export default {
   components: {
-    // TheLoader,
     SliderImage,
   },
   data() {
