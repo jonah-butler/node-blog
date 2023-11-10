@@ -7,16 +7,8 @@
             <label>Title</label>
             <input v-model="blog.title" type="text" ref="title" @input="selectTitle">
           </div>
-          <!-- <div class="label-upload-container">
-            <div id="quill">
-              <div @input="selectText" ref="text" id="editor"></div>
-            </div>
-          </div> -->
           <div class="label-input-container">
             <Editorjs v-if="blog._id" @updatedContents="updateContents" :contents="blogContents"/>
-            <!-- <div id="quill">
-              <div @input="selectText" ref="text" id="editor"></div>
-            </div> -->
           </div>
           <div class="label-input-container">
             <label>
@@ -64,6 +56,8 @@
           </div>
           <div class="status label-input-container">
             <h3>Publish?</h3>
+
+            pub value: {{ publish }}
             <div v-if="!publish">
               <div>
                 <input v-model="publish" type="radio" id="false" name="status" value="false"
@@ -107,10 +101,8 @@
 </template>
 
 <script>
-// import hljs from 'highlight.js';
 import Loader from '@/components/TheLoader.vue';
 import categorical from '@/assets/scripts/categorical';
-// import Quill from 'quill';
 import Editorjs from '@/components/inputs/Editorjs.vue';
 import S3Services from '@/services/S3Services';
 
@@ -141,19 +133,6 @@ export default {
   },
   async mounted() {
     await this.retrieveBlog({ _id: this.id, user: this.$store.state.user });
-    // this.editor = new Quill('#editor', {
-    //   modules: {
-    //     toolbar: [
-    //       ['bold', 'italic', 'underline', 'strike'],
-    //       ['blockquote', 'code-block'],
-    //     ],
-    //     syntax: {
-    //       highlight: (text) => hljs.highlightAuto(text).value,
-    //     },
-    //   },
-    //   theme: 'snow',
-    // });
-    // this.editor.root.innerHTML = this.blog.text;
     this.initializeCategorical();
   },
   methods: {
@@ -195,20 +174,14 @@ export default {
         this.error = err;
       }
     },
-    printFroala() {
-      console.log(this.blog.sanitizedHTML);
-    },
     updateContents(updatedContent) {
       this.updatedBlog.text = updatedContent;
     },
     selectTitle() {
-      // this.title = this.$refs.title.value;
       this.updated = true;
       this.updatedBlog.title = this.$refs.title.value;
-      console.log(this.updatedBlog.title);
     },
     selectFile() {
-      console.log('select file');
       this.updated = true;
       [this.upload] = this.$refs.upload.files;
       this.updatedBlog.file = this.upload;
@@ -236,11 +209,7 @@ export default {
         formData.append('categories', JSON.stringify(this.updatedBlog.categories));
       }
       if (this.publish !== '') {
-        if (this.publish === 'true') {
-          formData.append('published', true);
-        } else {
-          formData.append('published', false);
-        }
+        formData.append('published', this.publish);
       }
       const response = await fetch('https://jonahbutler-dev.herokuapp.com/blog/edit', {
         method: 'PUT',
@@ -260,7 +229,6 @@ export default {
   },
   computed: {
     blogContents() {
-      console.log(this.blog.text);
       return this.blog.text;
     },
   },
