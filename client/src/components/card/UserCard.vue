@@ -41,11 +41,8 @@
               <a target="blank" href="https://www.linkedin.com/in/jonah-butler-42202aa5/">
                 <i class="fab fa-linkedin"></i>
               </a>
-              <a target="blank" href="https://codepen.io/jonahbutler">
-                <i class="fab fa-codepen"></i>
-              </a>
-              <a target="blank" href="https://www.youtube.com/channel/UCMpUwLVmbqowotfD6OpyHSA">
-                <i class="fab fa-youtube"></i>
+              <a target="blank" href="https://www.npmjs.com/~jayimbee">
+                <i class="fab fa-npm"></i>
               </a>
             </div>
           </div>

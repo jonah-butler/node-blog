@@ -1,4 +1,9 @@
 export default {
+  cap: [
+    'https://dev-blog-resources.s3.amazonaws.com/projects/cap1.png',
+    'https://dev-blog-resources.s3.amazonaws.com/projects/cap2.png',
+    'https://dev-blog-resources.s3.amazonaws.com/projects/cap3.png',
+  ],
   ns: [
     'https://dev-blog-resources.s3.amazonaws.com/projects/news-cli.png',
   ],
