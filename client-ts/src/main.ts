@@ -1,8 +1,9 @@
+// style
 import './assets/main.css'
-
-import { createApp } from 'vue'
+// state
 import { createPinia } from 'pinia'
-
+// vue
+import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 
