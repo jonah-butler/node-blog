@@ -1,6 +1,6 @@
-import { type RouteRecordRaw } from "vue-router"; 
+import { type RouteRecordRaw } from "vue-router";
 
- const admin_routes: RouteRecordRaw[] = [
+const admin_routes: RouteRecordRaw[] = [
   { // admin panel
     path: "/admin/:userId",
     name: "admin home",

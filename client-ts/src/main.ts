@@ -1,5 +1,6 @@
 // style
-import './assets/main.css'
+import './assets/main.css';
+import './assets/flexy.css';
 // state
 import { createPinia } from 'pinia'
 // vue
