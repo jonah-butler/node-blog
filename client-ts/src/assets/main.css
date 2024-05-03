@@ -3,6 +3,46 @@
 @tailwind components;
 @tailwind utilities;
 
+#app {
+  background: linear-gradient(to bottom, #FEa075, #FA709A );
+  background-size: 100%;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+/* 
+.link
+*/
+.link {
+  text-decoration: none;
+}
+li.link {
+  position: relative;
+  z-index: 1;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+li.link:hover a{
+  color: #fa709a;
+}
+li.link:hover:before {
+  width: 100%;
+}
+li.link:before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(180deg,#fea075,#fa709a);
+  transition: all .2s ease;
+  z-index: -1;
+}
+
 /* #app {
   max-width: 1280px;
   margin: 0 auto;

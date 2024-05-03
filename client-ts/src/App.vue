@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
-// import TopNavigation from "@/components/navigation/top-navigation.vue";
+import TopNavigation from "@/components/navigation/top-navigation.vue";
 
 </script>
 
 <template>
   <div>
-    <!-- <TopNavigation /> -->
-    <div class="navbar bg-base-100">
-      <a class="btn btn-ghost text-xl">daisyUI</a>
+    <TopNavigation />
+    <div class="bg-white rounded-b-md site-content">
+      <RouterView />
     </div>
-    <RouterView />
   </div>
 </template>
 
 <style scoped>
+.site-content {
+  min-height: 86vh;
+}
 </style>

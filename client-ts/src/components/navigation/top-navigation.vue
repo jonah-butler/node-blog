@@ -11,15 +11,47 @@ const logout = (): void => {};
 </script>
 
 <template>
-  <section>
+    <div class="navbar bg-white rounded-t-md px-5">
+      <!-- home -->
+      <div class="navbar-start">
+        <img class="max-w-10" src="@/assets/images/code-bracket.svg" alt="svg of open and close html code bracket with forward slash in middle">
+      </div>
+
+      <!-- main links -->
+      <div class="navbar-center">
+        <ul class="menu menu-horizontal p-2">
+          <li class="link">
+            <RouterLink to="/">Blog</RouterLink>
+          </li>
+          <li class="link">
+            <RouterLink to="/about">About</RouterLink>
+          </li>
+          <li class="link">
+            <a @click="expandSearch">Search</a>
+          </li>
+          <li class="link">
+            <RouterLink to="/projects">Projects</RouterLink>
+          </li>
+          <li class="link">
+            <RouterLink to="/random">Random</RouterLink>
+          </li>
+          <li class="link">
+            <RouterLink to="/contact">Contact</RouterLink>
+          </li>
+        </ul>
+      </div>
+
+      <!-- authenticated-->
+      <div class="navbar-end"></div>
+    </div>
+  <!-- <section>
     <div>
 
-      <!-- code bracket svg -->
+      
       <RouterLink to="/">
         <img class="navImg" src="@/assets/images/code-bracket.svg" alt="svg of open and close html code bracket with forward slash in middle">
       </RouterLink>
 
-      <!-- hamburger container -->
       <div class="hamburger-bun">
         <img
           class="hamburger"
@@ -30,7 +62,6 @@ const logout = (): void => {};
         />
       </div>
 
-      <!-- navigation links -->
       <div>
         <ul>
           <li>
@@ -52,8 +83,6 @@ const logout = (): void => {};
             <Router to="/contact">Contact</Router>
           </li>
 
-          <!-- state navigation for admin -->
-          <!-- possibly add more eventually -->
           <li>
             <RouterLink to="/drafts">Drafts</RouterLink>
           </li>
@@ -64,8 +93,7 @@ const logout = (): void => {};
       </div>
 
     </div>
-    <!-- search dropdown component -->
-  </section>
+  </section> -->
 </template>
 
 <style scoped>
