@@ -1,4 +1,4 @@
-interface ErrorConstructorInterface<T extends string> {
+interface ErrorConstructor<T extends string> {
   name: T;
   message: string;
   cause?: Error;
@@ -10,7 +10,7 @@ export class ServiceError<T extends string> extends Error {
   message: string;
   cause: Error | undefined;
 
-  constructor({name, message, cause}: ErrorConstructorInterface<T>) {
+  constructor({name, message, cause}: ErrorConstructor<T>) {
     super();
     this.name = name;
     this.message = message;
