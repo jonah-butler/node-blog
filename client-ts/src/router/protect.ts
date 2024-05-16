@@ -7,6 +7,7 @@ const routeProtection = (to: RouteLocationNormalized, from: RouteLocationNormali
   console.log("to: ",to);
   console.log("from: ", from);
   console.log("next: ", next);
+  return next();
 };
 
 export default routeProtection;

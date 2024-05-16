@@ -7,7 +7,7 @@ import TopNavigation from "@/components/navigation/top-navigation.vue";
 <template>
   <div>
     <TopNavigation />
-    <div class="bg-white rounded-b-md site-content">
+    <div class="rounded-b-md bg-off_white site-content flex justify-center p-3">
       <RouterView />
     </div>
   </div>

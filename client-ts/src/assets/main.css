@@ -14,7 +14,7 @@
 }
 
 /* 
-.link
+link
 */
 .link {
   text-decoration: none;
@@ -41,6 +41,20 @@ li.link:before {
   background: linear-gradient(180deg,#fea075,#fa709a);
   transition: all .2s ease;
   z-index: -1;
+}
+
+/* 
+box shadow
+*/
+.shadow-custom {
+  box-shadow: 10px 6px 0 0 #e0e0e0;
+}
+
+/* 
+custom colors
+*/
+.bg-off_white {
+  background-color: #f4f5f7;
 }
 
 /* #app {

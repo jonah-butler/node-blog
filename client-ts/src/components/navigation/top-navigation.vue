@@ -11,7 +11,7 @@ const logout = (): void => {};
 </script>
 
 <template>
-    <div class="navbar bg-white rounded-t-md px-5">
+    <div class="navbar bg-off_white rounded-t-md px-5">
       <!-- home -->
       <div class="navbar-start">
         <img class="max-w-10" src="@/assets/images/code-bracket.svg" alt="svg of open and close html code bracket with forward slash in middle">
