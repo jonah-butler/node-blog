@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import { type SecondaryLink } from "./props";
+import { type SecondaryLink } from './props';
+
+// create basic emitter so
+// it can have dynamic click functionality
+// from parent component
 
 defineProps<SecondaryLink>();
-
 </script>
 
 <template>
-  <div class="container my-3 secondary-link-container z-10">
-    <h1 class="text-xl secondary-link relative p-2">{{ title }}</h1>
+  <div class="secondary-link-container container z-10 my-3">
+    <h1 class="secondary-link relative p-2 text-xl">{{ title }}</h1>
   </div>
 </template>
 
@@ -16,7 +19,7 @@ defineProps<SecondaryLink>();
   width: fit-content;
 }
 .secondary-link:before {
-  content: "";
+  content: '';
   position: absolute;
   display: block;
   top: 0;
@@ -26,7 +29,7 @@ defineProps<SecondaryLink>();
   opacity: 0.5;
   width: 40px;
   height: 40px;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
   z-index: -1;
 }
 .secondary-link:hover {

@@ -1,33 +1,32 @@
-import axios from "axios";
+import axios from 'axios';
 
 const ERRORS = {
-  NO_RESPONSE: "the request failed unexpectedly",
-}
+  NO_RESPONSE: 'the request failed unexpectedly',
+};
 
 function serviceErrorHandler(error: unknown, customError: string): string {
-  if(axios.isAxiosError(error)) {
-    
-    if(error.response) {
-      const err = error.response.data;
-      return `${err.statusCod}: ${err.message}`;
-    } else if(error.request) {
+  if (axios.isAxiosError(error)) {
+    if (error.response) {
+      console.log(error);
+      return `${error.response.status}: ${error.message}`;
+    } else if (error.request) {
       return ERRORS.NO_RESPONSE;
     } else {
       return error.message;
     }
-    
   } else {
     return customError;
   }
 }
 
 function packageRecordIntoFormData(payload: Record<any, any>): FormData {
-  console.log("payload: ", payload);
-  const form_data = new FormData();
-  return form_data;
+  const formData = new FormData();
+  for (const key in payload) {
+    if (payload[key] !== null || payload[key] !== '') {
+      formData.append(key, payload[key]);
+    }
+  }
+  return formData;
 }
 
-export {
-  serviceErrorHandler,
-  packageRecordIntoFormData,
-};
+export { serviceErrorHandler, packageRecordIntoFormData };

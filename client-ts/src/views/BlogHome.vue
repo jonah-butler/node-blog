@@ -1,40 +1,122 @@
 <script setup lang="ts">
-import LatestContentCard from "../components/card/latest-content.vue";
-import SecondarContentCard from "../components/card/secondary-content.vue";
-import MainLink from "../components/links/main-link.vue";
-import SecondaryLink from "../components/links/secondary-link.vue";
+import { ref, computed } from 'vue';
+import JumpingDotsLoader from '@/components/loaders/jumping-dots.vue';
+import LatestContentCard from '../components/card/latest-content.vue';
+import SecondaryContentCard from '../components/card/secondary-content.vue';
+import MainLink from '../components/links/main-link.vue';
+import SecondaryLink from '../components/links/secondary-link.vue';
+import BasicAlert from '@/components/alerts/basic-alert.vue';
+import { type Blog } from '@/types/services';
+import { BlogService, BlogServiceError } from '@/services/api/blog.service';
+import { generateRandomNumber } from '../utilities/random';
 
-const generateRandomNumber = (floor: number, ceiling: number): number => {
-  if(floor >= ceiling) return 0;
-  return Math.floor(Math.random() * ceiling) + floor;
+const loading = ref(true);
+const error = ref('');
+
+const blogs = ref<Blog[]>([]);
+
+const latestBlog = ref<Blog>({} as Blog);
+const secondaryBlogs = ref<Blog[]>([]);
+const remainingBlogs = ref<Blog[]>([]);
+
+const hasLatestBlog = computed((): boolean => {
+  return Object.keys(latestBlog.value).length > 0;
+});
+
+const hasSecondaryBlogs = computed((): boolean => {
+  return Object.keys(secondaryBlogs.value).length > 0;
+});
+
+const hasRemainingBlogs = computed((): boolean => {
+  return Object.keys(remainingBlogs.value).length > 0;
+});
+
+const getBlogs = async (): Promise<void> => {
+  loading.value = true;
+
+  try {
+    blogs.value = await BlogService.getBlogs();
+
+    // get latest blog
+    latestBlog.value = blogs.value[0];
+
+    // most recent 6 blogs after latest
+    secondaryBlogs.value = blogs.value.slice(1, 7);
+
+    // remaining blogs
+    remainingBlogs.value = blogs.value.slice(7);
+  } catch (err) {
+    if (err instanceof BlogServiceError) {
+      error.value = err.message;
+    }
+  } finally {
+    loading.value = false;
+  }
 };
+
+const handleAlertClick = (): void => {
+  error.value = '';
+  getBlogs();
+};
+
+const loadMoreBlogs = async (): Promise<void> => {};
+
+getBlogs();
 </script>
 
 <template>
-  <section class="p-4 w-full flex flex-wrap justify-center">
-    <div class="w-full flex flex-wrap justify-center">
-      <LatestContentCard></LatestContentCard>
-    </div>
-    <div class="w-full flex flex-wrap justify-center">
-      <SecondarContentCard :index="generateRandomNumber(0, 4)"></SecondarContentCard>
-      <SecondarContentCard :index="generateRandomNumber(0, 4)"></SecondarContentCard>
-      <SecondarContentCard :index="generateRandomNumber(0, 4)"></SecondarContentCard>
-      <SecondarContentCard :index="generateRandomNumber(0, 4)"></SecondarContentCard>
-      <SecondarContentCard :index="generateRandomNumber(0, 4)"></SecondarContentCard>
-      <SecondarContentCard :index="generateRandomNumber(0, 4)"></SecondarContentCard>
-    </div>
-    <div class="flex flex-wrap w-full mx-20 flex-col">
-      <MainLink></MainLink>
-      <MainLink></MainLink>
-      <MainLink></MainLink>
-      <MainLink></MainLink>
-      <MainLink></MainLink>
-      <MainLink></MainLink>
-      <SecondaryLink title="Load More"/>
-    </div>
-  </section>
+  <div class="flex w-full flex-wrap justify-center p-4">
+    <Transition name="fade" mode="out-in">
+      <section v-if="!loading" key="content">
+        <div class="flex w-full flex-wrap justify-center">
+          <!-- newest blog -->
+          <LatestContentCard
+            v-if="hasLatestBlog"
+            :blog="latestBlog"
+          ></LatestContentCard>
+        </div>
+        <div
+          v-if="hasSecondaryBlogs"
+          class="flex w-full flex-wrap justify-center"
+        >
+          <!-- next 6 latest blogs -->
+          <SecondaryContentCard
+            v-for="blog in secondaryBlogs"
+            :key="blog._id"
+            :blog="blog"
+            :index="generateRandomNumber(0, 2)"
+          />
+        </div>
+        <div
+          v-if="hasRemainingBlogs"
+          class="mx-20 flex w-fit flex-col flex-wrap"
+        >
+          <!-- all other blogs -->
+          <MainLink
+            v-for="blog in remainingBlogs"
+            :key="blog._id"
+            :createdAt="blog.createdAt"
+            :title="blog.title"
+            :slug="`/blog/${blog.slug}`"
+          />
+
+          <SecondaryLink title="Load More" @click="loadMoreBlogs" />
+        </div>
+      </section>
+      <section v-else-if="error" key="loader">
+        <!-- make this look better eventually - incorporate into its own component -->
+        <BasicAlert
+          @dismissCallback="handleAlertClick"
+          :message="error"
+          :useDismiss="true"
+          dismissText="dismiss"
+        />
+      </section>
+      <section v-else>
+        <JumpingDotsLoader />
+      </section>
+    </Transition>
+  </div>
 </template>
 
-<style scoped>
-
-</style>
+<style></style>

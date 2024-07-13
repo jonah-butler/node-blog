@@ -1,11 +1,30 @@
 <script setup lang="ts">
+import { useRouter } from 'vue-router';
+import { type MainLink } from './props';
+import { dateOptions, formatDate } from '@/services/formatting';
 
+defineProps<MainLink>();
+
+const router = useRouter();
+
+const navigate = (slug: string): void => {
+  console.log(slug);
+  router.push(slug);
+};
 </script>
 
 <template>
-  <div class="container my-3 main-link-container z-10">
-    <p class="font-light">January 12, 2024</p>
-    <h1 class="text-2xl font-bold main-link relative p-2">An Approach to Errors in Typescript</h1>
+  <div class="main-link-container container my-2">
+    <p v-if="createdAt" class="font-light">
+      {{ formatDate(createdAt, dateOptions.monthDayYear) }}
+    </p>
+    <p v-if="prefix" class="text-xs font-medium">{{ prefix }}</p>
+    <h1
+      @click="navigate(`${slug}`)"
+      class="main-link relative z-10 p-2 text-xl font-bold"
+    >
+      {{ title }}
+    </h1>
   </div>
 </template>
 
@@ -14,7 +33,7 @@
   width: fit-content;
 }
 .main-link:before {
-  content: "";
+  content: '';
   position: absolute;
   display: block;
   top: 0;
@@ -24,7 +43,7 @@
   opacity: 0.5;
   width: 40px;
   height: 40px;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
   z-index: -1;
 }
 .main-link:hover {

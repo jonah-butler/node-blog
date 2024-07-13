@@ -54,6 +54,10 @@ body {
   align-items: center;
 }
 
+.align-content-center {
+  align-content: center;
+}
+
 .dir-col {
   flex-direction: column;
 }
@@ -167,7 +171,6 @@ body {
   width: 100%;
   flex-basis: 100%;
   margin-left: 2px;
-  flex-wrap: wrap;
   margin-bottom: 2px;
   transition: background-color 0.2s ease;
 }

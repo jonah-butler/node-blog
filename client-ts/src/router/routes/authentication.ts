@@ -1,16 +1,18 @@
-import { type RouteRecordRaw } from "vue-router"; 
+import { type RouteRecordRaw } from 'vue-router';
 
- const authentication_routes: RouteRecordRaw[] = [
-  // { // login view
-  //   path: "/login",
-  //   name: "login",
-  //   component: () => import("../../views/AboutView.vue"),
-  // },
-  // { // logout view
-  //   path: "/logout",
-  //   name: "logout",
-  //   component: () => import("../../views/AboutView.vue"),
-  // },
+const authentication_routes: RouteRecordRaw[] = [
+  {
+    // login view
+    path: '/login',
+    name: 'login',
+    component: () => import('../../views/LoginView.vue'),
+  },
+  {
+    // logout view
+    path: '/logout',
+    name: 'logout',
+    component: () => import('../../views/LogoutView.vue'),
+  },
   // { //reset password request form
   //   path: "/reset-password",
   //   name: "reset password request",
