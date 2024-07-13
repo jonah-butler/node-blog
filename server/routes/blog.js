@@ -77,7 +77,7 @@ router.post("/drafts", auth.isLoggedIn, async (req, res) => {
 })
 
 router.get("/random", async (req, res) => {
-  const blogs = await Blog.find({});
+  const blogs = await Blog.find({'published': true});
   res.send(helpers.selectRandomBlog(blogs));
 })
 
