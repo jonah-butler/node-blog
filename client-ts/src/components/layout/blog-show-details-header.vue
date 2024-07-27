@@ -33,7 +33,8 @@ const dynamicTextShadow = computed((): StyleValue => {
 
 const quantizeImage = async (): Promise<void> => {
   try {
-    const imageData = await palette.extractImageDataFromSrc(props.data.url, 8);
+    const cacheBustedUrl = `${props.data.url}?cacheBuster=${new Date().getTime()}`;
+    const imageData = await palette.extractImageDataFromSrc(cacheBustedUrl, 8);
     imageColorPalette.value = palette.quantize(imageData);
     console.log(imageColorPalette.value);
     textShadowPalette.value =

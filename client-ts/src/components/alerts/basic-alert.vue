@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { ExclamationTriangleIcon } from '@heroicons/vue/24/solid';
 import { type BasicAlert } from './props';
 import { type BasicAlertEmits } from './emits';

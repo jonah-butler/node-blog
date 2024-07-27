@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import { type ButtonMainProps } from './props';
 import { type ButtonMainEmits } from './emits';
 

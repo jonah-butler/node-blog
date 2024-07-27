@@ -36,22 +36,24 @@ export const useUserStore = defineStore(
     };
 
     const getUserName = computed((): string => {
-      return user.value.user.username;
+      return user.value.user.username ?? '';
     });
 
     const getUserProfileImage = computed((): string => {
-      return user.value.user.profileImageLocation;
+      return user.value.user?.profileImageLocation ?? '';
     });
 
     const getUserId = computed((): string => {
-      return user.value.user._id;
+      return user.value.user._id ?? '';
     });
 
     const getUserToken = computed((): string => {
-      return user.value.token;
+      return user.value.token ?? '';
     });
 
     const isAuthenticated = computed((): boolean => {
+      if (!user.value.user || !user.value.token) return false;
+
       return user.value.user._id !== '' && user.value.token !== '';
     });
 

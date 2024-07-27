@@ -27,7 +27,7 @@ import MainLink from '@/components/links/main-link.vue';
           class="col-xsmall-12 col-md-4 dir-col align-content-center mt-4 flex-wrap"
         >
           <MainLink slug="/contact" title="Get In Touch" />
-          <div class="flex">
+          <div class="socials flex">
             <!-- github -->
             <a
               href="https://github.com/jonah-butler?tab=repositories"
@@ -107,5 +107,12 @@ h1 {
     linear-gradient(#f4f5f7 8px, rgba(243, 108, 148, 0.2901960784313726) 1%),
     rgba(1, 1, 1, 0.03);
   background-size: 10px 10px;
+}
+
+.socials > a svg {
+  transition: fill 0.2s ease;
+}
+.socials > a:hover svg {
+  fill: #fa709a;
 }
 </style>

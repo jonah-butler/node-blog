@@ -57,3 +57,9 @@ export interface DeleteImagePayload {
   blogId: string;
   uri: string;
 }
+
+export interface EmailBody {
+  email: string;
+  name: string;
+  message: string;
+}

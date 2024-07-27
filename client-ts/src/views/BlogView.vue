@@ -131,16 +131,16 @@ getBlog();
       <div class="flex flex-wrap justify-between">
         <!-- next/previous post section -->
         <MainLink
-          v-if="blogData.nextPost"
-          prefix="Newer Post"
-          :title="blogData.nextPost.title"
-          :slug="`/blog/${blogData.nextPost.slug}`"
-        />
-        <MainLink
           v-if="blogData.previousPost"
           prefix="Older Post"
           :title="blogData.previousPost.title"
           :slug="`/blog/${blogData.previousPost.slug}`"
+        />
+        <MainLink
+          v-if="blogData.nextPost"
+          prefix="Newer Post"
+          :title="blogData.nextPost.title"
+          :slug="`/blog/${blogData.nextPost.slug}`"
         />
       </div>
     </section>
