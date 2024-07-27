@@ -3,7 +3,7 @@ import MainLink from '@/components/links/main-link.vue';
 </script>
 
 <template>
-  <div class="container">
+  <div class="container overflow-hidden">
     <section class="d-flex h-full flex-wrap content-center">
       <div class="row">
         <div class="col-xsmall-12 col-md-8 dir-col bio">

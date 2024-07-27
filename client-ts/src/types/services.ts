@@ -63,3 +63,7 @@ export interface EmailBody {
   name: string;
   message: string;
 }
+
+export interface SearchQuery {
+  query: string;
+}

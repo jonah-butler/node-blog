@@ -2,40 +2,38 @@ import {
   type RouteLocationNormalized,
   type NavigationGuardNext,
 } from 'vue-router';
-import { useUserStore } from '@/stores/user';
-import { storeToRefs } from 'pinia';
+// import { useUserStore } from '@/stores/user';
+// import { storeToRefs } from 'pinia';
 
 const routeProtection = (
   to: RouteLocationNormalized,
   from: RouteLocationNormalized,
   next: NavigationGuardNext,
 ): void => {
+  console.log('hmmm');
   /**
    * Route guard logic will go here...
    */
-  const userStore = useUserStore();
-  const { getUserToken, isAuthenticated } = storeToRefs(userStore);
+  // const userStore = useUserStore();
+  // const { getUserToken, isAuthenticated } = storeToRefs(userStore);
 
   // check if an authenticated routed
   if (to.meta.auth) {
     // if user is not authenticated return to root
-    if (!isAuthenticated.value) {
-      next({
-        path: '/',
-      });
-    }
-
-    // extract expiration from jwt
-    const expiration = parseJwtExp(getUserToken.value);
-
-    // if expired, return to root
-    if (expiration < new Date()) {
-      userStore.logoutUser();
-
-      next({
-        path: '/',
-      });
-    }
+    // if (!isAuthenticated.value) {
+    //   next({
+    //     path: '/',
+    //   });
+    // }
+    // // extract expiration from jwt
+    // const expiration = parseJwtExp(getUserToken.value);
+    // // if expired, return to root
+    // if (expiration < new Date()) {
+    //   userStore.logoutUser();
+    //   next({
+    //     path: '/',
+    //   });
+    // }
   }
 
   console.log('to: ', to);

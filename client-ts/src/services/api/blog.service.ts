@@ -6,17 +6,14 @@ import {
   type LikedBlogPayload,
   type GetEditBlogPayload,
   type DeleteImagePayload,
+  type SearchQuery,
 } from '@/types/services';
 import { serviceErrorHandler, packageRecordIntoFormData } from '../utilities';
 import { api } from './api.config';
-import { HEADERS, TOKEN_HEADER } from './headers.config';
+import { getBearerTokenHeader, getTokenHeader } from './headers.config';
 import { ServiceError } from '@/utilities/error';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
-
-const userStore = useUserStore();
-
-const { getUserId, getUser } = storeToRefs(userStore);
 
 const BLOG_SERVICE_ERRORS = {
   GET_BLOGS: 'failed to get blogs',
@@ -30,6 +27,7 @@ const BLOG_SERVICE_ERRORS = {
   UPDATE_BLOG: 'failed to update blog',
   DELETE_IMAGE: 'failed to delete blog image',
   GET_RANDOM_BLOG: 'failed to get a random blog',
+  SEARCH_BLOGS: 'failed to search blogs',
 };
 
 type BlogErrors = keyof typeof BLOG_SERVICE_ERRORS;
@@ -74,6 +72,9 @@ const BlogService = {
 
   // fis this garbage
   async getDrafts(): Promise<Blog[]> {
+    const userStore = useUserStore();
+    const { getUser } = storeToRefs(userStore);
+
     try {
       const response = await api.post(`/drafts`, { user: getUser.value });
       return response.data as Blog[];
@@ -84,6 +85,9 @@ const BlogService = {
   },
 
   async newBlog(payload: NewBlogPayload): Promise<Blog> {
+    const userStore = useUserStore();
+    const { getUser } = storeToRefs(userStore);
+
     const payladWithUser: NewBlogPayloadWithUser = {
       ...structuredClone(payload),
       user: getUser.value,
@@ -161,6 +165,9 @@ const BlogService = {
   },
 
   async uploadImage(file: File): Promise<string> {
+    const userStore = useUserStore();
+    const { getUserId } = storeToRefs(userStore);
+
     const data = {
       image: file,
     };
@@ -169,7 +176,7 @@ const BlogService = {
       const response = await api.post(
         `/blog/image/${getUserId.value}`,
         payload,
-        HEADERS,
+        getBearerTokenHeader(),
       );
       return response.data.location;
     } catch (err) {
@@ -183,7 +190,7 @@ const BlogService = {
 
   async deleteFeaturedImage(payload: DeleteImagePayload): Promise<Blog> {
     try {
-      const response = await api.post('/s3/delete', payload, TOKEN_HEADER);
+      const response = await api.post('/s3/delete', payload, getTokenHeader());
       return response.data as Blog;
     } catch (err) {
       const message = serviceErrorHandler(
@@ -206,6 +213,22 @@ const BlogService = {
       );
       throw new BlogServiceError({
         name: 'GET_RANDOM_BLOG',
+        message,
+      });
+    }
+  },
+
+  async searchBlogs(query: SearchQuery): Promise<Blog[]> {
+    try {
+      const response = await api.post('/search', query);
+      return response.data as Blog[];
+    } catch (err) {
+      const message = serviceErrorHandler(
+        err,
+        BLOG_SERVICE_ERRORS.SEARCH_BLOGS,
+      );
+      throw new BlogServiceError({
+        name: 'SEARCH_BLOGS',
         message,
       });
     }

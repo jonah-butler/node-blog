@@ -11,8 +11,16 @@ const openModal = (): void => {
   }
 };
 
+const closeModal = (): void => {
+  const modal = document.querySelector(`#${props.id}`) as HTMLDialogElement;
+  if (modal) {
+    modal.close();
+  }
+};
+
 defineExpose({
   openModal,
+  closeModal,
 });
 </script>
 

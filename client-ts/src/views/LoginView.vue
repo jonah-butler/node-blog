@@ -96,7 +96,7 @@ const autoDismissAlert = (timeout: number): void => {
               v-if="error"
               :message="error"
               :useDismiss="false"
-              type="error"
+              type="alert-error"
             />
           </div>
           <ButtonMain

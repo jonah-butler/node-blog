@@ -136,12 +136,19 @@ router.post('/drafts/:slug', async (req, res) => {
 router.post('/search', async (req, res) => {
   const pattern = `\\b${req.body.query}\\b`;
   const post = await Blog.find(
-  {$or: [
-     { text: { $regex: pattern, $options: 'i' } },
-     { title: { $regex: pattern, $options: 'i' } },
-     { categories: {  $regex: pattern, $options: 'i'} }
-    ]}
-  );
+    {
+      $and: [
+        { published: true },
+        {
+          $or: [
+            { text: { $regex: pattern, $options: 'i' } },
+            { title: { $regex: pattern, $options: 'i' } },
+            { categories: { $regex: pattern, $options: 'i' } }
+          ]
+        }
+      ]
+    }
+  )
   res.send(post);
 })
 //blogshow route - updating rating
