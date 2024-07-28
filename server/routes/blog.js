@@ -85,6 +85,26 @@ router.get("/new", (req, res) => {
   res.render("blog/new");
 })
 
+router.get("/blog/category/:category", async (req, res) => {
+  const category = req.params.category;
+  
+  if (!category) {
+    return res.status(400).send({ error: "No content found" });
+  }
+
+  const splitCategories = category.split(",").map(category => category.trim);
+
+  try {
+    const blogs = await Blog.find({
+      categories: {$all: splitCategories},
+      published: true,
+    });
+    return res.status(200).send(blogs);
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+});
+
 router.post('/blog/', helpers.isNotDraft, async (req, res) => {
   let post = await Blog.findOne({slug: req.body.slug});
   const previousPost = await Blog.findOne({
