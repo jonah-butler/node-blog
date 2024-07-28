@@ -99,7 +99,7 @@ const search = async (): Promise<void> => {
           class="loading loading-spinner text-secondary"
         ></span>
       </label>
-      <section class="results max-h-64 overflow-scroll pt-4">
+      <section class="results mt-4 max-h-64 overflow-scroll">
         <div v-if="searchResults !== null">
           <div v-if="searchResults.length === 0">
             <img
@@ -177,7 +177,11 @@ const search = async (): Promise<void> => {
 </template>
 
 <style scoped>
-.empty-results.image {
+tr:hover {
+  background: #ffc2d4 !important;
+}
+
+.empty-results-image {
   max-height: 200px;
   margin: 0 auto;
 }
