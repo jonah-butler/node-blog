@@ -6,9 +6,11 @@ export interface ContentCardProps {
 
 export interface SecondaryContentCardProps extends ContentCardProps {
   index: number;
+  useBlob?: boolean;
+  backgroundColor?: string;
 }
 
-export interface AdminActionCardProps{
+export interface AdminActionCardProps {
   route: string;
   title: string;
   description: string;

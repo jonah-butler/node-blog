@@ -20,5 +20,11 @@ const blog_routes: RouteRecordRaw[] = [
     name: 'random',
     component: () => import('../../views/RandomView.vue'),
   },
+  {
+    path: '/blog/category/:category',
+    name: 'category',
+    props: true,
+    component: () => import('../../views/CategoryView.vue'),
+  },
 ];
 export { blog_routes };

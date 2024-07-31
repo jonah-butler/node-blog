@@ -23,12 +23,21 @@ const dynamicTextShadow = computed((): StyleValue => {
     return {
       'text-shadow': `2px 2px 0px rgba(${imageColorPalette.value[2].r}, ${imageColorPalette.value[2].g}, ${imageColorPalette.value[2].b}, ${imageColorPalette.value[2].a}),
       6px 6px 0px rgba(${imageColorPalette.value[3].r}, ${imageColorPalette.value[3].g}, ${imageColorPalette.value[3].b}, ${imageColorPalette.value[3].a})`,
+      color: `${computedHeaderColor.value}`,
     };
   } else {
     return {
       'text-shadow': '0px 0px 0px rgb(211, 94, 130)',
     };
   }
+});
+
+const computedHeaderColor = computed((): string => {
+  const red = imageColorPalette.value[3].r;
+  const green = imageColorPalette.value[3].g;
+  const blue = imageColorPalette.value[3].b;
+  console.log(red * 0.299 + green * 0.587 + blue * 0.114);
+  return red * 0.299 + green * 0.587 + blue * 0.114 > 130 ? '#000' : '#fff';
 });
 
 const quantizeImage = async (): Promise<void> => {
@@ -106,6 +115,7 @@ quantizeImage();
 
 .post__inner-details-container > h1 {
   transition: text-shadow 0.7s ease;
+  transition: color 1s ease;
   letter-spacing: 2px;
   line-height: 85px;
 }

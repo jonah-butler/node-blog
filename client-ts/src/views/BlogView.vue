@@ -80,14 +80,7 @@ const updateBlogRating = async (liked: boolean): Promise<boolean> => {
 };
 
 const browseCategory = async (category: string): Promise<void> => {
-  try {
-    const blogs = await BlogService.getCategories(category);
-    console.log(blogs);
-  } catch (err) {
-    if (err instanceof BlogServiceError) {
-      error.value = err.message;
-    }
-  }
+  router.push(`/blog/category/${category}`);
 };
 
 // use this in LikeCount component

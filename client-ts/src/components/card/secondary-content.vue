@@ -20,11 +20,20 @@ const blobStyles = computed((): StyleValue => {
   };
 });
 
-const cardStyles = computed((): any => ({
+const cardClass = computed((): any => ({
   'bg-pink-gradient': props.index === 0,
   'bg-blue-gradient': props.index === 1,
   'bg-teal-gradient': props.index === 2,
+  '': props.index === -1,
 }));
+
+const cardStyles = computed((): StyleValue => {
+  return {
+    'background-color': props.backgroundColor
+      ? `${props.backgroundColor} !important`
+      : '',
+  };
+});
 
 const navigate = (slug: string): void => {
   router.push(slug);
@@ -35,7 +44,8 @@ const navigate = (slug: string): void => {
   <div
     @click="navigate(`/blog/${blog.slug}`)"
     class="shadow-custom content-card card z-10 mx-3 my-5 min-h-60 max-w-sm overflow-hidden p-5 shadow-none shadow-xl"
-    :class="cardStyles"
+    :style="cardStyles"
+    :class="cardClass"
   >
     <div class="card-body pt-0 text-white">
       <h1 class="text-3xl font-bold">{{ blog.title }}</h1>
@@ -49,7 +59,11 @@ const navigate = (slug: string): void => {
         </span>
       </div>
     </div>
-    <div class="blob" :style="blobStyles"></div>
+    <div
+      v-if="useBlob !== undefined ? useBlob : true"
+      class="blob"
+      :style="blobStyles"
+    ></div>
   </div>
 </template>
 

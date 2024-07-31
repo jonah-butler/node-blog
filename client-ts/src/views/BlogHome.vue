@@ -85,6 +85,7 @@ getBlogs();
             :key="blog._id"
             :blog="blog"
             :index="generateRandomNumber(0, 2)"
+            :useBlob="true"
           />
         </div>
         <div
