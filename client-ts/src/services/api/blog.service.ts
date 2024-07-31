@@ -28,6 +28,7 @@ const BLOG_SERVICE_ERRORS = {
   DELETE_IMAGE: 'failed to delete blog image',
   GET_RANDOM_BLOG: 'failed to get a random blog',
   SEARCH_BLOGS: 'failed to search blogs',
+  GET_CATEGORIES: 'failed to get categories',
 };
 
 type BlogErrors = keyof typeof BLOG_SERVICE_ERRORS;
@@ -229,6 +230,22 @@ const BlogService = {
       );
       throw new BlogServiceError({
         name: 'SEARCH_BLOGS',
+        message,
+      });
+    }
+  },
+
+  async getCategories(category: string): Promise<Blog[]> {
+    try {
+      const response = await api.get(`/blog/category/${category}`);
+      return response.data as Blog[];
+    } catch (err) {
+      const message = serviceErrorHandler(
+        err,
+        BLOG_SERVICE_ERRORS.GET_CATEGORIES,
+      );
+      throw new BlogServiceError({
+        name: 'GET_CATEGORIES',
         message,
       });
     }
