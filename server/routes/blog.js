@@ -92,7 +92,7 @@ router.get("/blog/category/:category", async (req, res) => {
     return res.status(400).send({ error: "No content found" });
   }
 
-  const splitCategories = category.split(",").map(category => category.trim);
+  const splitCategories = category.split(",").map(category => category.trim());
 
   try {
     const blogs = await Blog.find({
