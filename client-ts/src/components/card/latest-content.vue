@@ -6,12 +6,11 @@ import NewContentBadge from '@/components/badges/new-content.vue';
 import { dateOptions, formatDate } from '@/services/formatting';
 import { type ContentCardProps } from './props';
 
-defineProps<ContentCardProps>();
+const props = defineProps<ContentCardProps>();
 
 const router = useRouter();
 
-const bg_image =
-  'https://dev-blog-resources.s3.amazonaws.com/canvas_1710820686255.png';
+const bg_image = props.blog.featuredImageLocation;
 
 const backgroundStyles = computed((): StyleValue => {
   return {

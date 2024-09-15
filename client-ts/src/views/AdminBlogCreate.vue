@@ -142,7 +142,12 @@ const autoDismissAlert = (timeout: number): void => {
             size="btn-xs"
           />
         </div>
-        <MainModal ref="imagePreviewModal" id="imagePreview" :useVHTML="false">
+        <MainModal
+          ref="imagePreviewModal"
+          id="imagePreview"
+          :useVHTML="false"
+          :useClose="true"
+        >
           <img :src="imagePreview" alt="" />
         </MainModal>
       </section>
@@ -180,6 +185,7 @@ const autoDismissAlert = (timeout: number): void => {
           id="contents_preview"
           :useVHTML="true"
           :contents="payload.text"
+          :useClose="true"
         />
         <EditorJSInput v-model:contents="payload.text" />
       </section>

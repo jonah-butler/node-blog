@@ -6,7 +6,7 @@ import MainLink from '@/components/links/main-link.vue';
   <div class="container overflow-hidden">
     <section class="d-flex h-full flex-wrap content-center">
       <div class="row">
-        <div class="col-xsmall-12 col-md-8 dir-col bio">
+        <div class="col-xsmall-12 col-md-8 dir-col circle-bg">
           <span class="d-flex">
             <span class="pr-2 pt-2 text-7xl font-extrabold">👋</span>
             <h1 class="text-7xl font-extrabold">Hey, I'm Jonah</h1>
@@ -88,25 +88,6 @@ h1 {
   text-shadow:
     #f5b2c7 2px 2px 0px,
     #fa709a 6px 6px 0px;
-}
-.bio {
-  position: relative;
-  z-index: 2;
-}
-.bio:before {
-  content: '';
-  position: absolute;
-  top: -120px;
-  left: -90px;
-  z-index: -1;
-  border-radius: 50%;
-  width: 300px;
-  height: 300px;
-  background:
-    linear-gradient(90deg, #f4f5f7 8px, transparent 1%) 95px 100px,
-    linear-gradient(#f4f5f7 8px, rgba(243, 108, 148, 0.2901960784313726) 1%),
-    rgba(1, 1, 1, 0.03);
-  background-size: 10px 10px;
 }
 
 .socials > a svg {

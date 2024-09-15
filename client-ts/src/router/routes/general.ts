@@ -11,6 +11,11 @@ const general_routes: RouteRecordRaw[] = [
     name: 'contact',
     component: () => import('../../views/ContactView.vue'),
   },
+  {
+    path: '/projects',
+    name: 'projects',
+    component: () => import('../../views/ProjectsView.vue'),
+  },
 ];
 
 export { general_routes };

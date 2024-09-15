@@ -295,6 +295,7 @@ retrieveBlog();
             ref="imagePreviewModal"
             id="imagePreview"
             :useVHTML="false"
+            :useClose="true"
           >
             <img :src="imagePreview" alt="" />
           </MainModal>
@@ -333,6 +334,7 @@ retrieveBlog();
             id="contents_preview"
             :useVHTML="true"
             :contents="blogToEdit.text"
+            :useClose="true"
           />
           <EditorJSInput v-model:contents="blogToEdit.text" />
         </section>

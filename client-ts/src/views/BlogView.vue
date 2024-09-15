@@ -12,6 +12,7 @@ import MainLink from '@/components/links/main-link.vue';
 import { PencilSquareIcon } from '@heroicons/vue/24/solid';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
+import MainModal from '@/components/modals/modal-main.vue';
 
 const props = defineProps({
   slug: {
@@ -19,6 +20,10 @@ const props = defineProps({
     required: true,
   },
 });
+
+const imageModal = ref<InstanceType<typeof MainModal>>();
+
+const selectedImage = ref('');
 
 const userStore = useUserStore();
 const { isAuthenticated, getUserId } = storeToRefs(userStore);
@@ -47,11 +52,31 @@ const loading = ref(false);
 const blogData = ref<SingleBlog>({} as SingleBlog);
 const error = ref('');
 
+const setupImageListeners = (): void => {
+  const post = document.querySelector('.post__content');
+  console.log('post', post);
+  const imageTags = post!.querySelectorAll('img');
+  console.log(imageTags);
+  if (!imageTags) return;
+
+  Array.from(imageTags).forEach((img): void => {
+    img.addEventListener('click', () => {
+      selectedImage.value = img.getAttribute('src') || '';
+      openImagePreviewModal();
+    });
+  });
+};
+
+const openImagePreviewModal = (): void => {
+  if (!imageModal.value) return;
+
+  imageModal.value.openModal();
+};
+
 const getBlog = async (): Promise<void> => {
   loading.value = true;
   try {
     blogData.value = await BlogService.getBlog(props.slug);
-    console.log(blogData.value);
   } catch (err) {
     if (err instanceof BlogServiceError) {
       error.value = err.message;
@@ -89,6 +114,19 @@ provide<BlogLikeInjector>('updateBlogRating', {
 });
 
 const route = useRoute();
+
+const blogText = computed((): string => {
+  return blogData.value.post1?.text ?? '';
+});
+
+watch(loading, (n, o) => {
+  console.log('new', n);
+  if (o && !n && blogText.value.length) {
+    setTimeout((): void => {
+      setupImageListeners();
+    }, 1);
+  }
+});
 
 watch(route, () => {
   getBlog();
@@ -144,6 +182,14 @@ getBlog();
         />
       </div>
     </section>
+    <MainModal
+      id="imageModal"
+      ref="imageModal"
+      :useClose="false"
+      :useVHTML="false"
+    >
+      <img :src="selectedImage" />
+    </MainModal>
   </article>
   <article v-if="loading">
     <JumpingDotsLoader />

@@ -85,7 +85,12 @@ const search = async (): Promise<void> => {
 
 <template>
   <div class="bg-off_white navbar rounded-t-md px-5">
-    <MainModal ref="searchModal" id="searchModal" :useVHTML="false">
+    <MainModal
+      ref="searchModal"
+      id="searchModal"
+      :useVHTML="false"
+      :useClose="true"
+    >
       <label class="input input-bordered flex items-center gap-2">
         <input
           @keyup="debouncedSearch"

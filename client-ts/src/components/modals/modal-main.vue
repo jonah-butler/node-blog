@@ -25,15 +25,25 @@ defineExpose({
 </script>
 
 <template>
-  <dialog :id="id" class="modal">
+  <dialog :id="id" class="modal" v-if="!useClose">
+    <div class="modal-box">
+      <div v-if="useVHTML" v-html="contents"></div>
+      <div v-else>
+        <slot></slot>
+      </div>
+    </div>
+    <form v-if="!useClose" method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
+  <dialog :id="id" class="modal" v-else>
     <div class="modal-box">
       <div v-if="useVHTML" v-html="contents"></div>
       <div v-else>
         <slot></slot>
       </div>
       <div class="modal-action">
-        <form method="dialog">
-          <!-- if there is a button in form, it will close the modal -->
+        <form v-if="useClose" method="dialog">
           <button class="btn">Close</button>
         </form>
       </div>
@@ -44,7 +54,5 @@ defineExpose({
 <style scoped>
 .modal-box {
   max-width: 50%;
-  /* max-height: 80vh; */
-  /* overflow-y: scroll; */
 }
 </style>

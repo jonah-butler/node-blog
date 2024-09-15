@@ -8,7 +8,10 @@ defineProps<MainLink>();
 const router = useRouter();
 
 const navigate = (slug: string): void => {
-  console.log(slug);
+  if (slug.indexOf('http') !== -1) {
+    location.href = slug;
+    return;
+  }
   router.push(slug);
 };
 </script>

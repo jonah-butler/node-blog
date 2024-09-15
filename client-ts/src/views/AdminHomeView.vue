@@ -12,10 +12,6 @@ const newBlogRoute = computed((): string => {
   return `/admin/${getUserId.value}/create/blog`;
 });
 
-const browseUserPostsRoute = computed((): string => {
-  return `/admin/${getUserId.value}/blog`;
-});
-
 const browserUserDrafts = computed((): string => {
   return `/admin/${getUserId.value}/drafts`;
 });
@@ -27,11 +23,6 @@ const browserUserDrafts = computed((): string => {
       title="New Blog"
       description="create a new piece of content"
       :route="newBlogRoute"
-    />
-    <AdminActionCard
-      title="Browse Your Content"
-      description="browse user generated content"
-      :route="browseUserPostsRoute"
     />
     <AdminActionCard
       title="View Drafts"
