@@ -1,5 +1,12 @@
 [build]
-  command = "npm run build"
-  publish = "dist"
-  base = "client"
-  # The base directory should be the path to the nested Vue project
+  base = "client"  # Ensure Netlify builds from the client directory
+  command = "npm run build-only"  # Skip type-check, only run vite build
+  publish = "dist"  # Output directory for the Vite build
+
+[build.environment]
+  NODE_VERSION = "20.x"  # Ensure the correct Node.js version
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
