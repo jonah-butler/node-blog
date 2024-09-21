@@ -2,6 +2,7 @@ import {
   type NewBlogPayload,
   type NewBlogPayloadWithUser,
   type Blog,
+  type BlogResponse,
   type SingleBlog,
   type LikedBlogPayload,
   type GetEditBlogPayload,
@@ -40,10 +41,10 @@ export class BlogServiceError extends ServiceError<BlogErrors> {}
 // also create error class so the return types are not the generic AxiosResponse, but
 // rather the exact type needed.
 const BlogService = {
-  async getBlogs(): Promise<Blog[]> {
+  async getBlogs(offset = 0): Promise<BlogResponse> {
     try {
-      const response = await api.get('/');
-      return response.data as Blog[];
+      const response = await api.get(`/?offset=${offset}`);
+      return response.data as BlogResponse;
     } catch (err) {
       const message = serviceErrorHandler(err, BLOG_SERVICE_ERRORS.GET_BLOGS);
       throw new BlogServiceError({ name: 'GET_BLOGS', message });

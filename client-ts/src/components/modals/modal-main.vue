@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { defineExpose } from 'vue';
 import { type ModalProps } from './props';
+import { type MainModalEmits } from './emits';
 
 const props = defineProps<ModalProps>();
+const emits = defineEmits<MainModalEmits>();
 
 const openModal = (): void => {
   const modal = document.querySelector(`#${props.id}`) as HTMLDialogElement;
@@ -12,9 +14,11 @@ const openModal = (): void => {
 };
 
 const closeModal = (): void => {
+  console.log('close');
   const modal = document.querySelector(`#${props.id}`) as HTMLDialogElement;
   if (modal) {
     modal.close();
+    emits('close');
   }
 };
 
@@ -44,7 +48,7 @@ defineExpose({
       </div>
       <div class="modal-action">
         <form v-if="useClose" method="dialog">
-          <button class="btn">Close</button>
+          <button class="btn" @click="closeModal">Close</button>
         </form>
       </div>
     </div>

@@ -11,7 +11,13 @@ import { BlogService, BlogServiceError } from '@/services/api/blog.service';
 import { generateRandomNumber } from '../utilities/random';
 
 const loading = ref(true);
+const moreBlogsLoading = ref(false);
+
+const hasMore = ref(true);
+
 const error = ref('');
+const offset = ref(0);
+const offsetLimit = 10;
 
 const blogs = ref<Blog[]>([]);
 
@@ -35,7 +41,10 @@ const getBlogs = async (): Promise<void> => {
   loading.value = true;
 
   try {
-    blogs.value = await BlogService.getBlogs();
+    const response = await BlogService.getBlogs();
+
+    blogs.value = response.blogs;
+    hasMore.value = response.hasMore;
 
     // get latest blog
     latestBlog.value = blogs.value[0];
@@ -59,7 +68,25 @@ const handleAlertClick = (): void => {
   getBlogs();
 };
 
-const loadMoreBlogs = async (): Promise<void> => {};
+const loadMoreBlogs = async (): Promise<void> => {
+  moreBlogsLoading.value = true;
+
+  try {
+    offset.value += offsetLimit;
+
+    const response = await BlogService.getBlogs(offset.value);
+    if (response.blogs.length) {
+      remainingBlogs.value.push(...response.blogs);
+      hasMore.value = response.hasMore;
+    }
+  } catch (err) {
+    if (err instanceof BlogServiceError) {
+      error.value = err.message;
+    }
+  } finally {
+    moreBlogsLoading.value = false;
+  }
+};
 
 getBlogs();
 </script>
@@ -101,7 +128,12 @@ getBlogs();
             :slug="`/blog/${blog.slug}`"
           />
 
-          <SecondaryLink title="Load More" @click="loadMoreBlogs" />
+          <SecondaryLink
+            v-if="hasMore"
+            :loading="moreBlogsLoading"
+            title="Load More"
+            @click="loadMoreBlogs"
+          />
         </div>
       </section>
       <section v-else-if="error" key="loader">

@@ -14,13 +14,13 @@ const routeProtection = (
    * Route guard logic will go here...
    */
   const userStore = useUserStore();
-  const { getUserToken, isAuthenticated } = storeToRefs(userStore);
+  const { getUserToken, isAuthenticated, getUserId } = storeToRefs(userStore);
 
   // check if an authenticated routed
   if (to.meta.auth) {
     // if user is not authenticated return to root
     if (!isAuthenticated.value) {
-      next({
+      return next({
         path: '/',
       });
     }
@@ -29,15 +29,26 @@ const routeProtection = (
     // if expired, return to root
     if (expiration < new Date()) {
       userStore.logoutUser();
-      next({
+      return next({
         path: '/',
       });
     }
+
+    if (to.meta.admin) {
+      if (to.params.userId !== getUserId.value) {
+        return next({
+          path: '/',
+        });
+      }
+    }
   }
 
-  console.log('to: ', to);
-  console.log('from: ', from);
-  console.log('next: ', next);
+  if (to.path === '/login' && isAuthenticated.value) {
+    return next({
+      path: '/',
+    });
+  }
+
   return next();
 };
 

@@ -7,6 +7,7 @@ const admin_routes: RouteRecordRaw[] = [
     name: 'admin home',
     meta: {
       auth: true,
+      admin: true,
     },
     component: () => import('../../views/AdminHomeView.vue'),
   },
@@ -24,6 +25,7 @@ const admin_routes: RouteRecordRaw[] = [
     name: 'admin new blog',
     meta: {
       auth: true,
+      admin: true,
     },
     component: () => import('../../views/AdminBlogCreate.vue'),
   },
@@ -33,6 +35,7 @@ const admin_routes: RouteRecordRaw[] = [
     name: 'admin drafts',
     meta: {
       auth: true,
+      admin: true,
     },
     component: () => import('../../views/AdminDraftsView.vue'),
   },
@@ -43,6 +46,7 @@ const admin_routes: RouteRecordRaw[] = [
     props: true,
     meta: {
       auth: true,
+      admin: true,
     },
     component: () => import('../../views/AdminDraftView.vue'),
   },
@@ -52,6 +56,7 @@ const admin_routes: RouteRecordRaw[] = [
     name: 'admin posts',
     meta: {
       auth: true,
+      admin: true,
     },
     component: () => import('../../views/AdminPostsView.vue'),
   },
@@ -62,6 +67,7 @@ const admin_routes: RouteRecordRaw[] = [
     props: true,
     meta: {
       auth: true,
+      admin: true,
     },
     component: () => import('../../views/AdminBlogEditView.vue'),
   },

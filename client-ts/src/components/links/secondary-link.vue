@@ -10,7 +10,11 @@ defineProps<SecondaryLink>();
 
 <template>
   <div class="secondary-link-container container z-10 my-3">
-    <h1 class="secondary-link relative p-2 text-xl">{{ title }}</h1>
+    <span
+      v-if="loading"
+      class="secondary-link loading loading-spinner loading-sm relative p-2 text-xl"
+    ></span>
+    <h1 v-else class="secondary-link relative p-2 text-xl">{{ title }}</h1>
   </div>
 </template>
 

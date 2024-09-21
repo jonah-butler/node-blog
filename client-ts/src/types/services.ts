@@ -1,5 +1,10 @@
 import { type User } from '@/types/user';
 
+export interface BlogResponse {
+  blogs: Blog[];
+  hasMore: boolean;
+}
+
 export interface Blog {
   categories: string[];
   createdAt: string;

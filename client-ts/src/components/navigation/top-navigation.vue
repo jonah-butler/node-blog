@@ -10,6 +10,8 @@ import { BlogService, BlogServiceError } from '@/services/api/blog.service';
 const router = useRouter();
 const userStore = useUserStore();
 
+const { logoutUser } = userStore;
+
 const searchModal = ref<InstanceType<typeof MainModal>>();
 
 const query = ref('');
@@ -19,7 +21,8 @@ const debounce = ref<number | null>(null);
 
 const searchResults = ref<Blog[] | null>(null);
 
-const { isAuthenticated, getUserProfileImage } = storeToRefs(userStore);
+const { isAuthenticated, getUserProfileImage, getUserId } =
+  storeToRefs(userStore);
 
 const openSearchModal = (): void => {
   if (!searchModal.value) return;
@@ -28,7 +31,13 @@ const openSearchModal = (): void => {
 };
 
 const openAdminPage = (): void => {
-  router.push(`/admin/asdf`);
+  closeDropdownOnClick();
+  router.push(`/admin/${getUserId.value}`);
+};
+
+const logout = (): void => {
+  closeDropdownOnClick();
+  logoutUser();
 };
 
 const navigate = (slug: string): void => {
@@ -44,6 +53,13 @@ const cleanup = (): void => {
   query.value = '';
 };
 
+const closeDropdownOnClick = (): void => {
+  const dropdown = document.querySelector('.dropdown');
+  if (dropdown) {
+    dropdown.removeAttribute('open');
+  }
+};
+
 const debouncedSearch = (): void => {
   if (query.value.length === 0) {
     searchResults.value = null;
@@ -56,20 +72,26 @@ const debouncedSearch = (): void => {
   if (debounce.value !== null) {
     window.clearTimeout(debounce.value);
   }
-
   debounce.value = window.setTimeout(() => {
     search();
   }, 1000);
 };
 
+const cleanUpSearch = (): void => {
+  query.value = '';
+  searchResults.value = null;
+};
+
 const search = async (): Promise<void> => {
   try {
+    if (!query.value) {
+      searching.value = false;
+      return;
+    }
     const payload: SearchQuery = {
       query: query.value,
     };
-
     searchResults.value = await BlogService.searchBlogs(payload);
-    console.log(searchResults.value);
   } catch (err) {
     if (err instanceof BlogServiceError) {
       error.value = err.message;
@@ -78,14 +100,12 @@ const search = async (): Promise<void> => {
     searching.value = false;
   }
 };
-
-// store method with pinia?
-// const logout = (): void => {};
 </script>
 
 <template>
   <div class="bg-off_white navbar rounded-t-md px-5">
     <MainModal
+      @close="cleanUpSearch"
       ref="searchModal"
       id="searchModal"
       :useVHTML="false"
@@ -167,14 +187,25 @@ const search = async (): Promise<void> => {
 
     <!-- authenticated-->
     <div v-if="isAuthenticated" class="navbar-end">
-      <div class="avatar">
-        <div
-          class="w-12 cursor-pointer rounded-full ring ring-primary ring-offset-2 ring-offset-base-100"
-          @click="openAdminPage"
+      <details class="dropdown dropdown-end">
+        <summary class="btn m-1 border-none hover:bg-transparent">
+          <div class="avatar">
+            <div
+              class="w-12 cursor-pointer rounded-full ring ring-primary ring-offset-2 ring-offset-base-100"
+            >
+              <img :src="getUserProfileImage" />
+            </div>
+          </div>
+        </summary>
+        <ul
+          class="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow"
         >
-          <img :src="getUserProfileImage" />
-        </div>
-      </div>
+          <li>
+            <span class="justify-between" @click="openAdminPage">Profile</span>
+          </li>
+          <li><span @click="logout">Logout</span></li>
+        </ul>
+      </details>
     </div>
 
     <div v-else class="navbar-end"></div>

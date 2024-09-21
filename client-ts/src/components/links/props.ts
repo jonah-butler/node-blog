@@ -1,5 +1,6 @@
 export interface SecondaryLink {
   title: string;
+  loading?: boolean;
 }
 
 export interface MainLink {
