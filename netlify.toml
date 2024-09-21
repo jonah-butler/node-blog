@@ -4,7 +4,7 @@
   publish = "dist"  # Output directory for the Vite build
 
 [build.environment]
-  NODE_VERSION = 20.0
+  NODE_VERSION = 20
 
 [[redirects]]
   from = "/*"
