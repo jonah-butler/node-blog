@@ -30,9 +30,9 @@ const navigate = (slug: string): void => {
   >
     <section
       :style="backgroundStyles"
-      class="featured-image rounded-md"
+      class="featured-image rounded-md sm:block hidden"
     ></section>
-    <div class="card-body pt-0">
+    <div class="card-body p-3">
       <h1 class="text-3xl font-bold">{{ blog.title }}</h1>
       <p class="font-light">
         {{ formatDate(blog.createdAt, dateOptions.monthDayYear) }}

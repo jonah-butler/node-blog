@@ -117,7 +117,7 @@ getBlogs();
         </div>
         <div
           v-if="hasRemainingBlogs"
-          class="mx-20 flex w-fit flex-col flex-wrap"
+          class="sm:mx-5 md:mx-20 flex w-fit flex-col flex-wrap"
         >
           <!-- all other blogs -->
           <MainLink

@@ -43,11 +43,11 @@ const navigate = (slug: string): void => {
 <template>
   <div
     @click="navigate(`/blog/${blog.slug}`)"
-    class="shadow-custom content-card card z-10 mx-3 my-5 min-h-60 max-w-sm overflow-hidden p-5 shadow-none shadow-xl"
+    class="shadow-custom content-card card z-10 m-3 min-h-60 max-w-sm overflow-hidden p-3 shadow-none shadow-xl"
     :style="cardStyles"
     :class="cardClass"
   >
-    <div class="card-body pt-0 text-white">
+    <div class="card-body p-3 mb-1 text-white">
       <h1 class="text-3xl font-bold">{{ blog.title }}</h1>
       <p class="font-light">
         {{ formatDate(blog.createdAt, dateOptions.monthDayYear) }}

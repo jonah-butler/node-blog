@@ -146,13 +146,16 @@ getBlogs();
   line-height: 85px;
 }
 
-/* .category-header::after {
-  content: '';
-  background-image: linear-gradient(180deg, rgba(0, 71, 101, 0) 15%, #f4f5f7);
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-} */
+@media (max-width: 820px) {
+  .inner-container  {
+    bottom: 50px !important;
+  }
+  .inner-container > h1 {
+    font-size: 60px;
+    line-height: 66px !important;
+  }
+  .category-header {
+    min-height: 300px !important;
+  }
+}
 </style>

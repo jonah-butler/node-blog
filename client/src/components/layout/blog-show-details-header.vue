@@ -102,9 +102,12 @@ quantizeImage();
 }
 
 @media (max-width: 820px) {
-  .post__details-container {
-    min-height: 340px !important;
-    max-height: 340px !important;
+  .post__inner-details-container {
+    bottom: 80px !important;
+  }
+  .post__inner-details-container > h1 {
+    font-size: 60px;
+    line-height: 66px !important;
   }
 }
 
