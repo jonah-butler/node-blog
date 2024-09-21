@@ -59,9 +59,24 @@ const upload2 = async(req, res) => {
 });
 
 router.get("/", async (req, res) => {
+  const limit = 10;
   try {
-    const blogs = await Blog.find({'published': true}).sort({createdAt: -1});
-    res.send(blogs);
+    const offset = parseInt(req.query.offset);
+    let blogs = []
+    if(!offset) {
+      blogs = await Blog.find({'published': true}).sort({createdAt: -1}).limit(10);
+    } else {
+      blogs = await Blog.find({'published': true}).sort({createdAt: -1}).limit(10).skip(offset);
+    }
+    const count = await Blog.countDocuments();
+
+    const hasMore = offset + limit < count;
+    res.send(
+      {
+        blogs,
+        hasMore
+      }
+    );
   } catch (err) {
     console.log(err);
   }
