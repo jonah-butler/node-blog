@@ -4,7 +4,7 @@
   publish = "dist"  # Output directory for the Vite build
 
 [build.environment]
-  NODE_VERSION = "20.x"  # Ensure the correct Node.js version
+  NODE_VERSION = 20.0.0
 
 [[redirects]]
   from = "/*"
