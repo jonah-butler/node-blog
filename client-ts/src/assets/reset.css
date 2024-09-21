@@ -1,0 +1,14 @@
+a {
+  color: black;
+}
+a:hover {
+  background-color: transparent !important;
+}
+a:focus {
+  background-color: transparent !important;
+  color: #fa709a !important;
+}
+a:active {
+  background-color: transparent !important;
+  color: #fa709a !important;
+}
