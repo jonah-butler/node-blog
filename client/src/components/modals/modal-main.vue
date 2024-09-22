@@ -41,7 +41,7 @@ defineExpose({
     </form>
   </dialog>
   <dialog :id="id" class="modal" v-else>
-    <div class="modal-box">
+    <div class="modal-box !max-w-xl sm:w-3/4 md:w-1/2">
       <div v-if="useVHTML" v-html="contents"></div>
       <div v-else>
         <slot></slot>

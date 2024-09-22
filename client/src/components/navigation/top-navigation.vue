@@ -246,7 +246,7 @@ const openMenu = (): void => {
     </div>
     <div class="navbar flex min-h-0 flex-col p-0">
       <div v-if="open" class="sm:hidden">
-        <ul class="menu flex-row p-2">
+        <ul class="menu flex-row justify-center p-2 text-center">
           <li class="link">
             <RouterLink class="p-2" to="/">Blog</RouterLink>
           </li>
