@@ -47,7 +47,7 @@ const quantizeImage = async (): Promise<void> => {
     const cacheBustedUrl = `${props.data.url}?cacheBuster=${new Date().getTime()}`;
     const imageData = await palette.extractImageDataFromSrc(cacheBustedUrl, 8);
     imageColorPalette.value = palette.quantize(imageData);
-    console.log(imageColorPalette.value);
+
     textShadowPalette.value =
       imageColorPalette.value[imageColorPalette.value.length - 1];
   } catch (err) {
@@ -104,9 +104,10 @@ quantizeImage();
 @media (max-width: 820px) {
   .post__inner-details-container {
     bottom: 80px !important;
+    left: 1rem !important;
   }
   .post__inner-details-container > h1 {
-    font-size: 60px;
+    font-size: 50px;
     line-height: 66px !important;
   }
 }

@@ -8,7 +8,7 @@ import MainLink from '@/components/links/main-link.vue';
     <p class="max-width-lg margin-auto">
       A list of personal projects and packages, some maintained and others not.
     </p>
-    <article class="circle-bg mt-40 px-20">
+    <article class="circle-bg mb-40 mt-40 px-10">
       <div class="text-left">
         <h2>Cellular Automata Playground</h2>
         <p>
@@ -26,7 +26,7 @@ import MainLink from '@/components/links/main-link.vue';
         />
       </div>
     </article>
-    <article class="mt-20 px-20">
+    <article class="circle-bg mb-40 mt-40 px-10">
       <div class="text-left">
         <h2>NPM Packages</h2>
         <p>
@@ -39,7 +39,7 @@ import MainLink from '@/components/links/main-link.vue';
         <MainLink slug="https://www.npmjs.com/~jayimbee" title="Check It Out" />
       </div>
     </article>
-    <article class="mt-20 px-20">
+    <article class="circle-bg mb-40 mt-40 px-10">
       <div class="text-left">
         <h2>News CLI</h2>
         <p>
@@ -59,7 +59,7 @@ import MainLink from '@/components/links/main-link.vue';
         />
       </div>
     </article>
-    <article class="mt-20 px-20">
+    <article class="circle-bg mb-40 mt-40 px-10">
       <div class="text-left">
         <h2>Graphic Editor - Simple Canva Clone</h2>
         <p>
@@ -76,7 +76,7 @@ import MainLink from '@/components/links/main-link.vue';
         />
       </div>
     </article>
-    <article class="mt-20 px-20">
+    <article class="circle-bg mb-40 mt-40 px-10">
       <div class="text-left">
         <h2>Developer Blog</h2>
         <p>

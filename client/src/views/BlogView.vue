@@ -152,8 +152,10 @@ getBlog();
       >
         <PencilSquareIcon class="h-5 fill-white" />
       </button>
-      <div class="row p-4">
-        <div class="col-xsmall-12 col-md-2 flex-row sm:flex-col">
+      <div class="row p-2 sm:p-4">
+        <div
+          class="col-xsmall-12 col-md-2 flex-row overflow-scroll sm:flex-col"
+        >
           <BasicBadge
             v-for="category in blogData.post1.categories"
             @categoryCallback="browseCategory"
