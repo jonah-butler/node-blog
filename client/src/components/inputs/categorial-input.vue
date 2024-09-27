@@ -50,6 +50,7 @@ const valueExists = (sanitizedValue: string): boolean => {
 
 const removeCategory = (index: number): void => {
   values.value.splice(index, 1);
+  emits('update:data', JSON.stringify(values.value));
 };
 
 onMounted((): void => {
