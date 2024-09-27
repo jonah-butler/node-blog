@@ -119,6 +119,8 @@ const deleteImage = async (): Promise<void> => {
 
     const response = await BlogService.deleteFeaturedImage(payload);
     imagePreview.value = response.featuredImageLocation;
+    console.log(imagePreview.value);
+    blog.value.featuredImageLocation = imagePreview.value;
   } catch (err) {
     if (err instanceof BlogServiceError) {
       error.value = err.message;
@@ -211,7 +213,7 @@ retrieveBlog();
               <div class="label">
                 <span class="label-text-alt">Current Image</span>
               </div>
-              <div v-if="imagePreview.length">
+              <div v-if="imagePreview && imagePreview.length">
                 <input
                   type="text"
                   :placeholder="imagePreview"
