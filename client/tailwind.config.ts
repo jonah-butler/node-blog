@@ -1,13 +1,12 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 export default {
-  content: ["./src/**/*.{vue,js,ts,jsx,tsc}"],
+  content: ['./src/**/*.{vue,js,ts,jsx,tsc}'],
   theme: {
     extend: {},
   },
-  plugins: [require("daisyui")],
+  plugins: [require('daisyui')],
   daisyui: {
-    themes: ["light"],
+    themes: ['light'],
   },
-} satisfies Config
-
+} satisfies Config;

@@ -154,7 +154,7 @@ getBlog();
       </button>
       <div class="row p-2 sm:p-4">
         <div
-          class="col-xsmall-12 col-md-2 flex-row overflow-scroll sm:flex-col"
+          class="col-small-12 col-md-2 category-container flex-row flex-col overflow-scroll"
         >
           <BasicBadge
             v-for="category in blogData.post1.categories"
@@ -164,7 +164,7 @@ getBlog();
           />
         </div>
         <div
-          class="post__content col-xsmall-12 col-md-10 dir-col"
+          class="post__content col-small-12 col-md-10 dir-col"
           v-html="blogData.post1.text"
         ></div>
       </div>
@@ -197,3 +197,12 @@ getBlog();
     <JumpingDotsLoader />
   </article>
 </template>
+
+<style scoped>
+/* quick and dirty patch until i figure out a full tailwind solution */
+@media (max-width: 766px) {
+  .category-container {
+    flex-direction: row;
+  }
+}
+</style>

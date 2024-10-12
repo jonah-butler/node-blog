@@ -6,15 +6,14 @@ defineProps<Badge>();
 const emits = defineEmits<BasicBadgeEmits>();
 
 const handleClick = (category: string): void => {
-  emits("categoryCallback", category);
-}
-
+  emits('categoryCallback', category);
+};
 </script>
 
 <template>
   <div
     @click="handleClick(text)"
-    class="bg-deep-purple badge relative m-1 cursor-pointer p-3 text-xs text-white"
+    class="bg-deep-purple badge relative m-1 cursor-pointer whitespace-nowrap p-3 text-xs text-white"
   >
     {{ text }}
   </div>
