@@ -198,11 +198,15 @@ getBlog();
   </article>
 </template>
 
-<style scoped>
+<style>
 /* quick and dirty patch until i figure out a full tailwind solution */
 @media (max-width: 766px) {
   .category-container {
     flex-direction: row;
   }
+}
+
+#imageModal > .modal-box {
+  max-width: 70%;
 }
 </style>
