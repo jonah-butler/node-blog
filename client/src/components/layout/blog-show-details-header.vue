@@ -43,6 +43,7 @@ const computedHeaderColor = computed((): string => {
 });
 
 const quantizeImage = async (): Promise<void> => {
+  console.log('loaded');
   try {
     const cacheBustedUrl = `${props.data.url}?cacheBuster=${new Date().getTime()}`;
     const imageData = await palette.extractImageDataFromSrc(cacheBustedUrl, 8);
@@ -54,6 +55,10 @@ const quantizeImage = async (): Promise<void> => {
     console.log(err);
   }
 };
+
+// const test = (): void => {
+//   quantizeImage()
+// };
 
 quantizeImage();
 </script>
@@ -120,8 +125,7 @@ quantizeImage();
 }
 
 .post__inner-details-container > h1 {
-  transition: text-shadow 1.7s ease;
-  transition: color 1s ease;
+  transition: all 0.5s ease;
   letter-spacing: 2px;
   line-height: 85px;
   color: black;
