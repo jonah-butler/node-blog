@@ -43,7 +43,6 @@ module.exports = {
     } else {
       res.status(400).json({err: 'please provide token'});
     }
-    console.log("token", token);
     try{
       const decoded = jwt.verify(token, 'secret');
       req.body.userData = decoded;

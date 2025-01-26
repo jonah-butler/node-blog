@@ -277,22 +277,29 @@ router.post('/blog/image/:user_id', auth.isLoggedIn, async (req, res) => {
 })
 
 // NEW BLOG POST ROUTE
-router.post("/", async (req, res) => {
+router.post("/", auth.isLoggedIn, async (req, res) => {
   try{
+    const userID = req.body.userData._id;
+
     uploadImg(req, res, async (err) => {
       if(err){
         console.log(err);
       } else {
         let newBlog = {
           title: req.body.title,
-          featuredImageLocation: res.req.file.location,
-          featuredImageTag: res.req.file.etag,
-          featuredImageKey: res.req.file.key,
+          featuredImageLocation: res.req.file?.location ?? "",
+          featuredImageTag: res.req.file?.etag ?? "",
+          featuredImageKey: res.req.file?.key ?? "",
           text: req.body.text,
           published: req.body.published,
           categories: [],
+          author: userID,
         }
-        JSON.parse(req.body.categories).forEach(category => newBlog.categories.push(category));
+        
+        if(req.body.categories) {
+          JSON.parse(req.body.categories).forEach(category => newBlog.categories.push(category));
+        }
+
         Blog.create(newBlog, (err, blog) => {
           if(err){
             console.log(err);

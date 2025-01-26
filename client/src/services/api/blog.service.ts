@@ -98,7 +98,7 @@ const BlogService = {
     const data = packageRecordIntoFormData(payladWithUser);
 
     try {
-      const response = await api.post('/', data);
+      const response = await api.post('/', data, getBearerTokenHeader());
       if (response.data._id) {
         return response.data as Blog;
       }

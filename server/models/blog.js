@@ -32,8 +32,8 @@ const blogSchema = new mongoose.Schema(
       required: true,
     },
     author: {
-      type: String,
-      required: false,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
     categories: {
       type: [String],
