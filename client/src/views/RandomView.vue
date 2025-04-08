@@ -8,7 +8,7 @@ const router = useRouter();
 const getRandomBog = async (): Promise<void> => {
   try {
     const randomBlog = await BlogService.getRandomBlog();
-    router.push(`/blog/${randomBlog.slug}`);
+    router.push(`/blog/${randomBlog.blog.slug}`);
   } catch (err) {
     if (err instanceof BlogServiceError) {
       router.push('/');

@@ -22,10 +22,14 @@ export interface Blog {
   _id: string;
 }
 
+export interface AffectedResponse {
+  affected: number;
+}
+
 export interface SingleBlog {
-  nextPost: Blog | null;
-  post1: Blog;
-  previousPost: Blog | null;
+  blog: Blog;
+  next: Blog | null;
+  previous: Blog | null;
   [key: string]: Blog | null;
 }
 
@@ -46,7 +50,7 @@ export interface NewBlogPayload {
   image: File | null;
   categories: string | string[];
   title: string;
-  id?: string;
+  id: string;
 }
 
 export interface NewBlogPayloadWithUser extends NewBlogPayload {
@@ -58,15 +62,11 @@ export interface GetEditBlogPayload {
   user: User;
 }
 
-export interface DeleteImagePayload {
-  blogId: string;
-  uri: string;
-}
-
 export interface EmailBody {
-  email: string;
-  name: string;
+  from: string;
   message: string;
+  subject: string;
+  to: string;
 }
 
 export interface SearchQuery {

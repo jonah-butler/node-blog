@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { dateOptions, formatDate } from '@/services/formatting';
 import { useRouter } from 'vue-router';
 import { type MainLink } from './props';
-import { dateOptions, formatDate } from '@/services/formatting';
 
 defineProps<MainLink>();
 
@@ -42,8 +42,8 @@ const navigate = (slug: string): void => {
   top: 0;
   left: -0.5rem;
   border-radius: 20px;
-  background: #fa709a;
-  opacity: 0.5;
+  background: oklch(var(--secondary-vibrant));
+  /* opacity: 0.5; */
   width: 40px;
   height: 40px;
   transition: all 0.2s ease;

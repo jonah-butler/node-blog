@@ -1,11 +1,12 @@
-import { fileURLToPath, URL } from 'node:url';
-
-import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import { fileURLToPath, URL } from 'node:url';
+import { defineConfig } from 'vite';
+import mkcert from 'vite-plugin-mkcert';
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [vue(), mkcert()],
   server: {
+    host: 'local.jonahbutler.dev',
     port: 8080,
   },
   resolve: {

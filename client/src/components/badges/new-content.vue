@@ -1,9 +1,7 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 
 <template>
-  <div class="new-content-badge text-white flex justify-center items-center">
+  <div class="new-content-badge flex items-center justify-center text-white">
     New
   </div>
 </template>
@@ -13,6 +11,6 @@
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: #f06c93;
+  background-color: oklch(var(--secondary-vibrant));
 }
 </style>

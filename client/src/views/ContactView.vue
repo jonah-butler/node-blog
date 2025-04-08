@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { ref, computed, type Ref } from 'vue';
+import { type EmailBody } from '@/types/services';
+import { computed, ref, type Ref } from 'vue';
 import BasicAlert from '../components/alerts/basic-alert.vue';
 import ButtonMain from '../components/buttons/button-main.vue';
-import { type EmailBody } from '@/types/services';
 import {
   ContactService,
   ContactServiceError,
 } from '../services/api/contact.service';
 
-const name = ref('');
-const email = ref('');
+const from = ref('');
+const to = ref('jonahbutler6@gmail.com');
+const subject = ref('New Contact Email');
 const message = ref('');
 
 const sending = ref(false);
@@ -18,7 +19,7 @@ const successMessage = ref('');
 const error = ref('');
 
 const canSendEmail = computed((): boolean => {
-  return name.value !== '' && email.value !== '' && message.value !== '';
+  return from.value !== '' && message.value !== '';
 });
 
 const sendEmail = async (): Promise<void> => {
@@ -29,17 +30,17 @@ const sendEmail = async (): Promise<void> => {
   }
 
   const payload: EmailBody = {
-    name: name.value,
-    email: email.value,
+    from: from.value,
+    to: to.value,
+    subject: subject.value,
     message: message.value,
   };
 
   try {
     const didSend = await ContactService.sendEmail(payload);
     if (didSend) {
-      email.value = '';
+      from.value = '';
       message.value = '';
-      name.value = '';
 
       successMessage.value = 'Email sent successfully';
 
@@ -68,22 +69,11 @@ const autoDismissAlert = (timeout: number, reference: Ref<string>): void => {
     <div class="card w-full shrink-0 bg-base-100 p-6 shadow-2xl">
       <div class="form-control">
         <label class="label">
-          <span class="label-text">Name</span>
+          <span class="label-text">From Address</span>
         </label>
         <input
-          v-model="name"
-          placeholder="name"
-          class="input input-bordered input-secondary"
-          required
-        />
-      </div>
-      <div class="form-control">
-        <label class="label">
-          <span class="label-text">email</span>
-        </label>
-        <input
-          v-model="email"
-          placeholder="email"
+          v-model="from"
+          placeholder="from email"
           class="input input-bordered input-secondary"
           required
         />

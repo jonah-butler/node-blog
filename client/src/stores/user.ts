@@ -1,6 +1,6 @@
-import { ref, computed } from 'vue';
-import { type UserStore, type User } from '@/types/user';
+import { type User, type UserStore } from '@/types/user';
 import { defineStore } from 'pinia';
+import { computed, ref } from 'vue';
 
 export const useUserStore = defineStore(
   'user',
@@ -8,15 +8,8 @@ export const useUserStore = defineStore(
     const user = ref<UserStore>({
       token: '',
       user: {
-        createdAt: '',
         email: '',
-        password: '',
-        posts: [],
-        profileImageKey: '',
         profileImageLocation: '',
-        profileImageTag: '',
-        tokens: [],
-        updatedAt: '',
         username: '',
         _id: '',
       },

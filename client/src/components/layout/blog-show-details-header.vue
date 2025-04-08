@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed, ref, type StyleValue } from 'vue';
-import { type BlogShowImageHeader } from './props';
 import { dateOptions, formatDate } from '@/services/formatting';
-import LikeCount from './like-count.vue';
 import palette, { type RGBARecord } from '@jayimbee/palette';
+import { computed, ref, type StyleValue } from 'vue';
+import LikeCount from './like-count.vue';
+import { type BlogShowImageHeader } from './props';
 
 const props = defineProps<BlogShowImageHeader>();
 
@@ -39,11 +39,10 @@ const computedHeaderColor = computed((): string => {
   const green = imageColorPalette.value[3].g;
   const blue = imageColorPalette.value[3].b;
 
-  return red * 0.299 + green * 0.587 + blue * 0.114 > 140 ? '#000' : '#fff';
+  return red * 0.299 + green * 0.587 + blue * 0.114 > 159 ? '#000' : '#fff';
 });
 
 const quantizeImage = async (): Promise<void> => {
-  console.log('loaded');
   try {
     const cacheBustedUrl = `${props.data.url}?cacheBuster=${new Date().getTime()}`;
     const imageData = await palette.extractImageDataFromSrc(cacheBustedUrl, 8);
@@ -55,10 +54,6 @@ const quantizeImage = async (): Promise<void> => {
     console.log(err);
   }
 };
-
-// const test = (): void => {
-//   quantizeImage()
-// };
 
 quantizeImage();
 </script>
@@ -98,12 +93,16 @@ quantizeImage();
 
 .post__details-container::after {
   content: '';
-  background-image: linear-gradient(180deg, rgba(0, 71, 101, 0) 15%, #f4f5f7);
+  background-image: linear-gradient(180deg, rgba(0, 71, 101, 0) 15%, #ffffff);
   position: absolute;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
+}
+
+html[data-theme='black'] .post__details-container::after {
+  background-image: linear-gradient(180deg, rgba(0, 71, 101, 0) 15%, #000000);
 }
 
 @media (max-width: 820px) {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { type Badge } from './props';
 import { type BasicBadgeEmits } from './emits';
+import { type Badge } from './props';
 
 defineProps<Badge>();
 const emits = defineEmits<BasicBadgeEmits>();
@@ -13,7 +13,7 @@ const handleClick = (category: string): void => {
 <template>
   <div
     @click="handleClick(text)"
-    class="bg-deep-purple badge relative m-1 cursor-pointer whitespace-nowrap p-3 text-xs text-white"
+    class="badge relative m-1 cursor-pointer whitespace-nowrap p-3 text-xs text-white"
   >
     {{ text }}
   </div>
@@ -24,6 +24,7 @@ const handleClick = (category: string): void => {
   font-family: 'Source Code Pro';
   top: 0;
   transition: all 0.2s ease;
+  background: oklch(var(--secondary-vibrant));
 }
 .badge:hover {
   top: -2px;

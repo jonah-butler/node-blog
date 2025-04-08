@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { inject, ref } from 'vue';
-import { HeartIcon } from '@heroicons/vue/24/solid';
-import { HeartIcon as HeartIconOutline } from '@heroicons/vue/24/outline';
-import { type LikeCount } from './props';
 import { type BlogLikeInjector } from '@/views/injectors';
+import { HeartIcon as HeartIconOutline } from '@heroicons/vue/24/outline';
+import { HeartIcon } from '@heroicons/vue/24/solid';
+import { inject, ref } from 'vue';
+import { type LikeCount } from './props';
 
 defineProps<LikeCount>();
 
@@ -12,16 +12,16 @@ const injector = inject<BlogLikeInjector>('updateBlogRating');
 const liked = ref(false);
 const updating = ref(false);
 
-const likeBlog = async (like: boolean): Promise<void> => {
+const likeBlog = async (): Promise<void> => {
   if (updating.value) return;
 
   if (injector) {
     updating.value = true;
-    const success = await injector.updateBlogRating(like);
+    const success = await injector.updateBlogRating(liked.value);
     if (success) {
       // deselecting like should updated in memory value of liked
       // so outlined heart displays when like is clicked every 2nd time
-      liked.value = like;
+      liked.value = success;
     }
     updating.value = false;
   }
@@ -38,11 +38,11 @@ defineExpose({
       <div class="h-8 w-8">
         <HeartIconOutline
           v-if="!liked"
-          @click="likeBlog(true)"
+          @click="likeBlog()"
           class="interactive-heart h-8 cursor-pointer stroke-rose-700 text-left hover:border-transparent"
         />
         <HeartIcon
-          @click="likeBlog(false)"
+          @click="likeBlog()"
           v-else
           class="h-8 fill-rose-700 text-left"
         />

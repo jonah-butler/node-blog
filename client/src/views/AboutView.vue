@@ -5,7 +5,7 @@ import MainLink from '@/components/links/main-link.vue';
 <template>
   <div class="container overflow-hidden">
     <section class="d-flex h-full flex-wrap content-center">
-      <div class="row">
+      <div class="row p-5">
         <div class="col-xsmall-12 col-md-8 dir-col circle-bg">
           <span class="d-flex">
             <span class="pr-2 pt-2 text-7xl font-extrabold">👋</span>
@@ -60,7 +60,7 @@ import MainLink from '@/components/links/main-link.vue';
             <!-- linkedin -->
             <a
               href="https://www.linkedin.com/in/jayimbee/"
-              class="mt-2"
+              class="mt-2 text-base-content"
               target="_blank"
             >
               <svg
@@ -86,14 +86,15 @@ h1 {
   line-height: 85px;
   letter-spacing: 2px;
   text-shadow:
-    #f5b2c7 2px 2px 0px,
-    #fa709a 6px 6px 0px;
+    oklch(var(--secondary-vibrant)) 2px 2px 0px,
+    oklch(var(--secondary-vibrant)) 6px 6px 0px;
 }
 
 .socials > a svg {
   transition: fill 0.2s ease;
+  fill: oklch(var(--ac));
 }
 .socials > a:hover svg {
-  fill: #fa709a;
+  fill: oklch(var(--secondary-vibrant));
 }
 </style>

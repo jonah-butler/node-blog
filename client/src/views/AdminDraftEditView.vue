@@ -65,7 +65,7 @@ const retrieveBlog = async (): Promise<void> => {
   loading.value = true;
 
   try {
-    blog.value = (await BlogService.getBlog(props.slug)).blog;
+    blog.value = (await BlogService.getDraft(props.slug)).blog;
 
     blogToEdit.categories = JSON.stringify(blog.value.categories);
     blogToEdit.published = blog.value.published;

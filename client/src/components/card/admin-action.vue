@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { type AdminActionCardProps } from './props';
 import { useRouter } from 'vue-router';
+import { type AdminActionCardProps } from './props';
 
 const props = defineProps<AdminActionCardProps>();
 
@@ -13,7 +13,7 @@ const navigate = (): void => {
 
 <template>
   <div
-    class="shadow-custom content-card bg-pink-gradient card m-5 max-h-52 w-96 text-white"
+    class="shadow-custom content-card bg-secondary-vibrant card m-5 max-h-52 w-96 text-white"
     @click="navigate"
   >
     <div class="card-body">

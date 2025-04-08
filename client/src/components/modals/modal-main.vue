@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { defineExpose } from 'vue';
-import { type ModalProps } from './props';
 import { type MainModalEmits } from './emits';
+import { type ModalProps } from './props';
 
 const props = defineProps<ModalProps>();
 const emits = defineEmits<MainModalEmits>();
@@ -58,5 +58,6 @@ defineExpose({
 <style scoped>
 .modal-box {
   max-width: 50%;
+  background: oklch(var(--b2));
 }
 </style>

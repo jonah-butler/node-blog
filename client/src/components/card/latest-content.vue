@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
-import { computed, type StyleValue } from 'vue';
-import { HeartIcon } from '@heroicons/vue/24/solid';
 import NewContentBadge from '@/components/badges/new-content.vue';
 import { dateOptions, formatDate } from '@/services/formatting';
+import { HeartIcon } from '@heroicons/vue/24/solid';
+import { computed, type StyleValue } from 'vue';
+import { useRouter } from 'vue-router';
 import { type ContentCardProps } from './props';
 
 const props = defineProps<ContentCardProps>();
@@ -26,15 +26,15 @@ const navigate = (slug: string): void => {
 <template>
   <div
     @click="navigate(`/blog/${blog.slug}`)"
-    class="shadow-custom content-card card my-5 w-full min-w-64 max-w-3xl self-center bg-white p-5 shadow-none shadow-xl"
+    class="shadow-custom content-card card my-5 w-full min-w-64 max-w-3xl self-center bg-base-100 p-5 shadow-none shadow-xl"
   >
     <section
       :style="backgroundStyles"
-      class="featured-image rounded-md sm:block hidden"
+      class="featured-image hidden rounded-md sm:block"
     ></section>
     <div class="card-body p-3">
       <h1 class="text-3xl font-bold">{{ blog.title }}</h1>
-      <p class="font-light">
+      <p class="color-base-100">
         {{ formatDate(blog.createdAt, dateOptions.monthDayYear) }}
       </p>
       <div class="flex justify-between">

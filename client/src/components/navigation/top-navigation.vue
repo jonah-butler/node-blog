@@ -1,25 +1,35 @@
 <script setup lang="ts">
-import { ref, computed, type StyleValue } from 'vue';
-import { RouterLink, useRouter } from 'vue-router';
-import { useUserStore } from '@/stores/user';
-import { storeToRefs } from 'pinia';
-import MainModal from '../modals/modal-main.vue';
-import { type Blog, type SearchQuery } from '@/types/services';
 import { BlogService, BlogServiceError } from '@/services/api/blog.service';
+import { useThemeStore } from '@/stores/theme';
+import { useUserStore } from '@/stores/user';
+import { type Blog } from '@/types/services';
+import { MoonIcon, SunIcon } from '@heroicons/vue/16/solid';
+import palette from '@jayimbee/palette';
+import { storeToRefs } from 'pinia';
+import { computed, reactive, ref, type StyleValue } from 'vue';
+import { RouterLink, useRouter } from 'vue-router';
+import ButtonMain from '../buttons/button-main.vue';
+import MainModal from '../modals/modal-main.vue';
 
 const router = useRouter();
 const userStore = useUserStore();
+const themeStore = useThemeStore();
 
 const { logoutUser } = userStore;
+const { toggleTheme, getTheme } = themeStore;
 
 const searchModal = ref<InstanceType<typeof MainModal>>();
 
+const LIMIT = 10;
+
 const query = ref('');
+const offset = ref(0);
 const error = ref('');
 const searching = ref(false);
 const debounce = ref<number | null>(null);
 
 const searchResults = ref<Blog[] | null>(null);
+const hasMore = ref(false);
 
 const { isAuthenticated, getUserProfileImage, getUserId } =
   storeToRefs(userStore);
@@ -29,6 +39,56 @@ const hamburgerStyles = computed((): StyleValue => {
     transform: `${open.value ? 'rotate(5deg)' : ''}`,
   };
 });
+
+interface ColorMap {
+  side1: string;
+  side2: string;
+  side3: string;
+  side4: string;
+  side5: string;
+  side6: string;
+  [key: string]: string;
+}
+
+// const lightMode = '#fa6f99';
+// const darkMode = '#520b86';
+
+// // const diceSides = Array.fill(0);
+
+const sides = reactive<ColorMap>({
+  side1: 'oklch(var(--secondary-vibrant))',
+  side2: 'oklch(var(--secondary-vibrant))',
+  side3: 'oklch(var(--secondary-vibrant))',
+  side4: 'oklch(var(--secondary-vibrant))',
+  side5: 'oklch(var(--secondary-vibrant))',
+  side6: 'oklch(var(--secondary-vibrant))',
+});
+
+// this is busted right now - fix eventually
+const changeColor = (side: number): void => {
+  const color = `side${side}`;
+
+  const rgb = palette.hexToRGBARecord(sides[color]);
+  const complementary = palette.complementary(rgb);
+  if (
+    complementary !== sides[color] &&
+    complementary !== 'hsl(180.00, 0.00%, 0.00%)'
+  ) {
+    sides[color] = complementary;
+  } else {
+    const randomColor = getRandomHexColor();
+    sides[color] = randomColor;
+  }
+};
+
+function getRandomHexColor() {
+  return (
+    '#' +
+    Math.floor(Math.random() * 16777215)
+      .toString(16)
+      .padStart(6, '0')
+  );
+}
 
 const openSearchModal = (): void => {
   if (!searchModal.value) return;
@@ -48,6 +108,7 @@ const openAdminPage = (): void => {
 const logout = (): void => {
   closeDropdownOnClick();
   logoutUser();
+  navigateToHome();
 };
 
 const navigate = (slug: string): void => {
@@ -90,18 +151,25 @@ const debouncedSearch = (): void => {
 const cleanUpSearch = (): void => {
   query.value = '';
   searchResults.value = null;
+  offset.value = 0;
+  hasMore.value = false;
 };
 
-const search = async (): Promise<void> => {
+const search = async (useOffset = false): Promise<void> => {
   try {
     if (!query.value) {
       searching.value = false;
       return;
     }
-    const payload: SearchQuery = {
-      query: query.value,
-    };
-    searchResults.value = await BlogService.searchBlogs(payload);
+
+    if (useOffset) {
+      offset.value += LIMIT;
+    }
+
+    const response = await BlogService.searchBlogs(query.value, offset.value);
+
+    searchResults.value = response.blogs;
+    hasMore.value = response.hasMore;
   } catch (err) {
     if (err instanceof BlogServiceError) {
       error.value = err.message;
@@ -119,8 +187,13 @@ const openMenu = (): void => {
 </script>
 
 <template>
-  <div class="bg-off_white navbar flex-col rounded-t-md px-5">
-    <div class="navbar flex">
+  <div class="navbar flex-col rounded-t-md bg-base-100 px-5">
+    <div class="navbar relative flex">
+      <section class="theme-container w-6 cursor-pointer">
+        <SunIcon v-if="getTheme() === 'light'" @click="toggleTheme" />
+        <MoonIcon v-if="getTheme() === 'black'" @click="toggleTheme" />
+      </section>
+
       <MainModal
         @close="cleanUpSearch"
         ref="searchModal"
@@ -165,18 +238,235 @@ const openMenu = (): void => {
                   </tr>
                 </tbody>
               </table>
+              <div v-if="hasMore">
+                <ButtonMain
+                  text="Load More"
+                  size="xs"
+                  :loading="searching"
+                  :disabled="searching"
+                  @click="search(true)"
+                />
+              </div>
             </div>
           </div>
         </section>
       </MainModal>
       <!-- home -->
       <div class="navbar-start">
-        <img
+        <!-- <img
           @click="navigateToHome"
           class="max-w-10"
           src="@/assets/images/code-bracket.svg"
           alt="svg of open and close html code bracket with forward slash in middle"
-        />
+        /> -->
+        <RouterLink to="/blog">
+          <section
+            class="standard die d6"
+            style="
+              transform: rotateX(-25deg) rotateY(45deg) rotateZ(0deg);
+              --orientation: rotate(360deg);
+            "
+          >
+            <div
+              @click="changeColor(1)"
+              class="_010 side top"
+              :style="{ '--sideTopColor': sides.side1 }"
+            >
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 40 40"
+                xmlns="http://www.w3.org/2000/svg"
+                :key="sides.side1"
+              >
+                <defs>
+                  <pattern
+                    id="dotsFront1"
+                    width="3"
+                    height="3"
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <circle cx="1" cy="1" r="1.5" :fill="sides.side1" />
+                  </pattern>
+                </defs>
+
+                <!-- Background fill with the dot pattern -->
+                <rect
+                  x="0"
+                  y="0"
+                  width="40"
+                  height="40"
+                  fill="url(#dotsFront1)"
+                />
+              </svg>
+            </div>
+            <div
+              @click="changeColor(2)"
+              class="_0-10 side bottom six"
+              :style="{ '--sideBottomColor': sides.side2 }"
+            >
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 40 40"
+                xmlns="http://www.w3.org/2000/svg"
+                :key="sides.side2"
+              >
+                <defs>
+                  <pattern
+                    id="dotsFront2"
+                    width="3"
+                    height="3"
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <circle cx="1" cy="1" r="1.5" :fill="sides.side2" />
+                  </pattern>
+                </defs>
+
+                <!-- Background fill with the dot pattern -->
+                <rect
+                  x="0"
+                  y="0"
+                  width="40"
+                  height="40"
+                  fill="url(#dotsFront2)"
+                />
+              </svg>
+            </div>
+            <div
+              @click="changeColor(3)"
+              class="_100 side left"
+              :style="{ '--sideLeftColor': sides.side3 }"
+            >
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 40 40"
+                xmlns="http://www.w3.org/2000/svg"
+                :key="sides.side3"
+              >
+                <defs>
+                  <pattern
+                    id="dotsFront3"
+                    width="3"
+                    height="3"
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <circle cx="1" cy="1" r="1.5" :fill="sides.side3" />
+                  </pattern>
+                </defs>
+
+                <!-- Background fill with the dot pattern -->
+                <rect
+                  x="0"
+                  y="0"
+                  width="40"
+                  height="40"
+                  fill="url(#dotsFront3)"
+                />
+              </svg>
+            </div>
+            <div
+              @click="changeColor(4)"
+              class="_-100 side right"
+              :style="{ '--sideRightColor': sides.side4 }"
+            >
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 40 40"
+                xmlns="http://www.w3.org/2000/svg"
+                :key="sides.side4"
+              >
+                <defs>
+                  <pattern
+                    id="dotsFront4"
+                    width="3"
+                    height="3"
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <circle cx="1" cy="1" r="1.5" :fill="sides.side4" />
+                  </pattern>
+                </defs>
+
+                <!-- Background fill with the dot pattern -->
+                <rect
+                  x="0"
+                  y="0"
+                  width="40"
+                  height="40"
+                  fill="url(#dotsFront4)"
+                />
+              </svg>
+            </div>
+            <div
+              @click="changeColor(5)"
+              class="_00-1 side back"
+              :style="{ '--sideBackColor': sides.side5 }"
+            >
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 40 40"
+                xmlns="http://www.w3.org/2000/svg"
+                :key="sides.side5"
+              >
+                <defs>
+                  <pattern
+                    id="dotsFront5"
+                    width="3"
+                    height="3"
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <circle cx="1" cy="1" r="1.5" :fill="sides.side5" />
+                  </pattern>
+                </defs>
+
+                <!-- Background fill with the dot pattern -->
+                <rect
+                  x="0"
+                  y="0"
+                  width="40"
+                  height="40"
+                  fill="url(#dotsFront5)"
+                />
+              </svg>
+            </div>
+            <div
+              @click="changeColor(6)"
+              class="_001 side front"
+              :style="{ '--sideFrontColor': sides.side6 }"
+            >
+              <svg
+                width="40"
+                height="40"
+                viewBox="0 0 40 40"
+                xmlns="http://www.w3.org/2000/svg"
+                :key="sides.side6"
+              >
+                <defs>
+                  <pattern
+                    id="dotsFront6"
+                    width="3"
+                    height="3"
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <circle cx="1" cy="1" r="1.5" :fill="sides.side6" />
+                  </pattern>
+                </defs>
+
+                <!-- Background fill with the dot pattern -->
+                <rect
+                  x="0"
+                  y="0"
+                  width="40"
+                  height="40"
+                  fill="url(#dotsFront6)"
+                />
+              </svg>
+            </div>
+          </section>
+        </RouterLink>
       </div>
 
       <!-- main links -->
@@ -219,8 +509,8 @@ const openMenu = (): void => {
 
       <!-- authenticated-->
       <div v-if="isAuthenticated" class="navbar-end">
-        <details class="dropdown dropdown-end bg-[#f4f5f7] shadow-none">
-          <summary class="btn m-1 border-none bg-[#f4f5f7] shadow-none">
+        <details class="dropdown dropdown-end bg-transparent shadow-none">
+          <summary class="btn m-1 border-none bg-transparent shadow-none">
             <div class="avatar">
               <div
                 class="w-12 cursor-pointer rounded-full ring ring-primary ring-offset-2 ring-offset-base-100"
@@ -230,7 +520,7 @@ const openMenu = (): void => {
             </div>
           </summary>
           <ul
-            class="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow"
+            class="menu dropdown-content z-[1] w-52 rounded-box border-base-300 bg-base-200 p-2 shadow"
           >
             <li>
               <span class="justify-between" @click="openAdminPage"
@@ -272,12 +562,195 @@ const openMenu = (): void => {
 </template>
 
 <style scoped>
+.theme-container {
+  position: absolute;
+  top: -10px;
+  top: -32%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 tr:hover {
-  background: #ffc2d4 !important;
+  background: oklch(var(--secondary-vibrant)) !important;
 }
 
 .empty-results-image {
   max-height: 200px;
   margin: 0 auto;
+}
+
+.die {
+  width: 40px;
+  height: 40px;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  transform: rotateX(0deg) rotateY(45deg) rotateZ(0deg);
+  transition: transform 0.3s ease-in-out;
+  position: relative;
+  margin: 10px 20px;
+  cursor: pointer;
+  animation: rotate-horizontal 10s ease-in-out infinite;
+}
+
+.die > .side {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  /* border: 1.1px dashed #fa709a; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.2s ease;
+  user-select: none;
+}
+
+.die > .side.top {
+  border: 1.5px dashed var(--sideTopColor);
+}
+.die > .side.bottom {
+  border: 1.5px dashed var(--sideBottomColor);
+}
+.die > .side.front {
+  border: 1.5px dashed var(--sideFrontColor);
+}
+.die > .side.back {
+  border: 1.5px dashed var(--sideBackColor);
+}
+.die > .side.left {
+  border: 1.5px dashed var(--sideLeftColor);
+}
+.die > .side.right {
+  border: 1.5px dashed var(--sideRightColor);
+}
+
+.die > .side.top:hover {
+  background: var(--sideTopColor);
+}
+.die > .side.bottom:hover {
+  background: var(--sideBottomColor);
+}
+.die > .side.front:hover {
+  background: var(--sideFrontColor);
+}
+.die > .side.back:hover {
+  background: var(--sideBackColor);
+}
+.die > .side.left:hover {
+  background: var(--sideLeftColor);
+}
+.die > .side.right:hover {
+  background: var(--sideRightColor);
+}
+
+.d6 > .top {
+  transform: rotateX(90deg) translateZ(20px);
+}
+
+.d6 > .bottom {
+  transform: rotateX(-90deg) translateZ(20px);
+}
+
+.d6 > .right {
+  transform: translateZ(20px);
+}
+
+.d6 > .left {
+  transform: rotateY(-90deg) translateZ(20px);
+}
+
+.d6 > .back {
+  transform: rotateY(90deg) translateZ(20px);
+}
+
+.d6 > .front {
+  transform: rotateY(180deg) translateZ(20px);
+}
+
+.side > span {
+  font-size: 40px;
+  font-weight: bold;
+  top: 30px;
+  left: 45px;
+  color: black;
+  transition: all 0.4s ease;
+}
+
+.angled .side._010 > span:before {
+  position: absolute;
+  content: '>';
+  font-size: 20px;
+  width: 50px;
+  height: 15px;
+  color: black;
+  font-weight: 800;
+  top: -10px;
+  left: 0px;
+}
+
+.angled.side-100.flipped90 .side._-100 span {
+  transform: rotate(90deg);
+}
+
+.angled.side-100.flipped270 .side._-100 span {
+  transform: rotate(270deg);
+}
+.angled.side100.flipped90 .side._100 span {
+  transform: rotate(90deg);
+}
+
+.angled.side100.flipped270 .side._100 span {
+  transform: rotate(270deg);
+}
+
+/* menu d6 styles */
+.die.menu {
+  width: 600px;
+  height: 600px;
+}
+
+.die.menu > .side {
+  width: 600px;
+  height: 600px;
+  border: 1px solid transparent;
+}
+
+.die.menu > .side > span {
+  color: white;
+  font-size: 50px;
+}
+
+.die.menu > .side.top {
+  transform: rotateX(90deg) translateZ(301px) !important;
+  background: #662c8f;
+}
+.die.menu > .side.bottom {
+  transform: rotateX(-90deg) translateZ(301px) !important;
+  background: #72369a;
+}
+.d6.menu > .side.right {
+  transform: translateZ(300px) !important;
+  background: #7e41a4;
+}
+.d6.menu > .side.left {
+  transform: rotateY(-90deg) translateZ(300px);
+  background: #8d4fb0;
+}
+.d6.menu > .side.back {
+  transform: rotateY(90deg) translateZ(300px);
+  background: #9b71b2;
+}
+.d6.menu > .side.front {
+  transform: rotateY(180deg) translateZ(300px);
+  background: #a586b7;
+}
+
+@keyframes rotate-horizontal {
+  0% {
+    transform: rotateX(-25deg) rotateY(45deg) rotateZ(0deg);
+  }
+
+  100% {
+    transform: rotateX(-25deg) rotateY(405deg) rotateZ(0deg);
+  }
 }
 </style>

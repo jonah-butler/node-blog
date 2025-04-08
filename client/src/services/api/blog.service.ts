@@ -1,20 +1,18 @@
+import { useUserStore } from '@/stores/user';
 import {
-  type NewBlogPayload,
-  type NewBlogPayloadWithUser,
+  type AffectedResponse,
   type Blog,
   type BlogResponse,
-  type SingleBlog,
-  type LikedBlogPayload,
   type GetEditBlogPayload,
-  type DeleteImagePayload,
-  type SearchQuery,
+  type NewBlogPayload,
+  type NewBlogPayloadWithUser,
+  type SingleBlog,
 } from '@/types/services';
-import { serviceErrorHandler, packageRecordIntoFormData } from '../utilities';
-import { api } from './api.config';
-import { getBearerTokenHeader, getTokenHeader } from './headers.config';
 import { ServiceError } from '@/utilities/error';
-import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
+import { packageRecordIntoFormData, serviceErrorHandler } from '../utilities';
+import { api } from './api.config';
+import { getBearerTokenHeader } from './headers.config';
 
 const BLOG_SERVICE_ERRORS = {
   GET_BLOGS: 'failed to get blogs',
@@ -43,7 +41,7 @@ export class BlogServiceError extends ServiceError<BlogErrors> {}
 const BlogService = {
   async getBlogs(offset = 0): Promise<BlogResponse> {
     try {
-      const response = await api.get(`/?offset=${offset}`);
+      const response = await api.get(`/blog?offset=${offset}`);
       return response.data as BlogResponse;
     } catch (err) {
       const message = serviceErrorHandler(err, BLOG_SERVICE_ERRORS.GET_BLOGS);
@@ -53,7 +51,7 @@ const BlogService = {
 
   async getBlog(slug: string): Promise<SingleBlog> {
     try {
-      const response = await api.post('/blog', { slug });
+      const response = await api.get(`/blog/${slug}`);
       return response.data as SingleBlog;
     } catch (err) {
       const message = serviceErrorHandler(err, BLOG_SERVICE_ERRORS.GET_BLOG);
@@ -64,7 +62,10 @@ const BlogService = {
   // fis this garbage
   async getDraft(slug: string): Promise<SingleBlog> {
     try {
-      const response = await api.post(`/drafts/${slug}`, { slug });
+      const response = await api.get(
+        `blog/drafts/${slug}`,
+        getBearerTokenHeader(),
+      );
       return response.data as SingleBlog;
     } catch (err) {
       const message = serviceErrorHandler(err, BLOG_SERVICE_ERRORS.GET_DRAFT);
@@ -73,13 +74,13 @@ const BlogService = {
   },
 
   // fis this garbage
-  async getDrafts(): Promise<Blog[]> {
-    const userStore = useUserStore();
-    const { getUser } = storeToRefs(userStore);
-
+  async getDrafts(offset: number): Promise<BlogResponse> {
     try {
-      const response = await api.post(`/drafts`, { user: getUser.value });
-      return response.data as Blog[];
+      const response = await api.get(
+        `/blog/drafts?offset=${offset}`,
+        getBearerTokenHeader(),
+      );
+      return response.data as BlogResponse;
     } catch (err) {
       const message = serviceErrorHandler(err, BLOG_SERVICE_ERRORS.GET_DRAFTS);
       throw new BlogServiceError({ name: 'GET_DRAFTS', message });
@@ -132,7 +133,9 @@ const BlogService = {
   },
 
   // update eventually
-  async updateBlog(payload: NewBlogPayload): Promise<Blog> {
+  async updateBlog(payload: NewBlogPayload, blogID: string): Promise<Blog> {
+    payload.id = blogID;
+
     const payloadClone: NewBlogPayload = {
       ...structuredClone(payload),
     };
@@ -140,10 +143,14 @@ const BlogService = {
     const data = packageRecordIntoFormData(payloadClone);
 
     try {
-      const response = await api.put('/blog/edit', data);
+      const response = await api.put(
+        `/blog/${blogID}/edit`,
+        data,
+        getBearerTokenHeader(),
+      );
 
-      if ('updatedBlog' in response.data) {
-        return response.data.updatedBlog as Blog;
+      if ('blog' in response.data) {
+        return response.data.blog as Blog;
       }
 
       throw new BlogServiceError({
@@ -156,10 +163,10 @@ const BlogService = {
     }
   },
 
-  async likeBlog(payload: LikedBlogPayload): Promise<Blog> {
+  async likeBlog(blogID: string): Promise<SingleBlog> {
     try {
-      const response = await api.post('/blog/like', payload);
-      return response.data as Blog;
+      const response = await api.post(`/blog/${blogID}/like`);
+      return response.data as SingleBlog;
     } catch (err) {
       const message = serviceErrorHandler(err, BLOG_SERVICE_ERRORS.LIKE_BLOG);
       throw new BlogServiceError({ name: 'LIKE_BLOG', message });
@@ -190,10 +197,13 @@ const BlogService = {
     }
   },
 
-  async deleteFeaturedImage(payload: DeleteImagePayload): Promise<Blog> {
+  async deleteFeaturedImage(blogID: string): Promise<AffectedResponse> {
     try {
-      const response = await api.post('/s3/delete', payload, getTokenHeader());
-      return response.data as Blog;
+      const response = await api.delete(
+        `/blog/featured-image/${blogID}`,
+        getBearerTokenHeader(),
+      );
+      return response.data as AffectedResponse;
     } catch (err) {
       const message = serviceErrorHandler(
         err,
@@ -203,11 +213,10 @@ const BlogService = {
     }
   },
 
-  async getRandomBlog(): Promise<Blog> {
+  async getRandomBlog(): Promise<SingleBlog> {
     try {
-      const response = await api.get('/random');
-      console.log(response);
-      return response.data as Blog;
+      const response = await api.get('/blog/random');
+      return response.data as SingleBlog;
     } catch (err) {
       const message = serviceErrorHandler(
         err,
@@ -220,10 +229,10 @@ const BlogService = {
     }
   },
 
-  async searchBlogs(query: SearchQuery): Promise<Blog[]> {
+  async searchBlogs(query: string, offset: number): Promise<BlogResponse> {
     try {
-      const response = await api.post('/search', query);
-      return response.data as Blog[];
+      const response = await api.get(`/blog/search/${query}?offset=${offset}`);
+      return response.data as BlogResponse;
     } catch (err) {
       const message = serviceErrorHandler(
         err,
@@ -236,10 +245,12 @@ const BlogService = {
     }
   },
 
-  async getCategories(category: string): Promise<Blog[]> {
+  async getCategories(category: string, offset: number): Promise<BlogResponse> {
     try {
-      const response = await api.get(`/blog/category/${category}`);
-      return response.data as Blog[];
+      const response = await api.get(
+        `/blog/category/${category}?offset=${offset}`,
+      );
+      return response.data as BlogResponse;
     } catch (err) {
       const message = serviceErrorHandler(
         err,
@@ -253,4 +264,4 @@ const BlogService = {
   },
 };
 
-export { BlogService, BLOG_SERVICE_ERRORS };
+export { BLOG_SERVICE_ERRORS, BlogService };

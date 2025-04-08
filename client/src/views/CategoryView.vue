@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed, type StyleValue, ref } from 'vue';
-import palette, { type RGBARecord } from '@jayimbee/palette';
-import Loader from '@/components/loaders/jumping-dots.vue';
-import { BlogService, BlogServiceError } from '../services/api/blog.service';
-import { type Blog } from '@/types/services';
+import ButtonMain from '@/components/buttons/button-main.vue';
 import SecondaryContent from '@/components/card/secondary-content.vue';
+import Loader from '@/components/loaders/jumping-dots.vue';
+import { type Blog } from '@/types/services';
+import palette, { type RGBARecord } from '@jayimbee/palette';
+import { computed, ref, type StyleValue } from 'vue';
+import { BlogService, BlogServiceError } from '../services/api/blog.service';
 
 const props = defineProps<{
   category: string;
@@ -13,7 +14,11 @@ const props = defineProps<{
 const loading = ref(false);
 const error = ref('');
 
+const LIMIT = 10;
+
+const offset = ref(0);
 const blogs = ref<Blog[]>([]);
+const hasMore = ref(false);
 
 const backgrounds = [
   'https://dev-blog-resources.s3.amazonaws.com/category-backgrounds/bg1.png',
@@ -54,7 +59,6 @@ const dynamicTextShadow = computed((): StyleValue => {
     return {
       'text-shadow': `2px 2px 0px ${complementaryColor.value},
       6px 6px 0px ${complementaryColor.value}`,
-      // color: `rgba(${imageColorPalette.value[3].r}, ${imageColorPalette.value[3].g}, ${imageColorPalette.value[3].b}`,
       color: 'white',
     };
   } else {
@@ -81,10 +85,21 @@ const randomBackground = computed((): string => {
   return backgrounds[Math.floor(Math.random() * backgrounds.length)];
 });
 
-const getBlogs = async (): Promise<void> => {
+const getBlogs = async (useOffset = false): Promise<void> => {
   loading.value = true;
+
+  if (useOffset) {
+    offset.value += LIMIT;
+  }
+
   try {
-    blogs.value = await BlogService.getCategories(props.category);
+    const response = await BlogService.getCategories(
+      props.category,
+      offset.value,
+    );
+
+    blogs.value = response.blogs;
+    hasMore.value = response.hasMore;
   } catch (err) {
     if (err instanceof BlogServiceError) {
       error.value = err.message;
@@ -121,6 +136,14 @@ getBlogs();
           :useBlob="false"
           :backgroundColor="complementaryColor"
         />
+        <div class="mt-5 w-full" v-if="hasMore">
+          <ButtonMain
+            @click="getBlogs(true)"
+            text="Load More"
+            :loading="loading"
+            :disabled="loading"
+          />
+        </div>
       </div>
     </article>
   </section>
@@ -147,7 +170,7 @@ getBlogs();
 }
 
 @media (max-width: 820px) {
-  .inner-container  {
+  .inner-container {
     bottom: 50px !important;
   }
   .inner-container > h1 {

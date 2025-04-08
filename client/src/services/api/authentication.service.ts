@@ -1,9 +1,8 @@
+import { ServiceError } from '@/utilities/error';
 import { type LoginPayload } from '../../types/services';
 import { type UserStore } from '../../types/user';
 import { serviceErrorHandler } from '../utilities';
 import { api } from './api.config';
-// import { HEADERS } from './headers.config';
-import { ServiceError } from '@/utilities/error';
 
 const AUTHENTICATION_SERVICE_ERRORS = {
   LOGIN_FAILED: 'invalid login',
@@ -15,8 +14,8 @@ export class AuthServiceError extends ServiceError<AuthErrors> {}
 const AuthService = {
   async login(credentials: LoginPayload): Promise<UserStore> {
     try {
-      const response = await api.post('/login', credentials);
-      if (response.data.status === 401) {
+      const response = await api.post('/user/login', credentials);
+      if (response.status !== 200) {
         throw new AuthServiceError({
           name: 'LOGIN_FAILED',
           message: AUTHENTICATION_SERVICE_ERRORS.LOGIN_FAILED,
@@ -36,4 +35,4 @@ const AuthService = {
   },
 };
 
-export { AuthService, AUTHENTICATION_SERVICE_ERRORS };
+export { AUTHENTICATION_SERVICE_ERRORS, AuthService };

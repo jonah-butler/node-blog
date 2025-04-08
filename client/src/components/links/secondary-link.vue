@@ -14,7 +14,9 @@ defineProps<SecondaryLink>();
       v-if="loading"
       class="secondary-link loading loading-spinner loading-sm relative p-2 text-xl"
     ></span>
-    <h1 v-else class="secondary-link relative p-2 text-xl">{{ title }}</h1>
+    <h1 v-else class="secondary-link relative p-2 text-xl">
+      {{ title }}
+    </h1>
   </div>
 </template>
 
@@ -29,8 +31,7 @@ defineProps<SecondaryLink>();
   top: 0;
   left: -0.5rem;
   border-radius: 20px;
-  background: #09dc9d;
-  opacity: 0.5;
+  background: oklch(var(--secondary-vibrant-complementary));
   width: 40px;
   height: 40px;
   transition: all 0.2s ease;
