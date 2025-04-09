@@ -643,13 +643,13 @@ tr:hover {
 }
 
 .d6 > .top {
-  transform: rotateX(90deg) translateZ(20px);
-  /* transform: rotateX(89.8deg) translateZ(20px); */
+  /* transform: rotateX(90deg) translateZ(20px); */
+  transform: rotateX(89.8deg) translateZ(20px);
 }
 
 .d6 > .bottom {
-  transform: rotateX(-90deg) translateZ(20px);
-  /* transform: rotateX(-89.8deg) translateZ(20px); */
+  /* transform: rotateX(-90deg) translateZ(20px); */
+  transform: rotateX(-89.8deg) translateZ(20px);
 }
 
 .d6 > .right {
@@ -657,13 +657,13 @@ tr:hover {
 }
 
 .d6 > .left {
-  transform: rotateX(-90deg) translateZ(20px);
-  /* transform: rotateY(-89.8deg) translateZ(20px); */
+  /* transform: rotateX(-90deg) translateZ(20px); */
+  transform: rotateY(-89.8deg) translateZ(20px);
 }
 
 .d6 > .back {
-  transform: rotateY(90deg) translateZ(20px);
-  /* transform: rotateY(89.8deg) translateZ(20px); */
+  /* transform: rotateY(90deg) translateZ(20px); */
+  transform: rotateY(89.8deg) translateZ(20px);
 }
 
 .d6 > .front {
