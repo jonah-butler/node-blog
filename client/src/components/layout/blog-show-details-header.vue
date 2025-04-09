@@ -116,8 +116,8 @@ html[data-theme='black'] .post__details-container::after {
     left: 1rem !important;
   }
   .post__inner-details-container > h1 {
-    font-size: 50px;
-    line-height: 66px !important;
+    font-size: 45px;
+    line-height: 60px !important;
   }
 }
 

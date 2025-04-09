@@ -149,7 +149,7 @@ getBlog();
         </button>
         <div class="row p-2 sm:p-4">
           <div
-            class="col-small-12 col-md-1 category-container flex-row flex-col overflow-scroll"
+            class="col-small-12 col-md-2 category-container flex-row flex-col overflow-scroll"
           >
             <BasicBadge
               v-for="category in blogData.blog.categories"
@@ -159,7 +159,7 @@ getBlog();
             />
           </div>
           <div
-            class="post__content col-small-12 col-md-11 dir-col"
+            class="post__content col-small-12 col-md-10 dir-col"
             v-html="blogData.blog.text"
           ></div>
         </div>
