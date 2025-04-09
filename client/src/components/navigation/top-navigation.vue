@@ -282,7 +282,7 @@ const openMenu = (): void => {
                 height="40"
                 viewBox="0 0 40 40"
                 xmlns="http://www.w3.org/2000/svg"
-                key="2"
+                key="1"
               >
                 <defs>
                   <pattern
@@ -313,7 +313,7 @@ const openMenu = (): void => {
                 height="40"
                 viewBox="0 0 40 40"
                 xmlns="http://www.w3.org/2000/svg"
-                :key="sides.side2"
+                :key="2"
               >
                 <defs>
                   <pattern
@@ -346,7 +346,7 @@ const openMenu = (): void => {
                 height="40"
                 viewBox="0 0 40 40"
                 xmlns="http://www.w3.org/2000/svg"
-                key="dotsFront3"
+                key="3"
               >
                 <defs>
                   <pattern
@@ -377,7 +377,7 @@ const openMenu = (): void => {
                 height="40"
                 viewBox="0 0 40 40"
                 xmlns="http://www.w3.org/2000/svg"
-                :key="sides.side4"
+                :key="4"
               >
                 <defs>
                   <pattern
@@ -410,7 +410,7 @@ const openMenu = (): void => {
                 height="40"
                 viewBox="0 0 40 40"
                 xmlns="http://www.w3.org/2000/svg"
-                :key="sides.side5"
+                :key="5"
               >
                 <defs>
                   <pattern
@@ -423,7 +423,6 @@ const openMenu = (): void => {
                   </pattern>
                 </defs>
 
-                <!-- Background fill with the dot pattern -->
                 <rect
                   x="0"
                   y="0"
@@ -443,7 +442,7 @@ const openMenu = (): void => {
                 height="40"
                 viewBox="0 0 40 40"
                 xmlns="http://www.w3.org/2000/svg"
-                :key="sides.side6"
+                :key="6"
               >
                 <defs>
                   <pattern
@@ -644,11 +643,13 @@ tr:hover {
 }
 
 .d6 > .top {
-  transform: rotateX(89.8deg) translateZ(20px);
+  transform: rotateX(90deg) translateZ(20px);
+  /* transform: rotateX(89.8deg) translateZ(20px); */
 }
 
 .d6 > .bottom {
-  transform: rotateX(-89.8deg) translateZ(20px);
+  transform: rotateX(-90deg) translateZ(20px);
+  /* transform: rotateX(-89.8deg) translateZ(20px); */
 }
 
 .d6 > .right {
@@ -656,11 +657,13 @@ tr:hover {
 }
 
 .d6 > .left {
-  transform: rotateY(-89.8deg) translateZ(20px);
+  transform: rotateX(-90deg) translateZ(20px);
+  /* transform: rotateY(-89.8deg) translateZ(20px); */
 }
 
 .d6 > .back {
-  transform: rotateY(89.8deg) translateZ(20px);
+  transform: rotateY(90deg) translateZ(20px);
+  /* transform: rotateY(89.8deg) translateZ(20px); */
 }
 
 .d6 > .front {
