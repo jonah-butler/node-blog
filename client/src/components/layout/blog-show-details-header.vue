@@ -86,8 +86,13 @@ quantizeImage();
 </template>
 
 <style scoped>
+@media (min-width: 1536px) {
+  .post__details-container {
+    border-radius: 10px 10px 0 0 !important;
+  }
+}
 .post__details-container {
-  min-height: 600px;
+  min-height: 500px;
   max-height: 600px;
 }
 

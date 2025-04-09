@@ -49,7 +49,6 @@ interface ColorMap {
   side6: string;
   [key: string]: string;
 }
-
 // const lightMode = '#fa6f99';
 // const darkMode = '#520b86';
 
@@ -187,11 +186,23 @@ const openMenu = (): void => {
 </script>
 
 <template>
-  <div class="navbar flex-col rounded-t-md bg-base-100 px-5">
+  <div
+    class="navbar flex-col rounded-t-md bg-base-100 px-5 text-black dark:text-white"
+  >
     <div class="navbar relative flex">
       <section class="theme-container w-6 cursor-pointer">
-        <SunIcon v-if="getTheme() === 'light'" @click="toggleTheme" />
-        <MoonIcon v-if="getTheme() === 'black'" @click="toggleTheme" />
+        <SunIcon
+          v-show="getTheme() === 'light'"
+          class="h-6 w-6"
+          @click="toggleTheme"
+          fill="black"
+        />
+        <MoonIcon
+          class="h-6 w-6"
+          v-show="getTheme() === 'black'"
+          @click="toggleTheme"
+          fill="black"
+        />
       </section>
 
       <MainModal
@@ -253,12 +264,6 @@ const openMenu = (): void => {
       </MainModal>
       <!-- home -->
       <div class="navbar-start">
-        <!-- <img
-          @click="navigateToHome"
-          class="max-w-10"
-          src="@/assets/images/code-bracket.svg"
-          alt="svg of open and close html code bracket with forward slash in middle"
-        /> -->
         <RouterLink to="/blog">
           <section
             class="standard die d6"
@@ -277,7 +282,7 @@ const openMenu = (): void => {
                 height="40"
                 viewBox="0 0 40 40"
                 xmlns="http://www.w3.org/2000/svg"
-                :key="sides.side1"
+                key="2"
               >
                 <defs>
                   <pattern
@@ -289,8 +294,6 @@ const openMenu = (): void => {
                     <circle cx="1" cy="1" r="1.5" :fill="sides.side1" />
                   </pattern>
                 </defs>
-
-                <!-- Background fill with the dot pattern -->
                 <rect
                   x="0"
                   y="0"
@@ -323,7 +326,6 @@ const openMenu = (): void => {
                   </pattern>
                 </defs>
 
-                <!-- Background fill with the dot pattern -->
                 <rect
                   x="0"
                   y="0"
@@ -339,11 +341,12 @@ const openMenu = (): void => {
               :style="{ '--sideLeftColor': sides.side3 }"
             >
               <svg
+                role="img"
                 width="40"
                 height="40"
                 viewBox="0 0 40 40"
                 xmlns="http://www.w3.org/2000/svg"
-                :key="sides.side3"
+                key="dotsFront3"
               >
                 <defs>
                   <pattern
@@ -355,8 +358,6 @@ const openMenu = (): void => {
                     <circle cx="1" cy="1" r="1.5" :fill="sides.side3" />
                   </pattern>
                 </defs>
-
-                <!-- Background fill with the dot pattern -->
                 <rect
                   x="0"
                   y="0"
@@ -643,11 +644,11 @@ tr:hover {
 }
 
 .d6 > .top {
-  transform: rotateX(90deg) translateZ(20px);
+  transform: rotateX(89.8deg) translateZ(20px);
 }
 
 .d6 > .bottom {
-  transform: rotateX(-90deg) translateZ(20px);
+  transform: rotateX(-89.8deg) translateZ(20px);
 }
 
 .d6 > .right {
@@ -655,11 +656,11 @@ tr:hover {
 }
 
 .d6 > .left {
-  transform: rotateY(-90deg) translateZ(20px);
+  transform: rotateY(-89.8deg) translateZ(20px);
 }
 
 .d6 > .back {
-  transform: rotateY(90deg) translateZ(20px);
+  transform: rotateY(89.8deg) translateZ(20px);
 }
 
 .d6 > .front {

@@ -136,57 +136,59 @@ getBlog();
 </script>
 
 <template>
-  <article v-if="!loading" class="post w-full">
-    <BlogDetailsHeader :data="headerProps" />
-    <section class="container p-8">
-      <button
-        v-if="isAuthenticated"
-        @click="editBlog"
-        class="bg-secondary-vibrant btn btn-circle ml-5"
-      >
-        <PencilSquareIcon class="h-5 fill-white" />
-      </button>
-      <div class="row p-2 sm:p-4">
-        <div
-          class="col-small-12 col-md-2 category-container flex-row flex-col overflow-scroll"
+  <div class="w-full max-w-screen-2xl">
+    <article v-if="!loading" class="post w-full">
+      <BlogDetailsHeader :data="headerProps" />
+      <section class="container p-8">
+        <button
+          v-if="isAuthenticated"
+          @click="editBlog"
+          class="btn btn-circle ml-5 bg-secondary-vibrant"
         >
-          <BasicBadge
-            v-for="category in blogData.blog.categories"
-            @categoryCallback="browseCategory"
-            :key="category"
-            :text="category"
+          <PencilSquareIcon class="h-5 fill-white" />
+        </button>
+        <div class="row p-2 sm:p-4">
+          <div
+            class="col-small-12 col-md-1 category-container flex-row flex-col overflow-scroll"
+          >
+            <BasicBadge
+              v-for="category in blogData.blog.categories"
+              @categoryCallback="browseCategory"
+              :key="category"
+              :text="category"
+            />
+          </div>
+          <div
+            class="post__content col-small-12 col-md-11 dir-col"
+            v-html="blogData.blog.text"
+          ></div>
+        </div>
+        <div class="flex flex-wrap justify-between">
+          <!-- next/previous post section -->
+          <MainLink
+            v-if="blogData.previous"
+            prefix="Older Post"
+            :title="blogData.previous.title"
+            :slug="`/blog/${blogData.previous.slug}`"
+          />
+          <MainLink
+            v-if="blogData.next"
+            prefix="Newer Post"
+            :title="blogData.next.title"
+            :slug="`/blog/${blogData.next.slug}`"
           />
         </div>
-        <div
-          class="post__content col-small-12 col-md-10 dir-col"
-          v-html="blogData.blog.text"
-        ></div>
-      </div>
-      <div class="flex flex-wrap justify-between">
-        <!-- next/previous post section -->
-        <MainLink
-          v-if="blogData.previous"
-          prefix="Older Post"
-          :title="blogData.previous.title"
-          :slug="`/blog/${blogData.previous.slug}`"
-        />
-        <MainLink
-          v-if="blogData.next"
-          prefix="Newer Post"
-          :title="blogData.next.title"
-          :slug="`/blog/${blogData.next.slug}`"
-        />
-      </div>
-    </section>
-    <MainModal
-      id="imageModal"
-      ref="imageModal"
-      :useClose="false"
-      :useVHTML="false"
-    >
-      <img :src="selectedImage" />
-    </MainModal>
-  </article>
+      </section>
+      <MainModal
+        id="imageModal"
+        ref="imageModal"
+        :useClose="false"
+        :useVHTML="false"
+      >
+        <img :src="selectedImage" />
+      </MainModal>
+    </article>
+  </div>
   <article v-if="loading">
     <JumpingDotsLoader />
   </article>

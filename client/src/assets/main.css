@@ -29,7 +29,7 @@ html #app {
 
 @media (max-width: 820px) {
   #app {
-    padding: 0.5rem;
+    padding: 2.5rem 0.5rem;
   }
 }
 
@@ -126,6 +126,7 @@ link
 */
 .link {
   text-decoration: none;
+  color: oklch(var(--suc));
 }
 li.link {
   position: relative;

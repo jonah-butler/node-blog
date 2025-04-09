@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import BasicAlert from '@/components/alerts/basic-alert.vue';
 import JumpingDotsLoader from '@/components/loaders/jumping-dots.vue';
+import { BlogService, BlogServiceError } from '@/services/api/blog.service';
+import { type Blog } from '@/types/services';
+import { computed, ref } from 'vue';
 import LatestContentCard from '../components/card/latest-content.vue';
 import SecondaryContentCard from '../components/card/secondary-content.vue';
 import MainLink from '../components/links/main-link.vue';
 import SecondaryLink from '../components/links/secondary-link.vue';
-import BasicAlert from '@/components/alerts/basic-alert.vue';
-import { type Blog } from '@/types/services';
-import { BlogService, BlogServiceError } from '@/services/api/blog.service';
 import { generateRandomNumber } from '../utilities/random';
 
 const loading = ref(true);
@@ -94,7 +94,7 @@ getBlogs();
 <template>
   <div class="flex w-full flex-wrap justify-center p-4">
     <Transition name="fade" mode="out-in">
-      <section v-if="!loading" key="content">
+      <section class="max-w-7xl" v-if="!loading" key="content">
         <div class="flex w-full flex-wrap justify-center">
           <!-- newest blog -->
           <LatestContentCard
@@ -117,7 +117,7 @@ getBlogs();
         </div>
         <div
           v-if="hasRemainingBlogs"
-          class="sm:mx-5 md:mx-20 flex w-fit flex-col flex-wrap"
+          class="flex w-fit flex-col flex-wrap sm:mx-5 md:mx-20"
         >
           <!-- all other blogs -->
           <MainLink

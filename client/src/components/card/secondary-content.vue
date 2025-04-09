@@ -45,7 +45,7 @@ const navigate = (slug: string): void => {
 <template>
   <div
     @click="navigate(`/blog/${blog.slug}`)"
-    class="shadow-custom content-card card z-10 m-3 min-h-60 min-w-96 max-w-sm overflow-hidden bg-base-100 p-3 shadow-none shadow-xl"
+    class="shadow-custom content-card card z-10 my-3 ml-3 mr-5 min-h-60 min-w-80 max-w-sm overflow-hidden bg-base-100 p-3 shadow-none shadow-xl"
     :style="cardStyles"
     :class="cardClass"
   >
