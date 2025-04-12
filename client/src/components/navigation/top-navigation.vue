@@ -49,10 +49,6 @@ interface ColorMap {
   side6: string;
   [key: string]: string;
 }
-// const lightMode = '#fa6f99';
-// const darkMode = '#520b86';
-
-// // const diceSides = Array.fill(0);
 
 const sides = reactive<ColorMap>({
   side1: 'oklch(var(--secondary-vibrant))',
@@ -644,12 +640,12 @@ tr:hover {
 
 .d6 > .top {
   /* transform: rotateX(90deg) translateZ(20px); */
-  transform: rotateX(89.8deg) translateZ(20px);
+  transform: rotateX(89.7deg) translateZ(20px);
 }
 
 .d6 > .bottom {
   /* transform: rotateX(-90deg) translateZ(20px); */
-  transform: rotateX(-89.8deg) translateZ(20px);
+  transform: rotateX(-89.7deg) translateZ(20px);
 }
 
 .d6 > .right {
@@ -658,12 +654,12 @@ tr:hover {
 
 .d6 > .left {
   /* transform: rotateX(-90deg) translateZ(20px); */
-  transform: rotateY(-89.8deg) translateZ(20px);
+  transform: rotateY(-89.7deg) translateZ(20px);
 }
 
 .d6 > .back {
   /* transform: rotateY(90deg) translateZ(20px); */
-  transform: rotateY(89.8deg) translateZ(20px);
+  transform: rotateY(89.7deg) translateZ(20px);
 }
 
 .d6 > .front {
