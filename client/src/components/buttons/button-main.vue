@@ -7,10 +7,18 @@ const props = defineProps<ButtonMainProps>();
 const emit = defineEmits<ButtonMainEmits>();
 
 const buttonStyles = computed((): string => {
+  let styles = '';
   if (props.size) {
-    return `btn-${props.size}`;
+    styles += 'btn-' + props.size;
   }
-  return '';
+
+  if (props.type) {
+    styles += ' btn-' + props.type;
+  } else {
+    styles += 'bg-deep-purple ';
+  }
+
+  return styles;
 });
 
 const handleClick = (): void => {
@@ -23,7 +31,7 @@ const handleClick = (): void => {
     <button
       @click="handleClick"
       :disabled="disabled"
-      class="bg-deep-purple btn my-3 mr-3 text-white"
+      class="btn my-3 mr-3 text-white"
       :class="buttonStyles"
     >
       <span v-if="!loading">{{ text }}</span>

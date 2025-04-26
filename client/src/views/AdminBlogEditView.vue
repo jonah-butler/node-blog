@@ -28,6 +28,8 @@ const blog = ref<Blog>({} as Blog);
 const imagePreviewModal = ref<InstanceType<typeof MainModal>>();
 const bodyPreviewModal = ref<InstanceType<typeof MainModal>>();
 const confirmationModal = ref<InstanceType<typeof ConfirmationModal>>();
+const deleteBlogConfirmationModal =
+  ref<InstanceType<typeof ConfirmationModal>>();
 
 const fileInput = ref<HTMLInputElement>();
 
@@ -71,6 +73,7 @@ const retrieveBlog = async (): Promise<void> => {
     blogToEdit.published = blog.value.published;
     blogToEdit.text = blog.value.text;
     blogToEdit.title = blog.value.title;
+    blogToEdit.id = blog.value._id;
 
     imagePreview.value = blog.value.featuredImageLocation;
   } catch (err) {
@@ -132,6 +135,10 @@ const closeConfirmationModal = (): void => {
   confirmationModal.value!.closeModal();
 };
 
+const closeDeleteBlogModal = (): void => {
+  deleteBlogConfirmationModal.value!.closeModal();
+};
+
 const previewContents = (): void => {
   bodyPreviewModal.value!.openModal();
 };
@@ -150,6 +157,34 @@ const updateBlog = async (): Promise<void> => {
     } else {
       console.log('here');
       router.push(`/admin/${getUserId.value}/drafts/${updatedBlog.slug}`);
+    }
+  } catch (err) {
+    if (err instanceof BlogServiceError) {
+      error.value = err.message;
+      autoDismissAlert(4);
+    }
+  } finally {
+    updating.value = false;
+  }
+};
+
+const openDeleteBlogConfirmation = (): void => {
+  deleteBlogConfirmationModal.value!.openModal();
+};
+
+const deleteBlog = async (): Promise<void> => {
+  console.log('in delete: ', blogToEdit);
+  if (!blogToEdit.id) return;
+
+  updating.value = true;
+
+  try {
+    const response = await BlogService.deleteBlog(blogToEdit.id);
+    if (response) {
+      router.push(`/admin/${getUserId.value}`);
+    } else {
+      error.value = 'Failed to delete blog';
+      autoDismissAlert(4);
     }
   } catch (err) {
     if (err instanceof BlogServiceError) {
@@ -341,6 +376,26 @@ retrieveBlog();
             text="Update Blog"
             @click="updateBlog"
           />
+
+          <MainButton
+            :disabled="isDisabled"
+            :loading="updating"
+            type="error"
+            text="Delete Blog"
+            @click="openDeleteBlogConfirmation"
+          />
+
+          <ConfirmationModal
+            ref="deleteBlogConfirmationModal"
+            id="deleteBlogConfirmationModal"
+            cancelButtonText="cancel"
+            confirmButtonText="delete blog"
+            @cancel="closeDeleteBlogModal"
+            @confirm="deleteBlog"
+          >
+            <div>Delete the following blog?</div>
+            <h2>{{ blog.title }}</h2>
+          </ConfirmationModal>
           <BasicAlert
             v-if="error"
             type="alert-error"

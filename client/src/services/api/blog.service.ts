@@ -25,6 +25,7 @@ const BLOG_SERVICE_ERRORS = {
   UPLOAD_IMAGE: 'failed to upload image',
   UPDATE_BLOG: 'failed to update blog',
   DELETE_IMAGE: 'failed to delete blog image',
+  DELETE_BLOG: 'failed to delete blog',
   GET_RANDOM_BLOG: 'failed to get a random blog',
   SEARCH_BLOGS: 'failed to search blogs',
   GET_CATEGORIES: 'failed to get categories',
@@ -99,9 +100,9 @@ const BlogService = {
     const data = packageRecordIntoFormData(payladWithUser);
 
     try {
-      const response = await api.post('/', data, getBearerTokenHeader());
-      if (response.data._id) {
-        return response.data as Blog;
+      const response = await api.post('/blog', data, getBearerTokenHeader());
+      if (response.data.blog._id) {
+        return response.data.blog as Blog;
       }
       throw new BlogServiceError({
         name: 'CREATE_BLOG',
@@ -258,6 +259,19 @@ const BlogService = {
       );
       throw new BlogServiceError({
         name: 'GET_CATEGORIES',
+        message,
+      });
+    }
+  },
+
+  async deleteBlog(id: string): Promise<boolean> {
+    try {
+      const response = await api.delete(`/blog/${id}`, getBearerTokenHeader());
+      return response.data.affected > 0;
+    } catch (err) {
+      const message = serviceErrorHandler(err, BLOG_SERVICE_ERRORS.DELETE_BLOG);
+      throw new BlogServiceError({
+        name: 'DELETE_BLOG',
         message,
       });
     }

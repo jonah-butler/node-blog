@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { reactive, ref, toRaw, computed } from 'vue';
+import BasicAlert from '@/components/alerts/basic-alert.vue';
+import { BlogService, BlogServiceError } from '@/services/api/blog.service';
+import { useUserStore } from '@/stores/user';
+import { type NewBlogPayload } from '@/types/services';
+import { storeToRefs } from 'pinia';
+import { computed, reactive, ref, toRaw } from 'vue';
 import { useRouter } from 'vue-router';
+import MainButton from '../components/buttons/button-main.vue';
 import CategoricalInput from '../components/inputs/categorial-input.vue';
 import EditorJSInput from '../components/inputs/editorjs-input.vue';
 import MainModal from '../components/modals/modal-main.vue';
-import MainButton from '../components/buttons/button-main.vue';
-import { type NewBlogPayload } from '@/types/services';
-import { BlogService, BlogServiceError } from '@/services/api/blog.service';
-import BasicAlert from '@/components/alerts/basic-alert.vue';
-import { useUserStore } from '@/stores/user';
-import { storeToRefs } from 'pinia';
 
 const userStore = useUserStore();
 const { getUserId } = storeToRefs(userStore);
@@ -25,6 +25,8 @@ const payload = reactive<NewBlogPayload>({
   published: false,
   title: '',
   image: null,
+  generateSlug: false,
+  slug: '',
 });
 
 const imagePreview = ref('');
@@ -37,6 +39,24 @@ const fileInput = ref<HTMLInputElement>();
 const isDisabled = computed((): boolean => {
   return payload.title == '';
 });
+
+const slugPreparation = (value: string): string => {
+  return value.toLowerCase().split(' ').join('-'.replace(/'/g, ''));
+};
+
+const prepareSlug = (): void => {
+  payload.slug = slugPreparation(payload.slug!);
+};
+
+const toggleSlugFormat = (): void => {
+  if (payload.generateSlug) {
+    payload.slug = slugPreparation(payload.title);
+  }
+};
+
+const checkPrepareSlug = (): void => {
+  toggleSlugFormat();
+};
 
 const previewContents = (): void => {
   bodyPreviewModal.value!.openModal();
@@ -71,7 +91,13 @@ const previewImage = (): void => {
 const createBlog = async (): Promise<void> => {
   loading.value = true;
   try {
-    const blog = await BlogService.newBlog(toRaw(payload));
+    const rawPayload = toRaw(payload);
+
+    if (rawPayload.generateSlug) {
+      delete rawPayload['slug'];
+    }
+
+    const blog = await BlogService.newBlog(rawPayload);
     if (blog.published) {
       // redirect to live view
       router.push(`/blog/${blog.slug}`);
@@ -159,9 +185,33 @@ const autoDismissAlert = (timeout: number): void => {
         </div>
         <input
           v-model="payload.title"
+          @input="checkPrepareSlug"
           type="text"
           placeholder="enter a title"
           class="input input-bordered input-secondary w-full max-w-xs"
+        />
+      </section>
+
+      <!-- slug -->
+      <section class="my-3">
+        <div class="label">
+          <span class="label-text-alt">
+            <input
+              v-model="payload.generateSlug"
+              type="checkbox"
+              class="checkbox-warning checkbox"
+              @change="toggleSlugFormat"
+            />
+            Slug
+          </span>
+        </div>
+        <input
+          v-model="payload.slug"
+          @input="prepareSlug"
+          type="text"
+          placeholder="enter a slug"
+          class="input input-bordered input-secondary w-full max-w-xs"
+          :disabled="payload.generateSlug"
         />
       </section>
 
@@ -205,4 +255,9 @@ const autoDismissAlert = (timeout: number): void => {
   </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+.checkbox {
+  position: relative;
+  top: 5px;
+}
+</style>

@@ -50,7 +50,9 @@ export interface NewBlogPayload {
   image: File | null;
   categories: string | string[];
   title: string;
-  id: string;
+  slug?: string;
+  generateSlug?: boolean;
+  id?: string;
 }
 
 export interface NewBlogPayloadWithUser extends NewBlogPayload {
