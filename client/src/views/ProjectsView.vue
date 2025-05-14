@@ -10,15 +10,33 @@ import MainLink from '@/components/links/main-link.vue';
     </p>
     <article class="circle-bg mb-40 mt-40 px-10">
       <div class="text-left">
+        <h2>Developer Blog - Backend</h2>
+        <p>
+          This active project is the backend to my blogging platform I've
+          maintained for around 5 years now. This is the latest version of the
+          platform written in Go. This backend which handles all functionality
+          such as authentication, CRUD, asset management and more was originally
+          developed in Node.js. This variant came with significant security and
+          performance improvements. It uses the standard
+          <strong>net/http</strong> library for routing and pattern matching.
+        </p>
+        <MainLink
+          slug="https://github.com/jonah-butler/blog-server"
+          title="Check It Out"
+        />
+      </div>
+    </article>
+    <article class="circle-bg mb-40 mt-40 px-10">
+      <div class="text-left">
         <h2>Cellular Automata Playground</h2>
         <p>
           A cellular automata playground that includes several different CA
-          algorithim flavors (from scratch): Drunkard's Walk, Elementary
-          Cellular Automata, classic Cellular Automata, Moore's Neighborhood,
-          and Cyclic Cellular Automata. Each type includes a set of parameters
-          and rules that can be changed to generate many different results. Some
-          CA flavors include an animating option that re-renders each lifecycle
-          to the DOM.
+          algorithim flavors written in TS: Drunkard's Walk, Elementary Cellular
+          Automata, classic Cellular Automata, Moore's Neighborhood, and Cyclic
+          Cellular Automata. Each type includes a set of parameters and rules
+          that can be changed to generate many different results. Some CA
+          flavors include an animating option that re-renders each lifecycle to
+          the DOM.
         </p>
         <MainLink
           slug="https://github.com/jonah-butler/cellular-automata-playground"
@@ -61,7 +79,7 @@ import MainLink from '@/components/links/main-link.vue';
     </article>
     <article class="circle-bg mb-40 mt-40 px-10">
       <div class="text-left">
-        <h2>Graphic Editor - Simple Canva Clone</h2>
+        <h2>Graphics Editor</h2>
         <p>
           A proof of concept graphics editor that utilizes Typescript and a
           completely custom solution for editing graphics in the browser. All
@@ -78,12 +96,10 @@ import MainLink from '@/components/links/main-link.vue';
     </article>
     <article class="circle-bg mb-40 mt-40 px-10">
       <div class="text-left">
-        <h2>Developer Blog</h2>
+        <h2>Developer Blog - Frontend</h2>
         <p>
-          This site you're on right now! It's a full-stack blogging platform for
-          sharing code, utilizing Typescript, mongodb, Vu3, Pinia and marked for
-          parsing code in posts and more. I won't talk about it much since
-          you're here. So browse around and check it out!
+          This site you're on right now! It's a Vue 3 application utilizing Vue
+          Router, Typescript and Pinia.
         </p>
         <MainLink
           slug="https://github.com/jonah-butler/node-blog"
