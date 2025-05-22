@@ -61,7 +61,6 @@ quantizeImage();
 </script>
 
 <template>
-  {{ backgroundStyles }}
   <div
     class="post__details-container relative overflow-hidden bg-white"
     :style="backgroundStyles"

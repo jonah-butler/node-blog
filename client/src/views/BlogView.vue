@@ -188,10 +188,10 @@ getBlog();
         <img :src="selectedImage" />
       </MainModal>
     </article>
+    <article class="post w-full text-center" v-if="loading">
+      <JumpingDotsLoader />
+    </article>
   </div>
-  <article v-if="loading">
-    <JumpingDotsLoader />
-  </article>
 </template>
 
 <style>
