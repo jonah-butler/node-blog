@@ -10,9 +10,11 @@ const props = defineProps<BlogShowImageHeader>();
 const imageColorPalette = ref<RGBARecord[]>([]);
 const textShadowPalette = ref<RGBARecord>({} as RGBARecord);
 
+console.log(props.data.url);
+
 const backgroundStyles = computed((): StyleValue => {
   return {
-    'background-image': `url(${props.data.url})`,
+    'background-image': `url("${props.data.url}")`,
     'background-position': 'inherit',
     'background-size': 'cover',
   };
@@ -59,6 +61,7 @@ quantizeImage();
 </script>
 
 <template>
+  {{ backgroundStyles }}
   <div
     class="post__details-container relative overflow-hidden bg-white"
     :style="backgroundStyles"
