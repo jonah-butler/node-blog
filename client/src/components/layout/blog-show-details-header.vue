@@ -75,7 +75,7 @@ quantizeImage();
         {{ data.title }}
       </h1>
       <div class="mb-3">
-        <div class="avatar">
+        <div @click="navigateToUserPage" class="avatar cursor-pointer">
           <div
             class="mr-3 w-10 rounded-full ring ring-primary ring-offset-2 ring-offset-base-100"
           >
