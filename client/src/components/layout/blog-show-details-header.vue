@@ -80,7 +80,6 @@ quantizeImage();
             class="mr-3 w-10 rounded-full ring ring-primary ring-offset-2 ring-offset-base-100"
           >
             <img :src="data.author.profileImageLocation" />
-            <button class="btn">Bottom</button>
           </div>
         </div>
         <span class="font-semibold text-red-700">
