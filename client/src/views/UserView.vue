@@ -158,6 +158,11 @@ h1 {
   left: 0;
 }
 
+/* consolidate this eventually too */
+html[data-theme='black'] .post__details-container::after {
+  background-image: linear-gradient(180deg, rgba(0, 71, 101, 0) 15%, #000000);
+}
+
 .user__details-container {
   background-size: 'cover';
   background-position: 'inherit';
