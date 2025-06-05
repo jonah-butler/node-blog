@@ -75,22 +75,14 @@ quantizeImage();
         {{ data.title }}
       </h1>
       <div class="mb-3">
-        <span>
+        <div class="avatar">
           <div
-            @click="navigateToUserPage"
-            class="tooltip tooltip-bottom cursor-pointer"
-            :data-tip="data.author.username"
+            class="mr-3 w-10 rounded-full ring ring-primary ring-offset-2 ring-offset-base-100"
           >
-            <div class="avatar">
-              <div
-                class="mr-3 w-10 rounded-full ring ring-primary ring-offset-2 ring-offset-base-100"
-              >
-                <img :src="data.author.profileImageLocation" />
-                <button class="btn">Bottom</button>
-              </div>
-            </div>
+            <img :src="data.author.profileImageLocation" />
+            <button class="btn">Bottom</button>
           </div>
-        </span>
+        </div>
         <span class="font-semibold text-red-700">
           {{ formatDate(data.createdAt, dateOptions.monthDayYear) }}
         </span>
