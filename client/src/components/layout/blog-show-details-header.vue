@@ -2,15 +2,16 @@
 import { dateOptions, formatDate } from '@/services/formatting';
 import palette, { type RGBARecord } from '@jayimbee/palette';
 import { computed, ref, type StyleValue } from 'vue';
+import { useRouter } from 'vue-router';
 import LikeCount from './like-count.vue';
 import { type BlogShowImageHeader } from './props';
 
 const props = defineProps<BlogShowImageHeader>();
 
+const router = useRouter();
+
 const imageColorPalette = ref<RGBARecord[]>([]);
 const textShadowPalette = ref<RGBARecord>({} as RGBARecord);
-
-console.log(props.data.url);
 
 const backgroundStyles = computed((): StyleValue => {
   return {
@@ -44,6 +45,10 @@ const computedHeaderColor = computed((): string => {
   return red * 0.299 + green * 0.587 + blue * 0.114 > 159 ? '#000' : '#fff';
 });
 
+const navigateToUserPage = (): void => {
+  router.push(`/blog/user/${props.data.author.username}`);
+};
+
 const quantizeImage = async (): Promise<void> => {
   try {
     const cacheBustedUrl = `${props.data.url}?cacheBuster=${new Date().getTime()}`;
@@ -70,6 +75,22 @@ quantizeImage();
         {{ data.title }}
       </h1>
       <div class="mb-3">
+        <span>
+          <div
+            @click="navigateToUserPage"
+            class="tooltip tooltip-bottom cursor-pointer"
+            :data-tip="data.author.username"
+          >
+            <div class="avatar">
+              <div
+                class="mr-3 w-10 rounded-full ring ring-primary ring-offset-2 ring-offset-base-100"
+              >
+                <img :src="data.author.profileImageLocation" />
+                <button class="btn">Bottom</button>
+              </div>
+            </div>
+          </div>
+        </span>
         <span class="font-semibold text-red-700">
           {{ formatDate(data.createdAt, dateOptions.monthDayYear) }}
         </span>

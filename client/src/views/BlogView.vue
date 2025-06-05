@@ -38,6 +38,7 @@ const headerProps = computed((): BlogShowImageHeaderProps => {
     rating: blogData.value.blog.rating,
     views: blogData.value.blog.views,
     readTime: calculatedReadTime.value,
+    author: blogData.value.blog.author,
   };
 });
 

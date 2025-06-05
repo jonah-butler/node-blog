@@ -26,5 +26,11 @@ const blog_routes: RouteRecordRaw[] = [
     props: true,
     component: () => import('../../views/CategoryView.vue'),
   },
+  {
+    path: '/blog/user/:username',
+    name: 'userpublic',
+    props: true,
+    component: () => import('../../views/UserView.vue'),
+  },
 ];
 export { blog_routes };

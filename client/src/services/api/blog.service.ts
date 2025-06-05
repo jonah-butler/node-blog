@@ -276,6 +276,19 @@ const BlogService = {
       });
     }
   },
+
+  async getUserBlogs(id: string, offset = 0): Promise<BlogResponse> {
+    try {
+      const response = await api.get(`/blog/user/${id}?offset=${offset}`);
+      return response.data;
+    } catch (err) {
+      const message = serviceErrorHandler(err, BLOG_SERVICE_ERRORS.GET_BLOGS);
+      throw new BlogServiceError({
+        message,
+        name: 'GET_BLOGS',
+      });
+    }
+  },
 };
 
 export { BLOG_SERVICE_ERRORS, BlogService };

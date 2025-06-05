@@ -19,7 +19,18 @@ export interface Blog {
   title: string;
   updatedAt: string;
   views: number;
+  author: BlogAuthor;
   _id: string;
+}
+
+export interface UserProfileResponse extends BlogAuthor {
+  _id: string;
+}
+
+export interface BlogAuthor {
+  email: string;
+  username: string;
+  profileImageLocation: string;
 }
 
 export interface AffectedResponse {

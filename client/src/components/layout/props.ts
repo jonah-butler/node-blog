@@ -1,3 +1,5 @@
+import type { BlogAuthor } from '@/types/services';
+
 export interface BlogShowImageHeaderProps {
   url: string;
   title: string;
@@ -5,6 +7,7 @@ export interface BlogShowImageHeaderProps {
   rating: number;
   views: number;
   readTime: number;
+  author: BlogAuthor;
 }
 
 export interface BlogShowImageHeader {
