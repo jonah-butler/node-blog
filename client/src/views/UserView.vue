@@ -30,7 +30,6 @@ onMounted(async (): Promise<void> => {
 });
 
 const loadBlogs = async (): Promise<void> => {
-  offset.value += 10;
   loadingBlogs.value = true;
   try {
     const moreBlogs = await BlogService.getUserBlogs(
