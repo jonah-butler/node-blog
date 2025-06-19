@@ -26,10 +26,10 @@ onMounted(async (): Promise<void> => {
 
   if (!user.value._id) return;
 
-  await loadMoreBlogs();
+  await loadBlogs();
 });
 
-const loadMoreBlogs = async (): Promise<void> => {
+const loadBlogs = async (): Promise<void> => {
   offset.value += 10;
   loadingBlogs.value = true;
   try {
@@ -48,6 +48,11 @@ const loadMoreBlogs = async (): Promise<void> => {
   } finally {
     loadingBlogs.value = false;
   }
+};
+
+const loadMoreBlogs = (): void => {
+  offset.value += 10;
+  loadBlogs();
 };
 
 const loadUser = async (): Promise<void> => {

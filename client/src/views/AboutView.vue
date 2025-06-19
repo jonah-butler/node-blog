@@ -77,7 +77,7 @@ import MainLink from '@/components/links/main-link.vue';
 
             <!-- resume -->
             <a
-              href="https://dev-blog-resources.s3.us-east-1.amazonaws.com/resume/jonah-butler_resume51825.pdf"
+              href="https://dev-blog-resources.s3.us-east-1.amazonaws.com/resume/jonah-butler_resume61625.pdf"
               class="mt-2 w-8 text-base-content"
               target="_blank"
             >
