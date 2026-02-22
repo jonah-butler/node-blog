@@ -10,6 +10,19 @@ import MainLink from '@/components/links/main-link.vue';
     </p>
     <article class="circle-bg mb-40 mt-40 px-10">
       <div class="text-left">
+        <h2>Rhythm-a-ning</h2>
+        <p>
+          A set of educational rhythm tools using React, Typescript and a custom
+          beat sequencing library that includes a sequenced metronome with tools
+          for building custom rhythms and exploring polyrhythms. Also includes a
+          rhythm builder for creating and customizing beat tracks and workflows
+          that handle polyrhythms, subdivisions, beat changes and more.
+        </p>
+        <MainLink slug="https://rhythmaning.app" title="Check It Out" />
+      </div>
+    </article>
+    <article class="circle-bg mb-40 mt-40 px-10">
+      <div class="text-left">
         <h2>Developer Blog - Backend</h2>
         <p>
           This active project is the backend to my blogging platform I've
