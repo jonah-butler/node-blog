@@ -16,10 +16,10 @@ import MainLink from '@/components/links/main-link.vue';
             <p class="my-3">
               Thanks for stopping by! My name's Jonah Butler. I'm a full-stack
               software developer with primary interests in both front-end and
-              back-end. Recently I've been working heavily with Vue3, Golang and
-              PostgreSQL. I'm always posting here to share new projects or bits
-              of knowledge I have learned and discovered along the way. If you
-              want to talk, shoot me an email or find me online.
+              back-end. Recently I've been working heavily with React,
+              Typescript and SQL Server. I'm always posting here to share new
+              projects or bits of knowledge I have learned and discovered along
+              the way. If you want to talk, shoot me an email or find me online.
             </p>
           </div>
         </div>
