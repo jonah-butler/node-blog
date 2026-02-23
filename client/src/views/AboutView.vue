@@ -17,9 +17,10 @@ import MainLink from '@/components/links/main-link.vue';
               Thanks for stopping by! My name's Jonah Butler. I'm a full-stack
               software developer with primary interests in both front-end and
               back-end. Recently I've been working heavily with React,
-              Typescript and SQL Server. I'm always posting here to share new
-              projects or bits of knowledge I have learned and discovered along
-              the way. If you want to talk, shoot me an email or find me online.
+              Typescript, Node.js and SQL Server. I'm always posting here to
+              share new projects or bits of knowledge I have learned and
+              discovered along the way. If you want to talk, shoot me an email
+              or find me online.
             </p>
           </div>
         </div>
