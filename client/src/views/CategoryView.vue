@@ -134,7 +134,6 @@ getBlogs();
           :blog="blog"
           :index="-1"
           :useBlob="false"
-          :backgroundColor="complementaryColor"
         />
         <div class="mt-5 w-full" v-if="hasMore">
           <ButtonMain
