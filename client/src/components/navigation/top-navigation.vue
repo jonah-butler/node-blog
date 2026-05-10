@@ -516,14 +516,16 @@ const openMenu = (): void => {
             </div>
           </summary>
           <ul
-            class="menu dropdown-content z-[1] w-52 rounded-box border-base-300 bg-base-200 p-2 shadow"
+            class="menu dropdown-content z-[1] w-52 rounded-box border-base-300 bg-base-200 p-2 text-base-content shadow"
           >
             <li>
               <span class="justify-between" @click="openAdminPage"
                 >Profile</span
               >
             </li>
-            <li><span @click="logout">Logout</span></li>
+            <li>
+              <span @click="logout" class="">Logout</span>
+            </li>
           </ul>
         </details>
       </div>
